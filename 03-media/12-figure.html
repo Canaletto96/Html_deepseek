@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 12 по HTML: figure и figcaption — как правильно подписывать изображения, код и цитаты.">
+    <title>Урок 12. &lt;figure&gt; и &lt;figcaption&gt;</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        img { max-width: 100%; height: auto; }
+        figure {
+            margin: 24px 0;
+            padding: 12px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        figcaption {
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+            margin-top: 8px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 12. &lt;figure&gt; и &lt;figcaption&gt;</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: научиться семантически подписывать контент    -->
+    <!-- (изображения, код, цитаты) через figure и figcaption.     -->
+    <!-- ========================================================= -->
+
+    <h2>1. Проблема, которую решает &lt;figure&gt;</h2>
+
+    <p>
+        Представь, что тебе нужно вставить картинку с подписью. Как это сделать?
+        Новичок напишет так:
+    </p>
+
+    <pre><code>&lt;img src="cat.jpg" alt="Кот"&gt;
+&lt;p&gt;Рис. 1. Рыжий кот спит на подоконнике&lt;/p&gt;</code></pre>
+
+    <p>
+        Визуально — работает. Но <strong>с точки зрения смысла (семантики)</strong> — плохо.
+        Браузер, поисковик и screen reader не понимают, что подпись <em>относится</em>
+        к картинке. Они видят просто «картинка» и «параграф» отдельно.
+    </p>
+
+    <p>
+        Для таких случаев в HTML5 придумали теги <code>&lt;figure&gt;</code>
+        и <code>&lt;figcaption&gt;</code>.
+    </p>
+
+    <h2>2. Что это такое</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Что делает</th>
+                <th>Тип</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;figure&gt;</code></td>
+                <td>Контейнер для иллюстрации и её подписи</td>
+                <td>Парный, блочный</td>
+            </tr>
+            <tr>
+                <td><code>&lt;figcaption&gt;</code></td>
+                <td>Подпись к содержимому figure</td>
+                <td>Парный, блочный</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;figure&gt;
+    &lt;img src="cat.jpg" alt="Рыжий кот"&gt;
+    &lt;figcaption&gt;Рис. 1. Рыжий кот спит на подоконнике&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <figure>
+            <img src="https://picsum.photos/600/300?random=1" alt="Случайное фото" width="600" height="300">
+            <figcaption>Рис. 1. Случайное фото с picsum.photos — подпись относится к картинке.</figcaption>
+        </figure>
+    </div>
+
+    <p>
+        Теперь браузер, поисковик и screen reader <strong>знают</strong>: картинка
+        и подпись — единое целое.
+    </p>
+
+    <h2>3. Правила использования</h2>
+
+    <h3>Правило 1: figcaption — внутри figure</h3>
+
+    <p>
+        <code>&lt;figcaption&gt;</code> <strong>обязательно</strong> должен находиться
+        внутри <code>&lt;figure&gt;</code>. Не снаружи.
+    </p>
+
+    <pre><code>&lt;!-- ПРАВИЛЬНО --&gt;
+&lt;figure&gt;
+    &lt;img src="cat.jpg" alt="Кот"&gt;
+    &lt;figcaption&gt;Рыжий кот&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- НЕПРАВИЛЬНО: подпись вне figure --&gt;
+&lt;figure&gt;
+    &lt;img src="cat.jpg" alt="Кот"&gt;
+&lt;/figure&gt;
+&lt;figcaption&gt;Рыжий кот&lt;/figcaption&gt;</code></pre>
+
+    <h3>Правило 2: figcaption — только один</h3>
+
+    <p>В одном <code>&lt;figure&gt;</code> может быть только <strong>один</strong> <code>&lt;figcaption&gt;</code>.</p>
+
+    <h3>Правило 3: figcaption идёт первым или последним</h3>
+
+    <p>Внутри <code>&lt;figure&gt;</code> <code>&lt;figcaption&gt;</code> должен быть <strong>либо первым, либо последним</strong> элементом.</p>
+
+    <pre><code>&lt;!-- Подпись сверху --&gt;
+&lt;figure&gt;
+    &lt;figcaption&gt;Рыжий кот&lt;/figcaption&gt;
+    &lt;img src="cat.jpg" alt="Кот"&gt;
+&lt;/figure&gt;
+
+&lt;!-- Подпись снизу (чаще всего) --&gt;
+&lt;figure&gt;
+    &lt;img src="cat.jpg" alt="Кот"&gt;
+    &lt;figcaption&gt;Рыжий кот&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+    <h3>Правило 4: figure можно использовать без figcaption</h3>
+
+    <p>
+        Если подпись не нужна — <code>&lt;figcaption&gt;</code> можно не добавлять.
+        Но тогда <code>&lt;figure&gt;</code> имеет смысл только для смысловой группировки.
+    </p>
+
+    <h2>4. Что можно класть в &lt;figure&gt;</h2>
+
+    <p>
+        <code>&lt;figure&gt;</code> — <strong>не только для картинок</strong>. Внутри может
+        быть любой «самодостаточный» контент, который можно переместить в другое место
+        без потери смысла:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Что</th>
+                <th>Пример</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Изображение</td>
+                <td>Фото, схема, график</td>
+            </tr>
+            <tr>
+                <td>Блок кода</td>
+                <td>Пример программы</td>
+            </tr>
+            <tr>
+                <td>Цитата</td>
+                <td>Высказывание с источником</td>
+            </tr>
+            <tr>
+                <td>Видео / аудио</td>
+                <td>Ролик, подкаст</td>
+            </tr>
+            <tr>
+                <td>Диаграмма</td>
+                <td>SVG-график</td>
+            </tr>
+            <tr>
+                <td>Таблица</td>
+                <td>Данные с подписью</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>5. Примеры использования</h2>
+
+    <h3>Пример 1: изображение с подписью</h3>
+
+    <pre><code>&lt;figure&gt;
+    &lt;img src="sunset.jpg" alt="Закат на море"&gt;
+    &lt;figcaption&gt;Закат на Черном море, 2024 год&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <figure>
+            <img src="https://picsum.photos/600/300?random=2" alt="Закат на море" width="600" height="300">
+            <figcaption>Закат на Черном море, 2024 год</figcaption>
+        </figure>
+    </div>
+
+    <h3>Пример 2: блок кода с подписью</h3>
+
+    <pre><code>&lt;figure&gt;
+    &lt;pre&gt;&lt;code&gt;function hello() {
+    console.log("Привет!");
+}&lt;/code&gt;&lt;/pre&gt;
+    &lt;figcaption&gt;Пример 1. Простая функция на JavaScript&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <figure>
+            <pre><code>function hello() {
+    console.log("Привет!");
+}</code></pre>
+            <figcaption>Пример 1. Простая функция на JavaScript</figcaption>
+        </figure>
+    </div>
+
+    <h3>Пример 3: цитата с источником</h3>
+
+    <pre><code>&lt;figure&gt;
+    &lt;blockquote&gt;
+        &lt;p&gt;Начинать всегда стоит с того, что сеет сомнения.&lt;/p&gt;
+    &lt;/blockquote&gt;
+    &lt;figcaption&gt;— Борис Стругацкий&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <figure>
+            <blockquote style="margin: 0; padding-left: 20px; border-left: 4px solid #b5651d; font-style: italic;">
+                <p style="margin: 0;">Начинать всегда стоит с того, что сеет сомнения.</p>
+            </blockquote>
+            <figcaption>— Борис Стругацкий</figcaption>
+        </figure>
+    </div>
+
+    <h3>Пример 4: несколько картинок в одной figure</h3>
+
+    <pre><code>&lt;figure&gt;
+    &lt;img src="photo1.jpg" alt="Фото 1"&gt;
+    &lt;img src="photo2.jpg" alt="Фото 2"&gt;
+    &lt;figcaption&gt;Два кадра из одной фотосессии&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+    <h2>6. Как браузер стилизует по умолчанию</h2>
+
+    <ul>
+        <li><code>&lt;figure&gt;</code> — <code>margin: 1em 40px</code> (отступы сверху/снизу и по 40px слева/справа).</li>
+        <li><code>&lt;figcaption&gt;</code> — <code>display: block</code>, без особых стилей.</li>
+    </ul>
+
+    <p>Часто эти значения переопределяют в CSS. Например:</p>
+
+    <pre><code>figure {
+    margin: 24px 0;
+    text-align: center;
+}
+
+figcaption {
+    font-size: 0.9em;
+    color: #666;
+    font-style: italic;
+    margin-top: 8px;
+}</code></pre>
+
+    <h2>7. figure в контексте доступности (a11y)</h2>
+
+    <p>
+        Screen reader'ы читают <code>&lt;figure&gt;</code> особым образом. В некоторых
+        программах пользователь слышит: «фигура», затем её содержимое, затем подпись.
+    </p>
+
+    <p>
+        Важно: <strong>alt картинки и figcaption — разные вещи</strong>:
+    </p>
+
+    <ul>
+        <li><code>alt</code> — что изображено (для незрячих, если картинка не загрузилась).</li>
+        <li><code>figcaption</code> — подпись, которая видна всем (даже когда картинка загружена).</li>
+    </ul>
+
+    <div class="note">
+        <strong>Пример:</strong> картинка кота в статье о породах:
+        <ul>
+            <li><code>alt="Британский короткошёрстный кот"</code> — что на картинке</li>
+            <li><code>figcaption="Рис. 3. Британская порода, 2 года"</code> — подпись к рисунку</li>
+        </ul>
+        Не дублируй одно и то же в обоих местах.
+    </div>
+
+    <h2>8. figure vs div — в чём разница</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th><code>&lt;div&gt;</code></th>
+                <th><code>&lt;figure&gt;</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Смысл</td>
+                <td>Нет (просто контейнер)</td>
+                <td>Самодостаточный блок: иллюстрация + подпись</td>
+            </tr>
+            <tr>
+                <td>Подпись</td>
+                <td>Нужна через <code>&lt;p&gt;</code>, смысла нет</td>
+                <td><code>&lt;figcaption&gt;</code> — семантически связана</td>
+            </tr>
+            <tr>
+                <td>Screen reader</td>
+                <td>Игнорируется</td>
+                <td>Особый режим: «фигура», содержимое, подпись</td>
+            </tr>
+            <tr>
+                <td>Когда использовать</td>
+                <td>Для любых блоков вёрстки</td>
+                <td>Только для иллюстраций с подписью</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="warn">
+        <strong>Не используй figure для всего подряд.</strong> Это семантический тег
+        для конкретного случая: картинка (или другой контент) + подпись.
+        Для общей вёрстки — <code>&lt;div&gt;</code> или семантические теги
+        (<code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>).
+    </div>
+
+    <h2>9. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;figcaption&gt;</code> вне <code>&lt;figure&gt;</code></td>
+                <td>Невалидно, теряется смысл</td>
+            </tr>
+            <tr>
+                <td>Несколько <code>&lt;figcaption&gt;</code> в одном <code>&lt;figure&gt;</code></td>
+                <td>Разрешён только один</td>
+            </tr>
+            <tr>
+                <td><code>&lt;figcaption&gt;</code> в середине контента</td>
+                <td>Должен быть первым или последним</td>
+            </tr>
+            <tr>
+                <td>figure без подписи и без смысловой группировки</td>
+                <td>Тогда лучше <code>&lt;div&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Дублировать alt и figcaption</td>
+                <td>Лишний шум для screen reader'ов</td>
+            </tr>
+            <tr>
+                <td>Использовать figure для вёрстки страницы</td>
+                <td>Это не «универсальный контейнер», а тег для иллюстраций</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>10. Готовые шаблоны</h2>
+
+    <h3>Картинка с подписью</h3>
+
+    <pre><code>&lt;figure&gt;
+    &lt;img src="photo.jpg" alt="Описание" width="800" height="600"&gt;
+    &lt;figcaption&gt;Подпись к картинке&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+    <h3>Код с подписью</h3>
+
+    <pre><code>&lt;figure&gt;
+    &lt;pre&gt;&lt;code&gt;console.log("hello");&lt;/code&gt;&lt;/pre&gt;
+    &lt;figcaption&gt;Пример 1. Вывод в консоль&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+    <h3>Цитата с источником</h3>
+
+    <pre><code>&lt;figure&gt;
+    &lt;blockquote&gt;
+        &lt;p&gt;Текст цитаты&lt;/p&gt;
+    &lt;/blockquote&gt;
+    &lt;figcaption&gt;— Автор&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+    <h2>11. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Три фигуры»</strong></p>
+        <p>Создай файл <code>12-practice.html</code>. Размести на странице три <code>&lt;figure&gt;</code>:</p>
+        <ul>
+            <li>Первая — картинка + подпись «Рис. 1. ...»</li>
+            <li>Вторая — блок кода + подпись «Пример 1. ...»</li>
+            <li>Третья — цитата + источник</li>
+        </ul>
+
+        <p><strong>Задание 2. «Картинка и подпись отдельно»</strong></p>
+        <ul>
+            <li>Сделай картинку с подписью <strong>без</strong> <code>&lt;figure&gt;</code> — просто <code>&lt;img&gt;</code> + <code>&lt;p&gt;</code>.</li>
+            <li>Сделай то же <strong>с</strong> <code>&lt;figure&gt;</code> + <code>&lt;figcaption&gt;</code>.</li>
+            <li>Открой DevTools → Elements — увидишь разницу в структуре DOM.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Стилизация figure»</strong></p>
+        <ul>
+            <li>Добавь CSS: <code>figure { border: 1px solid #ddd; padding: 12px; }</code></li>
+            <li>Сделай <code>figcaption</code> курсивом и серым цветом.</li>
+            <li>Попробуй выровнять подпись по центру.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Подпись сверху»</strong></p>
+        <ul>
+            <li>Сделай <code>&lt;figure&gt;</code>, где <code>&lt;figcaption&gt;</code> идёт <strong>перед</strong> картинкой.</li>
+            <li>Убедись, что это валидно и работает.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Помести <code>&lt;figcaption&gt;</code> вне <code>&lt;figure&gt;</code> — проверь валидатором (validator.w3.org).</li>
+            <li>Добавь два <code>&lt;figcaption&gt;</code> в одну <code>&lt;figure&gt;</code> — увидишь ошибку валидации.</li>
+            <li>Помести <code>&lt;figcaption&gt;</code> между двумя картинками внутри <code>&lt;figure&gt;</code> — тоже ошибка.</li>
+        </ul>
+    </div>
+
+    <h2>12. Что запомнить из урока</h2>
+
+    <ul>
+        <li><code>&lt;figure&gt;</code> — контейнер для <strong>самодостаточного</strong> контента: картинка, код, цитата, видео + подпись.</li>
+        <li><code>&lt;figcaption&gt;</code> — подпись, обязана быть <strong>внутри</strong> <code>&lt;figure&gt;</code>.</li>
+        <li>Один <code>&lt;figure&gt;</code> — один <code>&lt;figcaption&gt;</code> максимум.</li>
+        <li>Подпись идёт <strong>первой или последней</strong>, не в середине.</li>
+        <li>figure можно использовать без figcaption, но тогда — только для смысловой группировки.</li>
+        <li><code>alt</code> ≠ <code>figcaption</code>: alt — что изображено, figcaption — подпись под рисунком.</li>
+        <li>figure — <strong>семантический</strong> тег, не «универсальный div».</li>
+        <li>Используй figure, когда контент можно «вырезать» и переместить без потери смысла.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 12 · Следующий урок: <em>Аудио &lt;audio&gt; и видео &lt;video&gt;</em>
+    </p>
+
+</body>
+</html>

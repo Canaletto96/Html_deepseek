@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 17 по HTML: формы — form, action, method, GET и POST, name, autocomplete, enctype.">
+    <title>Урок 17. Формы в HTML</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        label {
+            display: block;
+            margin: 12px 0 4px;
+            font-weight: 500;
+        }
+        input, textarea, select, button {
+            font-family: inherit;
+            font-size: 14px;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #b5651d;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            width: auto;
+            padding: 10px 20px;
+            margin-top: 12px;
+        }
+        button:hover {
+            background: #8b4a15;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 17. Формы — основы</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: понять, как работает тег form, куда и как     -->
+    <!-- отправляются данные, в чём разница между GET и POST.       -->
+    <!-- ========================================================= -->
+
+    <h2>1. Зачем нужны формы</h2>
+
+    <p>
+        <strong>Форма</strong> — это способ получить данные от пользователя:
+        логин и пароль, поисковый запрос, комментарий, оформление заказа.
+    </p>
+
+    <p>Форма работает так:</p>
+    <ol>
+        <li>Пользователь заполняет поля.</li>
+        <li>Нажимает кнопку «Отправить».</li>
+        <li>Браузер собирает данные и отправляет их на сервер.</li>
+        <li>Сервер обрабатывает и возвращает ответ.</li>
+    </ol>
+
+    <h2>2. Тег &lt;form&gt; — контейнер формы</h2>
+
+    <p>
+        Все поля формы должны находиться <strong>внутри</strong> <code>&lt;form&gt;</code>.
+        Это парный тег-обёртка.
+    </p>
+
+    <pre><code>&lt;form action="/submit" method="post"&gt;
+    &lt;!-- поля формы --&gt;
+&lt;/form&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Важно:</strong> если поля лежат <em>вне</em> <code>&lt;form&gt;</code>,
+        они <strong>не отправятся</strong> на сервер. Форма — это «коробка», в которую
+        нужно положить все поля.
+    </div>
+
+    <h2>3. Атрибут action — куда отправить</h2>
+
+    <p>
+        <code>action</code> — URL, на который браузер отправит данные после нажатия
+        кнопки. Обычно это адрес серверного скрипта.
+    </p>
+
+    <pre><code>&lt;form action="/submit"&gt;
+&lt;form action="https://example.com/api/login"&gt;
+&lt;form action="mailto:info@example.com"&gt;   &lt;!-- отправить на email --&gt;</code></pre>
+
+    <div class="note">
+        <strong>Если <code>action</code> пустой</strong> или его нет — данные уйдут
+        на <em>текущий URL</em>. Это часто используется в поисковых формах.
+    </div>
+
+    <h2>4. Атрибут method — как отправить</h2>
+
+    <p>Два основных метода: <code>GET</code> и <code>POST</code>.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th><code>GET</code></th>
+                <th><code>POST</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Где данные</td>
+                <td>В URL (в строке запроса)</td>
+                <td>В теле запроса (не видно)</td>
+            </tr>
+            <tr>
+                <td>Видно в адресной строке</td>
+                <td>Да</td>
+                <td>Нет</td>
+            </tr>
+            <tr>
+                <td>Кэшируется</td>
+                <td>Да</td>
+                <td>Нет</td>
+            </tr>
+            <tr>
+                <td>Остаётся в истории</td>
+                <td>Да</td>
+                <td>Нет</td>
+            </tr>
+            <tr>
+                <td>Ограничение размера</td>
+                <td>~2000 символов</td>
+                <td>Практически нет</td>
+            </tr>
+            <tr>
+                <td>Для чего</td>
+                <td>Поиск, фильтры, ссылки</td>
+                <td>Логин, регистрация, оплата</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>GET — данные в URL</h3>
+
+    <pre><code>&lt;form action="/search" method="get"&gt;
+    &lt;input name="q"&gt;
+    &lt;button&gt;Найти&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <p>После отправки URL станет таким:</p>
+
+    <pre><code>/search?q=html+уроки</code></pre>
+
+    <div class="note">
+        <strong>Когда использовать GET:</strong>
+        <ul>
+            <li>Поиск</li>
+            <li>Фильтры и сортировка</li>
+            <li>Ссылка, которую можно сохранить или переслать</li>
+            <li>Запрос, который не меняет данные на сервере</li>
+        </ul>
+    </div>
+
+    <h3>POST — данные в теле запроса</h3>
+
+    <pre><code>&lt;form action="/login" method="post"&gt;
+    &lt;input name="login"&gt;
+    &lt;input name="password" type="password"&gt;
+    &lt;button&gt;Войти&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <p>После отправки URL останется <code>/login</code>, данные уйдут «скрыто» в теле запроса.</p>
+
+    <div class="note">
+        <strong>Когда использовать POST:</strong>
+        <ul>
+            <li>Логин, регистрация</li>
+            <li>Оплата</li>
+            <li>Отправка комментария</li>
+            <li>Загрузка файлов</li>
+            <li>Всё, что <em>меняет данные</em> на сервере</li>
+        </ul>
+    </div>
+
+    <div class="warn">
+        <strong>Важно:</strong> POST-запросы <strong>не защищены</strong> сами по себе!
+        Для безопасности нужен HTTPS. Иначе данные (включая пароли) передаются
+        в открытом виде.
+    </div>
+
+    <h2>5. Первая форма</h2>
+
+    <pre><code>&lt;form action="/search" method="get"&gt;
+    &lt;label for="query"&gt;Поиск:&lt;/label&gt;
+    &lt;input type="text" id="query" name="q"&gt;
+    &lt;button type="submit"&gt;Найти&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <form action="https://www.google.com/search" method="get" target="_blank">
+            <label for="demo-query">Поиск в Google:</label>
+            <input type="text" id="demo-query" name="q" placeholder="Введи запрос">
+            <button type="submit">Найти</button>
+        </form>
+    </div>
+
+    <p>
+        Введи что-нибудь и нажми «Найти». Откроется Google с результатами —
+        значение <code>name="q"</code> уйдёт в URL как <code>?q=твой+запрос</code>.
+    </p>
+
+    <h2>6. Атрибут name — имя поля</h2>
+
+    <p>
+        <strong>Критически важный атрибут.</strong> Без <code>name</code> поле
+        <strong>не отправится</strong> на сервер.
+    </p>
+
+    <pre><code>&lt;!-- ПРАВИЛЬНО --&gt;
+&lt;input type="text" name="username"&gt;
+
+&lt;!-- НЕ ОТПРАВИТСЯ --&gt;
+&lt;input type="text"&gt;</code></pre>
+
+    <p>
+        <code>name</code> — это «ключ», под которым значение уйдёт на сервер.
+        На сервере данные придут как <code>{ username: "значение" }</code>.
+    </p>
+
+    <div class="note">
+        <strong>Правило:</strong> у каждого поля формы должен быть <code>name</code>.
+        Исключение — кнопки и декоративные элементы.
+    </div>
+
+    <h2>7. Атрибуты &lt;form&gt;</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>action</code></td>
+                <td>URL</td>
+                <td>Куда отправить данные</td>
+            </tr>
+            <tr>
+                <td><code>method</code></td>
+                <td><code>get</code>, <code>post</code></td>
+                <td>Как отправить</td>
+            </tr>
+            <tr>
+                <td><code>enctype</code></td>
+                <td><code>application/x-www-form-urlencoded</code>, <code>multipart/form-data</code>, <code>text/plain</code></td>
+                <td>Как кодировать данные (важно для файлов)</td>
+            </tr>
+            <tr>
+                <td><code>target</code></td>
+                <td><code>_self</code>, <code>_blank</code> и др.</td>
+                <td>Где открыть ответ</td>
+            </tr>
+            <tr>
+                <td><code>autocomplete</code></td>
+                <td><code>on</code>, <code>off</code></td>
+                <td>Автозаполнение браузером</td>
+            </tr>
+            <tr>
+                <td><code>novalidate</code></td>
+                <td>булев</td>
+                <td>Отключить встроенную валидацию</td>
+            </tr>
+            <tr>
+                <td><code>accept-charset</code></td>
+                <td>Кодировка: <code>UTF-8</code></td>
+                <td>Кодировка при отправке</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>8. Атрибут enctype — важно для файлов</h2>
+
+    <p>
+        <code>enctype</code> определяет, как данные кодируются при отправке.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Значение</th>
+                <th>Когда использовать</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>application/x-www-form-urlencoded</code> (по умолчанию)</td>
+                <td>Обычные текстовые формы</td>
+            </tr>
+            <tr>
+                <td><code>multipart/form-data</code></td>
+                <td><strong>Обязательно</strong> для загрузки файлов (<code>input type="file"</code>)</td>
+            </tr>
+            <tr>
+                <td><code>text/plain</code></td>
+                <td>Редко, для отладки</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;form action="/upload" method="post" enctype="multipart/form-data"&gt;
+    &lt;input type="file" name="avatar"&gt;
+    &lt;button&gt;Загрузить&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Частая ошибка:</strong> забыть <code>enctype="multipart/form-data"</code>
+        при загрузке файлов. В этом случае на сервер уйдёт только <em>имя</em> файла,
+        а не сам файл.
+    </div>
+
+    <h2>9. Атрибут autocomplete</h2>
+
+    <p>
+        Управляет автозаполнением браузера. Полезно для UX, но иногда его отключают
+        для безопасности (пароли, платёжные данные).
+    </p>
+
+    <pre><code>&lt;form autocomplete="on"&gt;   &lt;!-- включить (по умолчанию) --&gt;
+&lt;form autocomplete="off"&gt;  &lt;!-- отключить --&gt;</code></pre>
+
+    <p>Можно задать на уровне формы или отдельного поля:</p>
+
+    <pre><code>&lt;form&gt;
+    &lt;input name="email" type="email" autocomplete="email"&gt;
+    &lt;input name="password" type="password" autocomplete="current-password"&gt;
+    &lt;input name="card" type="text" autocomplete="off"&gt;   &lt;!-- отключить --&gt;
+&lt;/form&gt;</code></pre>
+
+    <div class="note">
+        <strong>Полезные значения <code>autocomplete</code>:</strong>
+        <ul>
+            <li><code>name</code>, <code>email</code>, <code>tel</code></li>
+            <li><code>username</code>, <code>current-password</code>, <code>new-password</code></li>
+            <li><code>street-address</code>, <code>postal-code</code>, <code>country</code></li>
+            <li><code>cc-number</code>, <code>cc-exp</code>, <code>cc-csc</code> — платёжные карты</li>
+        </ul>
+        Браузер подставит сохранённые данные — это огромный плюс для UX.
+    </div>
+
+    <h2>10. Тег &lt;fieldset&gt; и &lt;legend&gt;</h2>
+
+    <p>
+        Для группировки связанных полей используют <code>&lt;fieldset&gt;</code>
+        (рамка вокруг группы) и <code>&lt;legend&gt;</code> (заголовок группы).
+    </p>
+
+    <pre><code>&lt;form&gt;
+    &lt;fieldset&gt;
+        &lt;legend&gt;Личные данные&lt;/legend&gt;
+        &lt;label&gt;Имя: &lt;input name="firstname"&gt;&lt;/label&gt;
+        &lt;label&gt;Фамилия: &lt;input name="lastname"&gt;&lt;/label&gt;
+    &lt;/fieldset&gt;
+
+    &lt;fieldset&gt;
+        &lt;legend&gt;Контакты&lt;/legend&gt;
+        &lt;label&gt;Email: &lt;input type="email" name="email"&gt;&lt;/label&gt;
+        &lt;label&gt;Телефон: &lt;input type="tel" name="phone"&gt;&lt;/label&gt;
+    &lt;/fieldset&gt;
+&lt;/form&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <form>
+            <fieldset style="border: 1px solid #ccc; border-radius: 6px; padding: 16px; margin-bottom: 16px;">
+                <legend style="padding: 0 8px; font-weight: bold;">Личные данные</legend>
+                <label>Имя: <input name="firstname" type="text"></label>
+                <label>Фамилия: <input name="lastname" type="text"></label>
+            </fieldset>
+            <fieldset style="border: 1px solid #ccc; border-radius: 6px; padding: 16px;">
+                <legend style="padding: 0 8px; font-weight: bold;">Контакты</legend>
+                <label>Email: <input type="email" name="email"></label>
+                <label>Телефон: <input type="tel" name="phone"></label>
+            </fieldset>
+        </form>
+    </div>
+
+    <p>
+        <strong>Зачем:</strong> screen reader'ы читают <code>legend</code> при входе
+        в группу — пользователь понимает, что поля относятся к одной категории.
+    </p>
+
+    <h2>11. Метод GET на практике</h2>
+
+    <p>Сделаем форму, которая отправляет запрос в Google:</p>
+
+    <pre><code>&lt;form action="https://www.google.com/search" method="get" target="_blank"&gt;
+    &lt;label for="g-q"&gt;Найти в Google:&lt;/label&gt;
+    &lt;input type="text" id="g-q" name="q"&gt;
+    &lt;button&gt;Искать&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <p>
+        После отправки откроется <code>https://www.google.com/search?q=твой+запрос</code>.
+        Параметр <code>q</code> — это то, что Google ожидает.
+    </p>
+
+    <div class="note">
+        <strong>Как узнать параметры?</strong> Посмотри в URL поиска Google после
+        запроса. Там будет <code>?q=...</code>. Ты можешь использовать любой сервис
+        так же, если знаешь его параметры.
+    </div>
+
+    <h2>12. Метод POST на практике</h2>
+
+    <p>POST не видно в URL, поэтому его надо «поймать» на сервере. Для обучения можно использовать сервис <a href="https://httpbin.org">httpbin.org</a>:</p>
+
+    <pre><code>&lt;form action="https://httpbin.org/post" method="post" target="_blank"&gt;
+    &lt;label&gt;Имя: &lt;input name="username"&gt;&lt;/label&gt;
+    &lt;label&gt;Email: &lt;input type="email" name="email"&gt;&lt;/label&gt;
+    &lt;button&gt;Отправить&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (откроется JSON с твоими данными):</div>
+        <form action="https://httpbin.org/post" method="post" target="_blank">
+            <label>Имя: <input name="username" type="text"></label>
+            <label>Email: <input type="email" name="email"></label>
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+
+    <p>
+        Нажми «Отправить» — откроется страница с JSON, где в поле <code>form</code>
+        будут твои данные. Это отличный способ увидеть, что именно уходит на сервер.
+    </p>
+
+    <h2>13. Валидация на стороне браузера</h2>
+
+    <p>
+        Современные браузеры умеют проверять данные <em>до</em> отправки.
+        Например, поле <code>type="email"</code> не даст отправить некорректный email.
+    </p>
+
+    <div class="demo">
+        <div class="demo-label">Попробуй ввести плохой email и нажать кнопку:</div>
+        <form>
+            <label>Email: <input type="email" name="email" required></label>
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+
+    <p>
+        Это тема отдельного урока (урок 20). Пока просто знай, что валидация работает
+        автоматически, если указать правильный <code>type</code> и добавить
+        <code>required</code>.
+    </p>
+
+    <h2>14. Полный шаблон формы</h2>
+
+    <pre><code>&lt;form action="/submit" method="post" autocomplete="on"&gt;
+
+    &lt;fieldset&gt;
+        &lt;legend&gt;Регистрация&lt;/legend&gt;
+
+        &lt;label for="name"&gt;Имя:&lt;/label&gt;
+        &lt;input type="text" id="name" name="name" required&gt;
+
+        &lt;label for="email"&gt;Email:&lt;/label&gt;
+        &lt;input type="email" id="email" name="email" required&gt;
+
+        &lt;label for="password"&gt;Пароль:&lt;/label&gt;
+        &lt;input type="password" id="password" name="password" required&gt;
+
+        &lt;button type="submit"&gt;Зарегистрироваться&lt;/button&gt;
+    &lt;/fieldset&gt;
+
+&lt;/form&gt;</code></pre>
+
+    <h2>15. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Забыть <code>name</code> у поля</td>
+                <td>Поле не отправится на сервер</td>
+            </tr>
+            <tr>
+                <td>Использовать GET для паролей</td>
+                <td>Пароль попадёт в URL и историю</td>
+            </tr>
+            <tr>
+                <td>Использовать POST для поиска</td>
+                <td>Нельзя сохранить ссылку с результатами</td>
+            </tr>
+            <tr>
+                <td>Забыть <code>enctype="multipart/form-data"</code> для файлов</td>
+                <td>Файл не отправится, только имя</td>
+            </tr>
+            <tr>
+                <td>Поля <em>вне</em> <code>&lt;form&gt;</code></td>
+                <td>Не отправятся</td>
+            </tr>
+            <tr>
+                <td>Использовать GET для действий, меняющих данные</td>
+                <td>Нарушение HTTP-семантики, можно случайно «повторить» действие</td>
+            </tr>
+            <tr>
+                <td>Не указывать <code>action</code></td>
+                <td>Данные уйдут на текущий URL, что часто не то, что нужно</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>16. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Поисковая форма»</strong></p>
+        <p>Создай файл <code>17-practice.html</code>. Сделай форму:</p>
+        <ul>
+            <li><code>action="https://www.google.com/search"</code></li>
+            <li><code>method="get"</code></li>
+            <li>Одно поле с <code>name="q"</code></li>
+            <li>Кнопка «Найти»</li>
+        </ul>
+        <p>Проверь: введи запрос, нажми — откроется Google с результатами.</p>
+
+        <p><strong>Задание 2. «POST с httpbin»</strong></p>
+        <ul>
+            <li>Форма с <code>action="https://httpbin.org/post"</code> и <code>method="post"</code>.</li>
+            <li>Поля: имя (<code>name="username"</code>), email (<code>name="email"</code>).</li>
+            <li>Отправь и изучи JSON в ответе.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Группировка»</strong></p>
+        <ul>
+            <li>Сделай форму регистрации.</li>
+            <li>Первая группа — «Личные данные»: имя, фамилия, дата рождения.</li>
+            <li>Вторая группа — «Контакты»: email, телефон.</li>
+            <li>Используй <code>&lt;fieldset&gt;</code> и <code>&lt;legend&gt;</code>.</li>
+        </ul>
+
+        <p><strong>Задание 4. «GET vs POST»</strong></p>
+        <ul>
+            <li>Сделай две одинаковые формы с одним полем.</li>
+            <li>Первую отправь через GET, вторую через POST (обе на httpbin).</li>
+            <li>Сравни URL после отправки: у GET данные в URL, у POST — нет.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Autocomplete»</strong></p>
+        <ul>
+            <li>Сделай форму с полями email и пароля.</li>
+            <li>Используй <code>autocomplete="email"</code> и <code>autocomplete="current-password"</code>.</li>
+            <li>Открой форму в браузере — увидишь подсказки из сохранённых данных.</li>
+        </ul>
+
+        <p><strong>Задание 6. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Убери <code>name</code> у поля — отправь форму на httpbin, увидишь, что поля нет в ответе.</li>
+            <li>Используй GET для пароля — увидишь пароль в URL.</li>
+            <li>Помести поле <em>вне</em> <code>&lt;form&gt;</code> — увидишь, что оно не отправляется.</li>
+        </ul>
+    </div>
+
+    <h2>17. Что запомнить из урока</h2>
+
+    <ul>
+        <li><code>&lt;form&gt;</code> — контейнер формы. Все поля должны быть внутри.</li>
+        <li><code>action</code> — куда отправить данные (URL сервера).</li>
+        <li><code>method</code> — как отправить: <code>get</code> (в URL) или <code>post</code> (в теле).</li>
+        <li><strong>GET</strong> — для поиска, фильтров. Видно в URL, можно переслать ссылку.</li>
+        <li><strong>POST</strong> — для логина, оплаты, файлов. Данные скрыты.</li>
+        <li><code>name</code> у каждого поля — <strong>обязателен</strong>.</li>
+        <li><code>enctype="multipart/form-data"</code> — для загрузки файлов.</li>
+        <li><code>autocomplete</code> — автозаполнение браузером (ускоряет ввод).</li>
+        <li><code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code> — группировка полей.</li>
+        <li><strong>Никогда</strong> не используй GET для паролей — они попадут в URL.</li>
+        <li>POST <strong>не шифрует</strong> данные — нужен HTTPS.</li>
+        <li>Браузерная валидация работает автоматически при правильном <code>type</code>.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 17 · Следующий урок: <em>&lt;input&gt; — все типы полей</em>
+    </p>
+
+</body>
+</html>

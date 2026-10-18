@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 20 по HTML: валидация форм — required, pattern, min, max, placeholder, встроенные проверки браузера.">
+    <title>Урок 20. Валидация форм</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        label {
+            display: block;
+            margin: 12px 0 4px;
+            font-weight: 500;
+        }
+        input, textarea, select, button {
+            font-family: inherit;
+            font-size: 14px;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        input, textarea, select {
+            width: 100%;
+            max-width: 400px;
+        }
+        textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        button {
+            background: #b5651d;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            width: auto;
+            padding: 10px 20px;
+            margin-top: 12px;
+        }
+        button:hover {
+            background: #8b4a15;
+        }
+        /* Визуализация валидности полей */
+        input:valid:not(:placeholder-shown) {
+            border-color: #43a047;
+        }
+        input:invalid:not(:placeholder-shown) {
+            border-color: #e53935;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 20. Валидация форм</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: научиться проверять ввод пользователя прямо   -->
+    <!-- в браузере, без JavaScript, через HTML-атрибуты.           -->
+    <!-- ========================================================= -->
+
+    <h2>1. Что такое валидация</h2>
+
+    <p>
+        <strong>Валидация</strong> — это проверка данных на корректность. Например:
+    </p>
+
+    <ul>
+        <li>Email должен содержать <code>@</code> и домен.</li>
+        <li>Возраст — число от 1 до 120.</li>
+        <li>Пароль — минимум 8 символов.</li>
+        <li>Обязательные поля — не пустые.</li>
+    </ul>
+
+    <p>Валидация бывает двух уровней:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Уровень</th>
+                <th>Где происходит</th>
+                <th>Зачем</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Клиентская</strong></td>
+                <td>В браузере, до отправки</td>
+                <td>Быстрая обратная связь для пользователя</td>
+            </tr>
+            <tr>
+                <td><strong>Серверная</strong></td>
+                <td>На сервере, после отправки</td>
+                <td>Безопасность, защита от подделки</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="warn">
+        <strong>Клиентская валидация НЕ ЗАМЕНЯЕТ серверную!</strong> Пользователь может
+        отключить её в DevTools или отправить запрос через curl. На сервере всегда
+        проверяй данные заново.
+    </div>
+
+    <p>
+        В этом уроке — <strong>клиентская валидация через HTML-атрибуты</strong>.
+        Браузер делает её сам, без JavaScript.
+    </p>
+
+    <h2>2. Обзор атрибутов валидации</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Для чего</th>
+                <th>Пример</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>required</code></td>
+                <td>Поле обязательно</td>
+                <td><code>&lt;input required&gt;</code></td>
+            </tr>
+            <tr>
+                <td><code>minlength</code> / <code>maxlength</code></td>
+                <td>Длина текста</td>
+                <td><code>minlength="8"</code></td>
+            </tr>
+            <tr>
+                <td><code>min</code> / <code>max</code></td>
+                <td>Диапазон числа / даты</td>
+                <td><code>min="18" max="120"</code></td>
+            </tr>
+            <tr>
+                <td><code>step</code></td>
+                <td>Шаг изменения</td>
+                <td><code>step="0.01"</code></td>
+            </tr>
+            <tr>
+                <td><code>pattern</code></td>
+                <td>Регулярное выражение</td>
+                <td><code>pattern="[0-9]{5}"</code></td>
+            </tr>
+            <tr>
+                <td><code>type</code></td>
+                <td>Проверка формата</td>
+                <td><code>type="email"</code></td>
+            </tr>
+            <tr>
+                <td><code>placeholder</code></td>
+                <td>Подсказка (не валидация)</td>
+                <td><code>placeholder="Введите email"</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>3. Атрибут required</h2>
+
+    <p>
+        Делает поле <strong>обязательным</strong>. Без него браузер не даст отправить форму.
+    </p>
+
+    <pre><code>&lt;label for="email"&gt;Email:&lt;/label&gt;
+&lt;input type="email" id="email" name="email" required&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (попробуй отправить пустым):</div>
+        <form>
+            <label for="req-email">Email:</label>
+            <input type="email" id="req-email" name="email" required placeholder="user@example.com">
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+
+    <p>
+        Браузер покажет подсказку: «Заполните это поле» или на английском — в зависимости
+        от языка браузера.
+    </p>
+
+    <div class="note">
+        <strong>required работает с:</strong> text, email, url, tel, password, number,
+        checkbox, radio, file, select, textarea. Не работает с <code>range</code> и
+        <code>color</code> (у них всегда есть значение).
+    </div>
+
+    <h2>4. Атрибуты minlength и maxlength</h2>
+
+    <p>Ограничивают длину текста в символах.</p>
+
+    <pre><code>&lt;input type="text" name="name" minlength="2" maxlength="50"&gt;
+&lt;textarea name="comment" minlength="10" maxlength="500"&gt;&lt;/textarea&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (имя от 2 до 20 символов):</div>
+        <form>
+            <label for="len-name">Имя (2–20 символов):</label>
+            <input type="text" id="len-name" name="name" minlength="2" maxlength="20" required placeholder="Иван">
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+
+    <p>Если ввести 1 символ — браузер скажет «Слишком короткое значение». Если больше 20 — не даст ввести лишнее.</p>
+
+    <h2>5. Атрибуты min, max, step</h2>
+
+    <p>Для <code>type="number"</code>, <code>range</code>, <code>date</code>, <code>time</code> и др.</p>
+
+    <pre><code>&lt;!-- Возраст от 18 до 120 --&gt;
+&lt;input type="number" name="age" min="18" max="120"&gt;
+
+&lt;!-- Цена с шагом 0.01 --&gt;
+&lt;input type="number" name="price" min="0" step="0.01"&gt;
+
+&lt;!-- Дата не раньше 1 января 2020 --&gt;
+&lt;input type="date" name="start" min="2020-01-01"&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (возраст от 18 до 120):</div>
+        <form>
+            <label for="num-age">Возраст:</label>
+            <input type="number" id="num-age" name="age" min="18" max="120" required>
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+
+    <h2>6. Атрибут pattern</h2>
+
+    <p>
+        <strong>Регулярное выражение</strong> для проверки формата. Очень мощный инструмент.
+    </p>
+
+    <pre><code>&lt;!-- Почтовый индекс: ровно 6 цифр --&gt;
+&lt;input type="text" name="zip" pattern="[0-9]{6}"&gt;
+
+&lt;!-- Телефон в формате +7 (999) 999-99-99 --&gt;
+&lt;input type="tel" name="phone" pattern="\+7\s?\(\d{3}\)\s?\d{3}-\d{2}-\d{2}"&gt;
+
+&lt;!-- Только латинские буквы и цифры --&gt;
+&lt;input type="text" name="username" pattern="[A-Za-z0-9]+"&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (почтовый индекс — 6 цифр):</div>
+        <form>
+            <label for="pat-zip">Индекс:</label>
+            <input type="text" id="pat-zip" name="zip" pattern="[0-9]{6}" required placeholder="123456" title="Ровно 6 цифр">
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+
+    <div class="note">
+        <strong>Правила pattern:</strong>
+        <ul>
+            <li>Регулярное выражение <strong>автоматически</strong> заключается в <code>^...$</code> — то есть должно совпасть целиком.</li>
+            <li>Не используй слэши <code>/.../</code> — только саму regex.</li>
+            <li>Для сложных форматов добавь <code>title</code> — браузер покажет его в подсказке об ошибке.</li>
+        </ul>
+    </div>
+
+    <h3>Шпаргалка по regex для pattern</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Что нужно</th>
+                <th>Pattern</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Только цифры</td>
+                <td><code>[0-9]+</code></td>
+            </tr>
+            <tr>
+                <td>Ровно N цифр</td>
+                <td><code>[0-9]{N}</code></td>
+            </tr>
+            <tr>
+                <td>От N до M цифр</td>
+                <td><code>[0-9]{N,M}</code></td>
+            </tr>
+            <tr>
+                <td>Буквы и цифры</td>
+                <td><code>[A-Za-z0-9]+</code></td>
+            </tr>
+            <tr>
+                <td>Русские буквы</td>
+                <td><code>[А-Яа-яЁё]+</code></td>
+            </tr>
+            <tr>
+                <td>Email (простой)</td>
+                <td><code>[^@]+@[^@]+\.[^@]+</code></td>
+            </tr>
+            <tr>
+                <td>Пароль 8+ символов</td>
+                <td><code>.{8,}</code></td>
+            </tr>
+            <tr>
+                <td>Телефон РФ</td>
+                <td><code>\+7\d{10}</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>7. Валидация через type</h2>
+
+    <p>
+        Некоторые типы <code>&lt;input&gt;</code> проверяются <strong>автоматически</strong>,
+        без всяких атрибутов:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>type</th>
+                <th>Что проверяется</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>email</code></td>
+                <td>Наличие <code>@</code> и домена</td>
+            </tr>
+            <tr>
+                <td><code>url</code></td>
+                <td>Начинается с http:// или https://</td>
+            </tr>
+            <tr>
+                <td><code>number</code></td>
+                <td>Это число в диапазоне min/max</td>
+            </tr>
+            <tr>
+                <td><code>date</code>, <code>time</code>, <code>month</code></td>
+                <td>Корректная дата/время</td>
+            </tr>
+            <tr>
+                <td><code>color</code></td>
+                <td>HEX-цвет (#000000)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="demo">
+        <div class="demo-label">Проверь (введи плохой email):</div>
+        <form>
+            <label for="auto-email">Email:</label>
+            <input type="email" id="auto-email" name="email" required placeholder="не email">
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+
+    <h2>8. Визуализация валидности через CSS</h2>
+
+    <p>
+        CSS-псевдоклассы <code>:valid</code> и <code>:invalid</code> позволяют стилизовать
+        поля в зависимости от их валидности:
+    </p>
+
+    <pre><code>input:valid {
+    border-color: green;
+}
+
+input:invalid {
+    border-color: red;
+}
+
+/* Только после того, как пользователь что-то ввёл */
+input:invalid:not(:placeholder-shown) {
+    border-color: red;
+}</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (начни вводить — рамка меняет цвет):</div>
+        <form>
+            <label for="live-email">Email (зелёная рамка при корректном вводе):</label>
+            <input type="email" id="live-email" required placeholder="user@example.com">
+        </form>
+    </div>
+
+    <div class="note">
+        <strong>Трюк с <code>:not(:placeholder-shown)</code>:</strong> без него поле
+        подсвечивается красным <em>сразу</em>, пока пользователь ничего не ввёл.
+        С ним — только когда есть текст, и он невалиден.
+    </div>
+
+    <h2>9. Отключение валидации: novalidate</h2>
+
+    <p>Иногда нужно отключить встроенную валидацию (например, для своей через JavaScript):</p>
+
+    <pre><code>&lt;form action="/submit" novalidate&gt;
+    &lt;input type="email" required&gt;
+    &lt;!-- браузер не будет проверять --&gt;
+&lt;/form&gt;</code></pre>
+
+    <p>Или отключить у конкретной кнопки через <code>formnovalidate</code>:</p>
+
+    <pre><code>&lt;button type="submit" formnovalidate&gt;Отправить без проверки&lt;/button&gt;</code></pre>
+
+    <h2>10. Живой пример полной формы с валидацией</h2>
+
+    <div class="demo">
+        <div class="demo-label">Регистрация (все атрибуты вместе):</div>
+        <form>
+            <label for="v-name">Имя (2–30 символов):</label>
+            <input type="text" id="v-name" name="name" required minlength="2" maxlength="30" placeholder="Иван">
+
+            <label for="v-email">Email:</label>
+            <input type="email" id="v-email" name="email" required placeholder="user@example.com">
+
+            <label for="v-phone">Телефон (+7XXXXXXXXXX):</label>
+            <input type="tel" id="v-phone" name="phone" pattern="\+7\d{10}" placeholder="+79991234567" title="Формат: +7 и 10 цифр">
+
+            <label for="v-age">Возраст (18–120):</label>
+            <input type="number" id="v-age" name="age" min="18" max="120" required>
+
+            <label for="v-zip">Индекс (6 цифр):</label>
+            <input type="text" id="v-zip" name="zip" pattern="[0-9]{6}" placeholder="123456">
+
+            <label for="v-website">Сайт:</label>
+            <input type="url" id="v-website" name="website" placeholder="https://example.com">
+
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
+
+    <h2>11. Что покажет браузер при ошибке</h2>
+
+    <p>Текст сообщения зависит от языка браузера. Примеры на русском:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Проблема</th>
+                <th>Сообщение</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Пустое required-поле</td>
+                <td>«Заполните это поле»</td>
+            </tr>
+            <tr>
+                <td>Некорректный email</td>
+                <td>«Введите адрес электронной почты»</td>
+            </tr>
+            <tr>
+                <td>Короткий текст</td>
+                <td>«Слишком короткое значение (минимум N символов)»</td>
+            </tr>
+            <tr>
+                <td>Число вне диапазона</td>
+                <td>«Значение должно быть больше или равно N»</td>
+            </tr>
+            <tr>
+                <td>Не подходит под pattern</td>
+                <td>«Проверьте это поле» + title, если есть</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Изменить стандартный текст</strong> без JavaScript нельзя. Только через
+        <code>title</code> можно добавить подсказку к pattern. Для кастомных сообщений
+        нужен JavaScript (тема отдельного курса).
+    </div>
+
+    <h2>12. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Полагаться только на клиентскую валидацию</td>
+                <td>Можно обойти через DevTools, сервер должен проверять сам</td>
+            </tr>
+            <tr>
+                <td>Pattern со слэшами <code>/.../</code></td>
+                <td>Не работает — только сама regex</td>
+            </tr>
+            <tr>
+                <td>Pattern без <code>title</code></td>
+                <td>Пользователь не понимает, что не так</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>required</code> для color/range</td>
+                <td>Не работает: у них всегда есть значение</td>
+            </tr>
+            <tr>
+                <td>Подсвечивать красным сразу при загрузке</td>
+                <td>Раздражает — используй <code>:not(:placeholder-shown)</code></td>
+            </tr>
+            <tr>
+                <td><code>type="text"</code> вместо <code>email</code>/<code>url</code></td>
+                <td>Теряется бесплатная валидация</td>
+            </tr>
+            <tr>
+                <td><code>minlength</code> у <code>type="number"</code></td>
+                <td>Не работает — используй <code>min</code>/<code>max</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>13. Что валидация НЕ делает</h2>
+
+    <ul>
+        <li><strong>Не проверяет, существует ли email</strong> — только формат.</li>
+        <li><strong>Не проверяет уникальность</strong> — это работа сервера.</li>
+        <li><strong>Не защищает от XSS</strong> — это работа сервера.</li>
+        <li><strong>Не гарантирует корректные данные</strong> — можно обойти.</li>
+        <li><strong>Не заменяет серверную валидацию</strong> — только дополняет её.</li>
+    </ul>
+
+    <div class="warn">
+        <strong>Золотое правило:</strong> клиентская валидация — для удобства пользователя.
+        Серверная валидация — для безопасности. Нужны <strong>обе</strong>.
+    </div>
+
+    <h2>14. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Форма регистрации»</strong></p>
+        <p>Создай файл <code>20-practice.html</code>. Форма с полями:</p>
+        <ul>
+            <li>Имя — <code>required</code>, <code>minlength="2"</code>, <code>maxlength="30"</code>.</li>
+            <li>Email — <code>type="email"</code>, <code>required</code>.</li>
+            <li>Телефон — <code>type="tel"</code>, <code>pattern="\+7\d{10}"</code>, <code>title</code>.</li>
+            <li>Возраст — <code>type="number"</code>, <code>min="18"</code>, <code>max="120"</code>.</li>
+            <li>Пароль — <code>type="password"</code>, <code>minlength="8"</code>, <code>required</code>.</li>
+            <li>Кнопка submit.</li>
+        </ul>
+        <p>Проверь все ошибки: пустые поля, плохой email, короткий пароль и т.д.</p>
+
+        <p><strong>Задание 2. «Pattern-задания»</strong></p>
+        <ul>
+            <li>Индекс: ровно 6 цифр — <code>pattern="[0-9]{6}"</code>.</li>
+            <li>Имя пользователя: только латиница и цифры, 3–15 символов — <code>pattern="[A-Za-z0-9]{3,15}"</code>.</li>
+            <li>ИНН: ровно 12 цифр.</li>
+            <li>Проверь каждый паттерн в браузере.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Визуализация»</strong></p>
+        <ul>
+            <li>Добавь CSS, чтобы валидные поля имели зелёную рамку, невалидные — красную.</li>
+            <li>Используй <code>:not(:placeholder-shown)</code>, чтобы красный не появлялся сразу.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Убери <code>required</code> — увидишь, что форма отправится с пустым полем.</li>
+            <li>Используй <code>pattern="/[0-9]+/"</code> (со слэшами) — увидишь, что не работает.</li>
+            <li>Добавь <code>novalidate</code> к форме — валидация полностью отключится.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Проверь через DevTools»</strong></p>
+        <ul>
+            <li>Открой DevTools (<code>F12</code>) → Elements.</li>
+            <li>Найди поле с <code>required</code> и удали атрибут через правый клик → «Edit as HTML».</li>
+            <li>Отправь форму — увидишь, что браузер больше не проверяет поле.</li>
+        </ul>
+    </div>
+
+    <h2>15. Что запомнить из урока</h2>
+
+    <ul>
+        <li><code>required</code> — поле обязательно.</li>
+        <li><code>minlength</code> / <code>maxlength</code> — длина текста.</li>
+        <li><code>min</code> / <code>max</code> — диапазон для чисел и дат.</li>
+        <li><code>step</code> — шаг изменения числа.</li>
+        <li><code>pattern</code> — регулярное выражение для формата.</li>
+        <li><code>type</code> — автоматическая валидация для email, url, number и т.д.</li>
+        <li><code>placeholder</code> — подсказка, <strong>не валидация</strong>.</li>
+        <li>CSS: <code>:valid</code> / <code>:invalid</code> — визуализация состояния.</li>
+        <li><code>novalidate</code> — отключить валидацию формы.</li>
+        <li><strong>Клиентская валидация — для UX, серверная — для безопасности.</strong> Обе обязательны.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 20 · Следующий урок: <em>&lt;fieldset&gt;, &lt;legend&gt;, &lt;datalist&gt;, &lt;output&gt;</em>
+    </p>
+
+</body>
+</html>

@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 15 по HTML: базовые таблицы — table, tr, td, th, caption, colspan, rowspan.">
+    <title>Урок 15. Таблицы в HTML</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+            overflow-x: auto;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        /* Общие стили для таблиц-примеров */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        caption {
+            caption-side: top;
+            text-align: left;
+            font-style: italic;
+            color: #666;
+            padding: 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 15. Таблицы — основы</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: освоить базовые теги таблиц и их применение.  -->
+    <!-- ========================================================= -->
+
+    <h2>1. Зачем нужны таблицы</h2>
+
+    <p>
+        Таблицы в HTML — для <strong>табличных данных</strong>: расписаний, цен,
+        характеристик товаров, сравнений. Это НЕ инструмент вёрстки (как было в 90-е),
+        а семантический тег для структурированной информации.
+    </p>
+
+    <div class="warn">
+        <strong>Не используй таблицы для вёрстки макета</strong> (шапка, сайдбар,
+        контент). Для этого есть flexbox и grid в CSS. Таблицы — только для данных.
+    </div>
+
+    <h2>2. Базовые теги</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Название</th>
+                <th>Что создаёт</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;table&gt;</code></td>
+                <td>table</td>
+                <td>Контейнер таблицы</td>
+            </tr>
+            <tr>
+                <td><code>&lt;tr&gt;</code></td>
+                <td>table row</td>
+                <td>Строка таблицы</td>
+            </tr>
+            <tr>
+                <td><code>&lt;td&gt;</code></td>
+                <td>table data</td>
+                <td>Ячейка с данными</td>
+            </tr>
+            <tr>
+                <td><code>&lt;th&gt;</code></td>
+                <td>table header</td>
+                <td>Ячейка-заголовок</td>
+            </tr>
+            <tr>
+                <td><code>&lt;caption&gt;</code></td>
+                <td>caption</td>
+                <td>Подпись таблицы</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>3. Простейшая таблица</h2>
+
+    <pre><code>&lt;table&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Имя&lt;/th&gt;
+        &lt;th&gt;Возраст&lt;/th&gt;
+        &lt;th&gt;Город&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Иван&lt;/td&gt;
+        &lt;td&gt;28&lt;/td&gt;
+        &lt;td&gt;Москва&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Мария&lt;/td&gt;
+        &lt;td&gt;34&lt;/td&gt;
+        &lt;td&gt;Санкт-Петербург&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <table>
+            <tr>
+                <th>Имя</th>
+                <th>Возраст</th>
+                <th>Город</th>
+            </tr>
+            <tr>
+                <td>Иван</td>
+                <td>28</td>
+                <td>Москва</td>
+            </tr>
+            <tr>
+                <td>Мария</td>
+                <td>34</td>
+                <td>Санкт-Петербург</td>
+            </tr>
+        </table>
+    </div>
+
+    <h3>Что важно понимать</h3>
+
+    <ul>
+        <li>Таблица строится <strong>по строкам</strong> (<code>&lt;tr&gt;</code>), а не по столбцам.</li>
+        <li>В каждой строке одинаковое количество ячеек — это и есть столбцы.</li>
+        <li><code>&lt;th&gt;</code> — для заголовков (жирный, по центру), <code>&lt;td&gt;</code> — для данных.</li>
+        <li>Порядок ячеек в строке = порядок столбцов.</li>
+    </ul>
+
+    <h2>4. Атрибуты &lt;table&gt;</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>border</code></td>
+                <td>Число</td>
+                <td>Толщина рамки (устарел, используй CSS <code>border</code>)</td>
+            </tr>
+            <tr>
+                <td><code>cellpadding</code></td>
+                <td>Число</td>
+                <td>Отступ внутри ячейки (устарел, используй CSS <code>padding</code>)</td>
+            </tr>
+            <tr>
+                <td><code>cellspacing</code></td>
+                <td>Число</td>
+                <td>Расстояние между ячейками (устарел, используй CSS <code>border-spacing</code>)</td>
+            </tr>
+            <tr>
+                <td><code>width</code></td>
+                <td>Число или %</td>
+                <td>Ширина таблицы (устарел, используй CSS)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Современный подход:</strong> все визуальные атрибуты таблиц устарели.
+        Используй CSS: <code>border</code>, <code>padding</code>, <code>border-collapse</code>.
+        В HTML оставь только структуру.
+    </div>
+
+    <h2>5. Тег &lt;caption&gt; — подпись таблицы</h2>
+
+    <p>
+        <code>&lt;caption&gt;</code> — название таблицы. Идёт <strong>сразу после</strong>
+        <code>&lt;table&gt;</code> и <strong>до</strong> строк.
+    </p>
+
+    <pre><code>&lt;table&gt;
+    &lt;caption&gt;Таблица 1. Сотрудники компании&lt;/caption&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Имя&lt;/th&gt;
+        &lt;th&gt;Должность&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Иван&lt;/td&gt;
+        &lt;td&gt;Разработчик&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <table>
+            <caption>Таблица 1. Сотрудники компании</caption>
+            <tr>
+                <th>Имя</th>
+                <th>Должность</th>
+            </tr>
+            <tr>
+                <td>Иван</td>
+                <td>Разработчик</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="note">
+        <strong>Зачем нужен caption:</strong> screen reader читает его перед таблицей,
+        объясняя, о чём она. Это как alt для картинки — только для таблицы.
+    </div>
+
+    <h2>6. Объединение ячеек: colspan и rowspan</h2>
+
+    <p>
+        Иногда нужно, чтобы ячейка занимала <strong>несколько столбцов</strong>
+        или <strong>несколько строк</strong>.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Что делает</th>
+                <th>Пример</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>colspan</code></td>
+                <td>Растянуть по горизонтали (объединить столбцы)</td>
+                <td><code>colspan="2"</code> — занять 2 столбца</td>
+            </tr>
+            <tr>
+                <td><code>rowspan</code></td>
+                <td>Растянуть по вертикали (объединить строки)</td>
+                <td><code>rowspan="2"</code> — занять 2 строки</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Пример colspan</h3>
+
+    <pre><code>&lt;table&gt;
+    &lt;tr&gt;
+        &lt;th colspan="2"&gt;Личные данные&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Имя:&lt;/td&gt;
+        &lt;td&gt;Иван&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Возраст:&lt;/td&gt;
+        &lt;td&gt;28&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (первая ячейка занимает 2 столбца):</div>
+        <table>
+            <tr>
+                <th colspan="2">Личные данные</th>
+            </tr>
+            <tr>
+                <td>Имя:</td>
+                <td>Иван</td>
+            </tr>
+            <tr>
+                <td>Возраст:</td>
+                <td>28</td>
+            </tr>
+        </table>
+    </div>
+
+    <h3>Пример rowspan</h3>
+
+    <pre><code>&lt;table&gt;
+    &lt;tr&gt;
+        &lt;th&gt;День&lt;/th&gt;
+        &lt;th&gt;Предмет&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td rowspan="2"&gt;Понедельник&lt;/td&gt;
+        &lt;td&gt;Математика&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Физика&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (Понедельник занимает 2 строки):</div>
+        <table>
+            <tr>
+                <th>День</th>
+                <th>Предмет</th>
+            </tr>
+            <tr>
+                <td rowspan="2">Понедельник</td>
+                <td>Математика</td>
+            </tr>
+            <tr>
+                <td>Физика</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="warn">
+        <strong>Правило подсчёта:</strong> когда используешь <code>colspan</code>/<code>rowspan</code>,
+        в следующей строке может быть <strong>меньше</strong> <code>&lt;td&gt;</code>, потому
+        что ячейка уже «занята» соседней. Считай внимательно, иначе таблица «поедет».
+    </div>
+
+    <h2>7. Ячейки-заголовки: th vs td</h2>
+
+    <p>
+        Разница — в смысле, а не только в стиле:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th><code>&lt;th&gt;</code></th>
+                <th><code>&lt;td&gt;</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Смысл</td>
+                <td>Заголовок строки или столбца</td>
+                <td>Ячейка с данными</td>
+            </tr>
+            <tr>
+                <td>Внешний вид по умолчанию</td>
+                <td>Жирный, по центру</td>
+                <td>Обычный текст, влево</td>
+            </tr>
+            <tr>
+                <td>Screen reader</td>
+                <td>Читает как заголовок, потом данные</td>
+                <td>Просто данные</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Не делай «жирные td» вместо th!</strong> Используй <code>&lt;th&gt;</code>
+        там, где это <em>семантически</em> заголовок — screen reader и поисковики поймут структуру.
+    </div>
+
+    <h2>8. Атрибут scope для th</h2>
+
+    <p>
+        <code>scope</code> уточняет, к чему относится заголовок <code>&lt;th&gt;</code>:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Значение</th>
+                <th>Что означает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>col</code></td>
+                <td>Заголовок столбца</td>
+            </tr>
+            <tr>
+                <td><code>row</code></td>
+                <td>Заголовок строки</td>
+            </tr>
+            <tr>
+                <td><code>colgroup</code></td>
+                <td>Заголовок для группы столбцов</td>
+            </tr>
+            <tr>
+                <td><code>rowgroup</code></td>
+                <td>Заголовок для группы строк</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;table&gt;
+    &lt;tr&gt;
+        &lt;th scope="col"&gt;Товар&lt;/th&gt;
+        &lt;th scope="col"&gt;Цена&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;th scope="row"&gt;Кофе&lt;/th&gt;
+        &lt;td&gt;500 ₽&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <table>
+            <tr>
+                <th scope="col">Товар</th>
+                <th scope="col">Цена</th>
+            </tr>
+            <tr>
+                <th scope="row">Кофе</th>
+                <td>500 ₽</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="note">
+        <strong>Зачем scope:</strong> screen reader читает не только значение ячейки,
+        но и её заголовки. Без <code>scope</code> он не всегда понимает, к чему
+        относится <code>&lt;th&gt;</code>. С <code>scope="col"</code> — точно столбец,
+        с <code>scope="row"</code> — строка.
+    </div>
+
+    <h2>9. Стилизация таблиц через CSS</h2>
+
+    <p>По умолчанию таблицы выглядят «коряво». Базовые стили:</p>
+
+    <pre><code>table {
+    border-collapse: collapse;  /* убрать двойные рамки */
+    width: 100%;
+    margin: 16px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px 12px;
+    text-align: left;
+}
+
+th {
+    background: #f5f5f5;
+    font-weight: bold;
+}</code></pre>
+
+    <div class="note">
+        <strong>Главное свойство:</strong> <code>border-collapse: collapse</code>.
+        Без него у каждой ячейки свои рамки, между ними пробелы. С ним — единая таблица.
+    </div>
+
+    <h3>Полосатая таблица (zebra)</h3>
+
+    <pre><code>tr:nth-child(even) {
+    background: #f9f9f9;
+}</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <table style="border-collapse: collapse; width: 100%;">
+            <tr>
+                <th>Товар</th>
+                <th>Цена</th>
+            </tr>
+            <tr style="background: #f9f9f9;">
+                <td>Кофе</td>
+                <td>500 ₽</td>
+            </tr>
+            <tr>
+                <td>Чай</td>
+                <td>300 ₽</td>
+            </tr>
+            <tr style="background: #f9f9f9;">
+                <td>Какао</td>
+                <td>400 ₽</td>
+            </tr>
+            <tr>
+                <td>Сок</td>
+                <td>200 ₽</td>
+            </tr>
+        </table>
+    </div>
+
+    <h2>10. Что будет без CSS</h2>
+
+    <p>По умолчанию браузер рисует таблицу без рамок и с минимальным форматированием:</p>
+
+    <div class="demo">
+        <div class="demo-label">Без CSS:</div>
+        <table style="border: none; width: auto;">
+            <tr>
+                <th style="border: none; background: none; font-weight: bold; text-align: left;">Имя</th>
+                <th style="border: none; background: none; font-weight: bold; text-align: left;">Возраст</th>
+            </tr>
+            <tr>
+                <td style="border: none;">Иван</td>
+                <td style="border: none;">28</td>
+            </tr>
+            <tr>
+                <td style="border: none;">Мария</td>
+                <td style="border: none;">34</td>
+            </tr>
+        </table>
+    </div>
+
+    <p>Ячейки на самом деле есть, но рамок нет — их надо добавлять через CSS.</p>
+
+    <h2>11. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Использовать таблицу для вёрстки макета</td>
+                <td>Плохо для SEO, a11y и адаптивности. Для вёрстки — CSS grid/flex</td>
+            </tr>
+            <tr>
+                <td>Разное число ячеек в строках без colspan/rowspan</td>
+                <td>Таблица «поедет», структура сломается</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>border</code>, <code>cellpadding</code> и др.</td>
+                <td>Устаревшие атрибуты, вместо них — CSS</td>
+            </tr>
+            <tr>
+                <td>Забыть <code>&lt;caption&gt;</code></td>
+                <td>Screen reader не понимает, о чём таблица</td>
+            </tr>
+            <tr>
+                <td>Не использовать <code>scope</code> для <code>&lt;th&gt;</code></td>
+                <td>Незрячим сложнее понять структуру</td>
+            </tr>
+            <tr>
+                <td>Пустые ячейки без содержания</td>
+                <td>Лучше <code>&amp;nbsp;</code> или пояснительный текст</td>
+            </tr>
+            <tr>
+                <td>Вкладывать таблицу в таблицу без причины</td>
+                <td>Обычно признак плохой структуры</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>12. Полный шаблон</h2>
+
+    <pre><code>&lt;table&gt;
+    &lt;caption&gt;Таблица 1. Сотрудники&lt;/caption&gt;
+    &lt;tr&gt;
+        &lt;th scope="col"&gt;Имя&lt;/th&gt;
+        &lt;th scope="col"&gt;Должность&lt;/th&gt;
+        &lt;th scope="col"&gt;Стаж&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Иван&lt;/td&gt;
+        &lt;td&gt;Разработчик&lt;/td&gt;
+        &lt;td&gt;5 лет&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Мария&lt;/td&gt;
+        &lt;td&gt;Дизайнер&lt;/td&gt;
+        &lt;td&gt;3 года&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+    <h2>13. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Расписание»</strong></p>
+        <p>Создай файл <code>15-practice.html</code>. Сделай таблицу расписания уроков:</p>
+        <ul>
+            <li><code>&lt;caption&gt;</code> — «Расписание на понедельник».</li>
+            <li>Первый столбец — номер урока.</li>
+            <li>Второй — предмет.</li>
+            <li>Третий — кабинет.</li>
+            <li>5–6 строк.</li>
+        </ul>
+
+        <p><strong>Задание 2. «Прайс-лист»</strong></p>
+        <ul>
+            <li>Таблица «Товары и цены»: 2 столбца, 6 строк.</li>
+            <li>Используй <code>&lt;th scope="col"&gt;</code> для заголовков.</li>
+            <li>Добавь CSS: <code>border-collapse: collapse; border: 1px solid #ddd; padding: 10px;</code>.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Colspan»</strong></p>
+        <ul>
+            <li>Сделай таблицу, где первая строка — <code>&lt;th colspan="3"&gt;Общая шапка&lt;/th&gt;</code>.</li>
+            <li>Ниже — 3 столбца с обычными данными.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Rowspan»</strong></p>
+        <ul>
+            <li>Сделай таблицу расписания, где день недели занимает несколько строк (по одному уроку в каждой).</li>
+            <li>Пример: «Понедельник» — <code>rowspan="3"</code>, а рядом 3 предмета.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Сделай строку с 2 ячейками, а другую — с 3. Посмотри, как браузер растянет таблицу.</li>
+            <li>Попробуй вложить таблицу в таблицу — увидишь, что это работает, но выглядит громоздко.</li>
+            <li>Убери <code>border-collapse</code> — увидишь «двойные» рамки.</li>
+        </ul>
+    </div>
+
+    <h2>14. Что запомнить из урока</h2>
+
+    <ul>
+        <li>Таблицы — для <strong>данных</strong>, не для вёрстки макета.</li>
+        <li><code>&lt;table&gt;</code> — контейнер, <code>&lt;tr&gt;</code> — строка, <code>&lt;td&gt;</code> — ячейка, <code>&lt;th&gt;</code> — заголовок.</li>
+        <li>Таблица строится <strong>по строкам</strong>, а столбцы — это ячейки в каждой строке.</li>
+        <li><code>&lt;caption&gt;</code> — подпись таблицы, идёт сразу после <code>&lt;table&gt;</code>.</li>
+        <li><code>colspan</code> — растянуть по горизонтали, <code>rowspan</code> — по вертикали.</li>
+        <li><code>scope="col"</code> / <code>scope="row"</code> — уточнить, к чему относится <code>&lt;th&gt;</code>.</li>
+        <li>Визуальные атрибуты (<code>border</code>, <code>cellpadding</code>, <code>cellspacing</code>) устарели — используй CSS.</li>
+        <li><code>border-collapse: collapse</code> — убрать двойные рамки.</li>
+        <li>Для доступности: <strong>caption + th + scope</strong> обязательны для смысловых таблиц.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 15 · Следующий урок: <em>Продвинутые таблицы — thead, tbody, tfoot, colgroup</em>
+    </p>
+
+</body>
+</html>

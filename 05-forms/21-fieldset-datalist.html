@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Урок 21 по HTML: fieldset, legend, datalist, output — группировка полей и вывод результата.">
+    <title>Урок 21. Fieldset, legend, datalist, output</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+
+        h1 {
+            color: #b5651d;
+            border-bottom: 3px solid #b5651d;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 40px;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 28px;
+            border-left: 4px solid #b5651d;
+            padding-left: 12px;
+        }
+
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #f5f5f5;
+        }
+
+        label {
+            display: block;
+            margin: 12px 0 4px;
+            font-weight: 500;
+        }
+
+        input,
+        textarea,
+        select,
+        button,
+        output {
+            font-family: inherit;
+            font-size: 14px;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        button {
+            background: #b5651d;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            width: auto;
+            padding: 10px 20px;
+            margin-top: 12px;
+        }
+
+        button:hover {
+            background: #8b4a15;
+        }
+
+        fieldset {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 16px 0;
+        }
+
+        legend {
+            padding: 0 10px;
+            font-weight: bold;
+            color: #b5651d;
+        }
+
+        .inline-label {
+            display: inline;
+            margin-right: 16px;
+            font-weight: normal;
+        }
+
+        output {
+            background: #f0f0f0;
+            font-weight: bold;
+            min-width: 50px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Урок 21. Fieldset, legend, datalist, output</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: освоить элементы для группировки полей и      -->
+    <!-- вывода результатов.                                        -->
+    <!-- ========================================================= -->
+
+    <h2>1. Зачем нужна группировка</h2>
+
+    <p>
+        Когда в форме много полей, их нужно разбивать на смысловые группы:
+        «Личные данные», «Контакты», «Оплата». Это помогает и визуально,
+        и для screen reader'ов.
+    </p>
+
+    <p>Для этого есть два тега:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Что делает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;fieldset&gt;</code></td>
+                <td>Группа полей с рамкой</td>
+            </tr>
+            <tr>
+                <td><code>&lt;legend&gt;</code></td>
+                <td>Заголовок группы (встроен в рамку)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>2. Тег &lt;fieldset&gt;</h2>
+
+    <p>
+        <code>&lt;fieldset&gt;</code> — контейнер для группы связанных полей.
+        По умолчанию браузер рисует вокруг него рамку.
+    </p>
+
+    <pre><code>&lt;fieldset&gt;
+    &lt;legend&gt;Личные данные&lt;/legend&gt;
+
+    &lt;label for="name"&gt;Имя:&lt;/label&gt;
+    &lt;input type="text" id="name" name="name"&gt;
+
+    &lt;label for="email"&gt;Email:&lt;/label&gt;
+    &lt;input type="email" id="email" name="email"&gt;
+&lt;/fieldset&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <form>
+            <fieldset>
+                <legend>Личные данные</legend>
+
+                <label for="fs-name">Имя:</label>
+                <input type="text" id="fs-name" name="name">
+
+                <label for="fs-email">Email:</label>
+                <input type="email" id="fs-email" name="email">
+            </fieldset>
+        </form>
+    </div>
+
+    <h2>3. Тег &lt;legend&gt;</h2>
+
+    <p>
+        <code>&lt;legend&gt;</code> — заголовок группы. Идёт <strong>первым</strong>
+        внутри <code>&lt;fieldset&gt;</code>. Браузер «встраивает» его в верхнюю
+        линию рамки.
+    </p>
+
+    <pre><code>&lt;fieldset&gt;
+    &lt;legend&gt;Способ доставки&lt;/legend&gt;
+    &lt;!-- поля --&gt;
+&lt;/fieldset&gt;</code></pre>
+
+    <h3>Особенности legend</h3>
+
+    <ul>
+        <li>Только <strong>один</strong> legend на fieldset.</li>
+        <li>Всегда идёт первым элементом.</li>
+        <li>Может содержать inline-теги (<code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>).</li>
+    </ul>
+
+    <h2>4. Зачем это нужно для доступности</h2>
+
+    <p>
+        Screen reader читает <code>&lt;legend&gt;</code> при входе в группу. Пользователь
+        слышит: «Личные данные — группа полей» и понимает контекст.
+    </p>
+
+    <p>
+        Особенно важно для <strong>radio-групп</strong>. Без <code>&lt;fieldset&gt;</code>
+        screen reader не понимает, что несколько radio связаны вопросом.
+    </p>
+
+    <div class="note">
+        <strong>Пример:</strong> «Выберите способ доставки: [радио] Самовывоз [радио] Курьер [радио] Почта» —
+        screen reader прочитает каждый радио как отдельное поле. С <code>&lt;fieldset&gt;</code>
+        и <code>&lt;legend&gt;</code> он скажет «Способ доставки» перед группой, и всё встанет на место.
+    </div>
+
+    <h2>5. Атрибут disabled у fieldset</h2>
+
+    <p>
+        Можно отключить <strong>всю группу</strong> сразу — все поля внутри
+        станут недоступны.
+    </p>
+
+    <pre><code>&lt;fieldset disabled&gt;
+    &lt;legend&gt;Раздел временно недоступен&lt;/legend&gt;
+    &lt;input type="text" name="field1"&gt;
+    &lt;input type="text" name="field2"&gt;
+&lt;/fieldset&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (все поля отключены):</div>
+        <form>
+            <fieldset disabled>
+                <legend>Раздел временно недоступен</legend>
+                <label for="dis-1">Поле 1:</label>
+                <input type="text" id="dis-1" name="field1" value="Значение">
+                <label for="dis-2">Поле 2:</label>
+                <input type="text" id="dis-2" name="field2">
+            </fieldset>
+        </form>
+    </div>
+
+    <h2>6. Атрибут form у fieldset (необычный случай)</h2>
+
+    <p>
+        <code>&lt;fieldset&gt;</code> может иметь атрибут <code>form</code> — id формы,
+        к которой он относится. Это полезно, если fieldset лежит <em>вне</em> формы,
+        но должен отправляться с ней.
+    </p>
+
+    <pre><code>&lt;form id="myForm"&gt;
+    &lt;!-- поля --&gt;
+&lt;/form&gt;
+
+&lt;fieldset form="myForm"&gt;
+    &lt;legend&gt;Внешняя группа&lt;/legend&gt;
+    &lt;input name="extra"&gt;   &lt;!-- тоже отправится с myForm --&gt;
+&lt;/fieldset&gt;</code></pre>
+
+    <div class="note">
+        <strong>Редкий случай.</strong> Обычно fieldset лежит внутри form. Атрибут
+        <code>form</code> нужен, если по вёрстке группа полей находится далеко от формы.
+    </div>
+
+    <h2>7. Тег &lt;datalist&gt; — список подсказок</h2>
+
+    <p>
+        <code>&lt;datalist&gt;</code> даёт <strong>автодополнение</strong> для текстового
+        поля. Пользователь может выбрать из списка или ввести своё значение.
+    </p>
+
+    <pre><code>&lt;label for="browser"&gt;Браузер:&lt;/label&gt;
+&lt;input list="browsers" id="browser" name="browser"&gt;
+
+&lt;datalist id="browsers"&gt;
+    &lt;option value="Chrome"&gt;
+    &lt;option value="Firefox"&gt;
+    &lt;option value="Safari"&gt;
+    &lt;option value="Edge"&gt;
+    &lt;option value="Opera"&gt;
+&lt;/datalist&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (начни вводить — появятся подсказки):</div>
+        <form>
+            <label for="dl-browser">Браузер:</label>
+            <input list="dl-browsers" id="dl-browser" name="browser" placeholder="Начни вводить...">
+            <datalist id="dl-browsers">
+                <option value="Chrome"> </option>
+                <option value="Firefox"> </option>
+                <option value="Safari"> </option>
+                <option value="Edge"> </option>
+                <option value="Opera"> </option>
+                <option value="Brave"> </option>
+                <option value="Vivaldi"> </option>
+            </datalist>
+        </form>
+    </div>
+
+    <h3>Как это работает</h3>
+
+    <ul>
+        <li>У <code>&lt;input&gt;</code> атрибут <code>list</code> ссылается на <code>id</code> datalist.</li>
+        <li>В datalist — набор <code>&lt;option&gt;</code> с атрибутом <code>value</code>.</li>
+        <li>Браузер показывает подсказки при вводе.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Важно:</strong> <code>&lt;datalist&gt;</code> — <strong>не выпадающий список</strong>,
+        как <code>&lt;select&gt;</code>. Пользователь <em>может</em> ввести своё значение,
+        которого нет в списке. Если нужно ограничить выбор — используй <code>&lt;select&gt;</code>.
+    </div>
+
+    <h3>datalist vs select</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th><code>&lt;datalist&gt;</code></th>
+                <th><code>&lt;select&gt;</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Можно ввести своё</td>
+                <td>Да</td>
+                <td>Нет</td>
+            </tr>
+            <tr>
+                <td>Вид</td>
+                <td>Поле ввода с подсказками</td>
+                <td>Выпадающий список</td>
+            </tr>
+            <tr>
+                <td>Проверка на сервере</td>
+                <td>Нужна своя</td>
+                <td>Только из списка</td>
+            </tr>
+            <tr>
+                <td>Когда использовать</td>
+                <td>Автодополнение, «свободный» выбор</td>
+                <td>Строгий выбор из вариантов</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Дополнительные подсказки в option</h3>
+
+    <p>Можно показать и подпись, и значение:</p>
+
+    <pre><code>&lt;input list="fruits" name="fruit"&gt;
+&lt;datalist id="fruits"&gt;
+    &lt;option value="apple"&gt;Яблоко&lt;/option&gt;
+    &lt;option value="banana"&gt;Банан&lt;/option&gt;
+    &lt;option value="orange"&gt;Апельсин&lt;/option&gt;
+&lt;/datalist&gt;</code></pre>
+
+    <p>
+        При выборе в поле попадёт <code>value</code> (латиницей), а в подсказке
+        пользователь увидит текст («Яблоко»). Это удобно, когда на сервер нужно
+        отправлять код, а не название.
+    </p>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <form>
+            <label for="dl-fruit">Фрукт (латиницей уйдёт на сервер):</label>
+            <input list="dl-fruits" id="dl-fruit" name="fruit" placeholder="Начни вводить...">
+            <datalist id="dl-fruits">
+                <option value="apple">Яблоко</option>
+                <option value="banana">Банан</option>
+                <option value="orange">Апельсин</option>
+            </datalist>
+        </form>
+    </div>
+
+    <h2>8. Тег &lt;output&gt; — вывод результата</h2>
+
+    <p>
+        <code>&lt;output&gt;</code> — контейнер для результата вычислений. Обычно
+        обновляется через JavaScript, но может работать и через простой атрибут
+        <code>oninput</code> у формы.
+    </p>
+
+    <pre><code>&lt;form oninput="result.value = parseInt(a.value) + parseInt(b.value)"&gt;
+    &lt;input type="number" id="a" value="0"&gt; +
+    &lt;input type="number" id="b" value="0"&gt; =
+    &lt;output name="result" for="a b"&gt;0&lt;/output&gt;
+&lt;/form&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (введи числа):</div>
+        <form oninput="outputresult.value = parseInt(outa.value || 0) + parseInt(outb.value || 0)">
+            <input type="number" id="outa" value="0" style="width: 80px; max-width: 80px;"> +
+            <input type="number" id="outb" value="0" style="width: 80px; max-width: 80px;"> =
+            <output name="outputresult" for="outa outb">0</output>
+        </form>
+    </div>
+
+    <h3>Атрибуты &lt;output&gt;</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>name</code></td>
+                <td>Имя для доступа из JavaScript и отправки на сервер</td>
+            </tr>
+            <tr>
+                <td><code>for</code></td>
+                <td>Через пробел — id полей, значения которых участвуют в расчёте</td>
+            </tr>
+            <tr>
+                <td><code>form</code></td>
+                <td>id формы, если output вне формы</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        Атрибут <code>for</code> важен для доступности: screen reader понимает,
+        что этот output зависит от полей <code>a</code> и <code>b</code>.
+    </p>
+
+    <h3>Более сложный пример: сумма из range</h3>
+
+    <pre><code>&lt;form oninput="total.value = parseInt(price.value) * parseInt(qty.value)"&gt;
+    &lt;label&gt;Цена: &lt;input type="number" id="price" value="100"&gt;&lt;/label&gt;
+    &lt;label&gt;Количество: &lt;input type="number" id="qty" value="1"&gt;&lt;/label&gt;
+    &lt;p&gt;Итого: &lt;output name="total" for="price qty"&gt;100&lt;/output&gt; ₽&lt;/p&gt;
+&lt;/form&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <form oninput="calctotal.value = parseInt(calc-price.value || 0) * parseInt(calc-qty.value || 0)">
+            <label for="calc-price">Цена:</label>
+            <input type="number" id="calc-price" value="100" style="max-width: 120px;">
+
+            <label for="calc-qty">Количество:</label>
+            <input type="number" id="calc-qty" value="1" style="max-width: 120px;">
+
+            <p>Итого: <output name="calctotal" for="calc-price calc-qty">100</output> ₽</p>
+        </form>
+    </div>
+
+    <div class="note">
+        <strong>Про JavaScript:</strong> <code>oninput</code> — это атрибут-обработчик
+        события. Мы его коснулись, но JavaScript — отдельная тема. Здесь важно понять,
+        что <code>&lt;output&gt;</code> — это <em>контейнер</em> для результата, а не
+        «магический» тег.
+    </div>
+
+    <h2>9. Полная форма со всеми тегами</h2>
+
+    <pre><code>&lt;form action="/order" method="post"&gt;
+
+    &lt;fieldset&gt;
+        &lt;legend&gt;Контактные данные&lt;/legend&gt;
+
+        &lt;label for="name"&gt;Имя:&lt;/label&gt;
+        &lt;input type="text" id="name" name="name" required&gt;
+
+        &lt;label for="email"&gt;Email:&lt;/label&gt;
+        &lt;input type="email" id="email" name="email" required&gt;
+    &lt;/fieldset&gt;
+
+    &lt;fieldset&gt;
+        &lt;legend&gt;Доставка&lt;/legend&gt;
+
+        &lt;label for="city"&gt;Город:&lt;/label&gt;
+        &lt;input list="cities" id="city" name="city"&gt;
+        &lt;datalist id="cities"&gt;
+            &lt;option value="Москва"&gt;
+            &lt;option value="Санкт-Петербург"&gt;
+            &lt;option value="Казань"&gt;
+        &lt;/datalist&gt;
+
+        &lt;label for="address"&gt;Адрес:&lt;/label&gt;
+        &lt;textarea id="address" name="address" rows="3"&gt;&lt;/textarea&gt;
+    &lt;/fieldset&gt;
+
+    &lt;fieldset&gt;
+        &lt;legend&gt;Оплата&lt;/legend&gt;
+
+        &lt;label class="inline"&gt;
+            &lt;input type="radio" name="payment" value="card" checked&gt; Карта
+        &lt;/label&gt;
+        &lt;label class="inline"&gt;
+            &lt;input type="radio" name="payment" value="cash"&gt; Наличные
+        &lt;/label&gt;
+    &lt;/fieldset&gt;
+
+    &lt;button type="submit"&gt;Оформить&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (полная форма со всеми тегами урока):</div>
+        <form>
+            <fieldset>
+                <legend>Контактные данные</legend>
+                <label for="f-name">Имя:</label>
+                <input type="text" id="f-name" name="name" required>
+                <label for="f-email">Email:</label>
+                <input type="email" id="f-email" name="email" required>
+            </fieldset>
+
+            <fieldset>
+                <legend>Доставка</legend>
+                <label for="f-city">Город:</label>
+                <input list="f-cities" id="f-city" name="city" placeholder="Начни вводить...">
+                <datalist id="f-cities">
+                    <option value="Москва"></option>
+                    <option value="Санкт-Петербург"></option>
+                    <option value="Казань"></option>
+                    <option value="Новосибирск"></option>
+                </datalist>
+                <label for="f-address">Адрес:</label>
+                <textarea id="f-address" name="address" rows="2"></textarea>
+            </fieldset>
+
+            <fieldset>
+                <legend>Оплата</legend>
+                <label class="inline-label"><input type="radio" name="f-payment" value="card" checked> Карта</label>
+                <label class="inline-label"><input type="radio" name="f-payment" value="cash"> Наличные</label>
+            </fieldset>
+
+            <button type="submit">Оформить</button>
+        </form>
+    </div>
+
+    <h2>10. Стилизация fieldset и legend</h2>
+
+    <p>Браузерное оформление fieldset устарело. Современный подход:</p>
+
+    <pre><code>fieldset {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+}
+
+legend {
+    padding: 0 10px;
+    font-weight: bold;
+    color: #b5651d;
+}</code></pre>
+
+    <div class="note">
+        <strong>Что можно стилизовать:</strong>
+        <ul>
+            <li>Рамку: <code>border</code>, <code>border-radius</code></li>
+            <li>Отступы: <code>padding</code>, <code>margin</code></li>
+            <li>Фон: <code>background</code></li>
+            <li>Цвет и шрифт legend</li>
+        </ul>
+        <strong>Что сложно:</strong> точное позиционирование legend — браузер сам «врезает»
+        его в рамку. Полностью переделать поведение сложно.
+    </div>
+
+    <h2>11. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Несколько <code>&lt;legend&gt;</code> в одном fieldset</td>
+                <td>Валиден только один</td>
+            </tr>
+            <tr>
+                <td><code>&lt;legend&gt;</code> не первым элементом</td>
+                <td>Должен идти сразу после открывающего fieldset</td>
+            </tr>
+            <tr>
+                <td>Использовать fieldset для вёрстки</td>
+                <td>Это тег для группировки полей, не универсальный контейнер</td>
+            </tr>
+            <tr>
+                <td>datalist без <code>id</code></td>
+                <td>Поле не сможет его найти</td>
+            </tr>
+            <tr>
+                <td>Использовать datalist вместо select</td>
+                <td>Пользователь сможет ввести своё значение</td>
+            </tr>
+            <tr>
+                <td>output без <code>for</code></td>
+                <td>Плохо для доступности — неясно, от чего зависит результат</td>
+            </tr>
+            <tr>
+                <td>Забыть <code>name</code> у output</td>
+                <td>Значение не уйдёт на сервер</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>12. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Форма заказа»</strong></p>
+        <p>Создай файл <code>21-practice.html</code>. Форма заказа с двумя fieldset:</p>
+        <ul>
+            <li><strong>«Контакты»</strong>: имя, email, телефон.</li>
+            <li><strong>«Доставка»</strong>: город (через datalist), адрес (textarea).</li>
+            <li>Кнопка submit.</li>
+        </ul>
+
+        <p><strong>Задание 2. «Radio + fieldset»</strong></p>
+        <ul>
+            <li>Fieldset с legend «Способ доставки».</li>
+            <li>Три radio: Самовывоз, Курьер, Почта.</li>
+            <li>Проверь: без fieldset/legend смысл группы теряется, с ними — ясно.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Datalist подсказки»</strong></p>
+        <ul>
+            <li>Поле «Любимый язык программирования».</li>
+            <li>Datalist с вариантами: JavaScript, Python, Java, C++, C#, Rust, Go, PHP.</li>
+            <li>Проверь: можно выбрать из списка или ввести своё.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Калькулятор»</strong></p>
+        <ul>
+            <li>Форма с тремя <code>input type="number"</code>: цена, количество, скидка (%).</li>
+            <li>Output с итоговой суммой: <code>цена × количество × (1 − скидка/100)</code>.</li>
+            <li>Используй <code>oninput</code> в форме и атрибут <code>for</code> в output.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Disabled-группа»</strong></p>
+        <ul>
+            <li>Сделай fieldset с <code>disabled</code>.</li>
+            <li>Внутри — 2–3 поля.</li>
+            <li>Проверь: они серые, нельзя изменить, не отправятся на сервер.</li>
+        </ul>
+
+        <p><strong>Задание 6. «Стилизация»</strong></p>
+        <ul>
+            <li>Стилизуй fieldset: рамка 2px, радиус 8px, padding 20px.</li>
+            <li>Legend: цвет <code>#b5651d</code>, жирный, padding 0 10px.</li>
+            <li>Проверь, как это выглядит с несколькими группами.</li>
+        </ul>
+
+        <p><strong>Задание 7. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Добавь два legend в один fieldset — проверь валидатором.</li>
+            <li>Убери <code>id</code> у datalist — увидишь, что подсказки не работают.</li>
+            <li>Помести <code>&lt;legend&gt;</code> после полей — увидишь, что браузер сам его «перекинет» наверх.</li>
+        </ul>
+    </div>
+
+    <h2>13. Что запомнить из урока</h2>
+
+    <ul>
+        <li><code>&lt;fieldset&gt;</code> — группа полей с рамкой.</li>
+        <li><code>&lt;legend&gt;</code> — заголовок группы, идёт первым внутри fieldset. Только один.</li>
+        <li>Группировка важна для <strong>доступности</strong> — screen reader понимает контекст.</li>
+        <li>Особенно важна для radio-групп — иначе непонятно, к чему они относятся.</li>
+        <li><code>&lt;fieldset disabled&gt;</code> — отключить всю группу сразу.</li>
+        <li><code>&lt;datalist&gt;</code> — подсказки для input с возможностью ввести своё.</li>
+        <li><code>&lt;input list="id"&gt;</code> связывается с <code>&lt;datalist id="id"&gt;</code>.</li>
+        <li><code>&lt;output&gt;</code> — вывод результата, обычно вычисляется через JavaScript.</li>
+        <li>У output важны атрибуты <code>name</code> (для отправки) и <code>for</code> (для доступности).</li>
+        <li>fieldset и legend стилизуются через CSS: рамка, отступы, цвет.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 21 · Следующий урок: <em>Семантические теги: header, nav, main, section, article, aside, footer</em>
+    </p>
+
+</body>
+
+</html>

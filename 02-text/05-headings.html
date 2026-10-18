@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 5 по HTML: заголовки h1–h6, их иерархия, правила использования и влияние на SEO.">
+    <title>Урок 5. Заголовки &lt;h1&gt;–&lt;h6&gt;</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1.page-title { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+    </style>
+</head>
+<body>
+
+    <h1 class="page-title">Урок 5. Заголовки &lt;h1&gt;–&lt;h6&gt;</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: освоить 6 тегов заголовков, понять их иерархию -->
+    <!-- и научиться использовать их правильно (и для людей, и для  -->
+    <!-- поисковиков, и для незрячих пользователей).                -->
+    <!-- ========================================================= -->
+
+    <h2>1. Что такое заголовки и зачем они нужны</h2>
+
+    <p>
+        В HTML есть <strong>шесть тегов заголовков</strong>: от <code>&lt;h1&gt;</code>
+        (самый главный) до <code>&lt;h6&gt;</code> (самый второстепенный).
+        Буква <code>h</code> — от английского <em>heading</em> («заголовок»).
+    </p>
+
+    <p>Заголовки выполняют <strong>три задачи</strong>:</p>
+
+    <ol>
+        <li><strong>Структура</strong> — делят текст на логические разделы, как главы в книге.</li>
+        <li><strong>Навигация</strong> — по ним пользователь быстро сканирует страницу и находит нужное.</li>
+        <li><strong>SEO и доступность</strong> — поисковики и screen reader'ы (программы для незрячих) понимают, о чём страница и как она устроена.</li>
+    </ol>
+
+    <div class="note">
+        <strong>Аналогия.</strong> Заголовки в HTML — как оглавление в книге.
+        <code>&lt;h1&gt;</code> — название книги, <code>&lt;h2&gt;</code> — главы,
+        <code>&lt;h3&gt;</code> — параграфы внутри главы, и так далее.
+    </div>
+
+    <h2>2. Шесть уровней заголовков</h2>
+
+    <p>Каждый уровень имеет свой «вес» и стандартный размер шрифта (до применения CSS):</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Уровень</th>
+                <th>Размер по умолчанию</th>
+                <th>Аналог в книге</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;h1&gt;</code></td>
+                <td>Самый главный</td>
+                <td>2em (≈32px)</td>
+                <td>Название книги</td>
+            </tr>
+            <tr>
+                <td><code>&lt;h2&gt;</code></td>
+                <td>Раздел</td>
+                <td>1.5em (≈24px)</td>
+                <td>Название главы</td>
+            </tr>
+            <tr>
+                <td><code>&lt;h3&gt;</code></td>
+                <td>Подраздел</td>
+                <td>1.17em (≈18.7px)</td>
+                <td>Параграф</td>
+            </tr>
+            <tr>
+                <td><code>&lt;h4&gt;</code></td>
+                <td>Под-подраздел</td>
+                <td>1em (≈16px)</td>
+                <td>Подпараграф</td>
+            </tr>
+            <tr>
+                <td><code>&lt;h5&gt;</code></td>
+                <td>Мелкий заголовок</td>
+                <td>0.83em (≈13.3px)</td>
+                <td>Мелкий пункт</td>
+            </tr>
+            <tr>
+                <td><code>&lt;h6&gt;</code></td>
+                <td>Самый мелкий</td>
+                <td>0.67em (≈10.7px)</td>
+                <td>Сноска</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Живая демонстрация</h3>
+
+    <div class="demo">
+        <div class="demo-label">Все шесть уровней рядом:</div>
+        <h1 style="margin: 8px 0; color: #333;">Заголовок h1</h1>
+        <h2 style="margin: 8px 0; color: #333;">Заголовок h2</h2>
+        <h3 style="margin: 8px 0; color: #333;">Заголовок h3</h3>
+        <h4 style="margin: 8px 0; color: #333;">Заголовок h4</h4>
+        <h5 style="margin: 8px 0; color: #333;">Заголовок h5</h5>
+        <h6 style="margin: 8px 0; color: #333;">Заголовок h6</h6>
+    </div>
+
+    <p>Заметь: браузер сам делает заголовки <strong>жирными</strong> и добавляет им отступы сверху и снизу. Но это можно изменить через CSS.</p>
+
+    <h2>3. Синтаксис</h2>
+
+    <p>Все заголовки — <strong>парные теги</strong>. Внутри — только текст (или inline-теги вроде <code>&lt;em&gt;</code>, но обычно текст).</p>
+
+    <pre><code>&lt;h1&gt;Главный заголовок страницы&lt;/h1&gt;
+&lt;h2&gt;Раздел статьи&lt;/h2&gt;
+&lt;h3&gt;Подраздел внутри раздела&lt;/h3&gt;
+&lt;p&gt;Обычный текст параграфа.&lt;/p&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Нельзя</strong> вкладывать заголовки друг в друга, нельзя класть в них блочные элементы
+        (<code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>). Внутри заголовка — только фразовый контент (текст, ссылки, <code>&lt;em&gt;</code>, <code>&lt;strong&gt;</code>).
+    </div>
+
+    <h2>4. Иерархия — главное правило</h2>
+
+    <p>
+        Заголовки образуют <strong>дерево</strong>, как оглавление книги. Уровни нельзя
+        перескакивать и нельзя использовать «наугад».
+    </p>
+
+    <h3>Правильно</h3>
+    <pre><code>&lt;h1&gt;Кулинарная книга&lt;/h1&gt;
+    &lt;h2&gt;Супы&lt;/h2&gt;
+        &lt;h3&gt;Борщ&lt;/h3&gt;
+        &lt;h3&gt;Щи&lt;/h3&gt;
+    &lt;h2&gt;Десерты&lt;/h2&gt;
+        &lt;h3&gt;Тирамису&lt;/h3&gt;
+        &lt;h3&gt;Чизкейк&lt;/h3&gt;</code></pre>
+
+    <p>Уровни идут по порядку: 1 → 2 → 3 → 3 → 2 → 3 → 3.</p>
+
+    <h3>Неправильно</h3>
+    <pre><code>&lt;h1&gt;Кулинарная книга&lt;/h1&gt;
+    &lt;h3&gt;Супы&lt;/h3&gt;        &lt;!-- пропущен h2 --&gt;
+    &lt;h5&gt;Борщ&lt;/h5&gt;        &lt;!-- пропущены h3 и h4 --&gt;
+    &lt;h2&gt;Десерты&lt;/h2&gt;    &lt;!-- возврат к h2 после h5 --&gt;</code></pre>
+
+    <div class="note">
+        <strong>Правило:</strong> следующий уровень может быть <em>на один больше</em>
+        предыдущего (например, после <code>h2</code> — <code>h3</code>),
+        либо <em>любым меньшим</em> (после <code>h3</code> можно вернуться к <code>h2</code> или <code>h1</code>).
+        Но <strong>нельзя</strong> перескакивать (после <code>h2</code> сразу <code>h4</code>).
+    </div>
+
+    <h2>5. Сколько может быть &lt;h1&gt; на странице?</h2>
+
+    <p>
+        В HTML5 <strong>формально разрешено несколько <code>&lt;h1&gt;</code></strong>
+        (по одному на каждую <code>&lt;section&gt;</code> / <code>&lt;article&gt;</code>).
+        Но <strong>на практике для SEO и доступности лучше — один <code>&lt;h1&gt;</code> на страницу</strong>.
+    </p>
+
+    <ul>
+        <li><strong>Google и Яндекс</strong> ожидают один главный <code>&lt;h1&gt;</code>, соответствующий заголовку в <code>&lt;title&gt;</code>.</li>
+        <li><strong>Screen reader'ы</strong> используют <code>&lt;h1&gt;</code> как ориентир «где начинается главное».</li>
+        <li>Несколько <code>&lt;h1&gt;</code> путают структуру и размывают SEO-вес.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Рекомендация:</strong> один <code>&lt;h1&gt;</code> на страницу, отражающий
+        главную тему. Всё остальное — <code>&lt;h2&gt;</code> и ниже.
+    </div>
+
+    <h2>6. Заголовки — это НЕ стили</h2>
+
+    <div class="warn">
+        <strong>Главная ошибка новичков:</strong> выбирать уровень заголовка по размеру шрифта.
+        «Хочу текст поменьше — возьму <code>h4</code> вместо <code>h2</code>». Так делать нельзя!
+    </div>
+
+    <p>
+        <strong>Заголовки — это смысл, а не оформление.</strong> Уровень выбирается
+        по <em>логике</em> (что это: раздел, подраздел?), а размер шрифта настраивается
+        через CSS.
+    </p>
+
+    <pre><code>&lt;!-- ПЛОХО: h4 выбран только потому, что "так меньше" --&gt;
+&lt;h2&gt;Глава 1&lt;/h2&gt;
+&lt;h4&gt;Подглава 1.1&lt;/h4&gt;   &lt;!-- пропущен h3, структура сломана --&gt;
+
+&lt;!-- ХОРОШО: логичный уровень + стиль через CSS --&gt;
+&lt;h2&gt;Глава 1&lt;/h2&gt;
+&lt;h3 style="font-size: 14px;"&gt;Подглава 1.1&lt;/h3&gt;   &lt;!-- уровень правильный, размер меньше --&gt;</code></pre>
+
+    <p>Внешний вид — задача CSS. Смысл — задача HTML.</p>
+
+    <h2>7. Заголовки и SEO</h2>
+
+    <p>
+        Поисковые системы читают заголовки, чтобы понять <strong>тему страницы</strong>
+        и её структуру. Это один из важных факторов ранжирования.
+    </p>
+
+    <p><strong>Что учитывать:</strong></p>
+    <ul>
+        <li><code>&lt;h1&gt;</code> должен содержать <strong>главный ключевой запрос</strong> страницы.</li>
+        <li><code>&lt;h2&gt;</code> и <code>&lt;h3&gt;</code> — подтемы и уточнения.</li>
+        <li>Не спамь ключами: «купить кота купить кота купить кота» — плохо.</li>
+        <li>Заголовки должны быть <strong>осмысленными фразами</strong>, а не «Раздел 1», «Раздел 2».</li>
+    </ul>
+
+    <pre><code>&lt;!-- ПЛОХО --&gt;
+&lt;h1&gt;Главная&lt;/h1&gt;
+&lt;h2&gt;Раздел 1&lt;/h2&gt;
+&lt;h2&gt;Раздел 2&lt;/h2&gt;
+
+&lt;!-- ХОРОШО --&gt;
+&lt;h1&gt;Купить кота в Москве — питомник «Мурлыка»&lt;/h1&gt;
+&lt;h2&gt;Породы котов&lt;/h2&gt;
+&lt;h3&gt;Британская короткошёрстная&lt;/h3&gt;
+&lt;h3&gt;Мейн-кун&lt;/h3&gt;
+&lt;h2&gt;Цены и доставка&lt;/h2&gt;</code></pre>
+
+    <div class="note">
+        <strong>Связь <code>&lt;title&gt;</code> и <code>&lt;h1&gt;</code>:</strong>
+        они не обязаны совпадать, но должны быть на одну тему.
+        <code>&lt;title&gt;</code> — для вкладки и выдачи, <code>&lt;h1&gt;</code> — для страницы.
+    </div>
+
+    <h2>8. Заголовки и доступность (a11y)</h2>
+
+    <p>
+        Незрячие пользователи работают со screen reader'ами — программами, которые
+        читают страницу вслух. И <strong>заголовки — главный способ навигации</strong>:
+        человек нажимает клавишу и перескакивает между заголовками, как мы между абзацами.
+    </p>
+
+    <ul>
+        <li>Правильная иерархия = понятная навигация.</li>
+        <li>Хаотичные уровни = «мусор» в ушах пользователя.</li>
+        <li>Пустые заголовки («Раздел 1», «Текст») = бесполезная навигация.</li>
+    </ul>
+
+    <div class="note">
+        В NVDA (популярный screen reader) клавиша <code>H</code> перескакивает
+        на следующий заголовок. Попробуй установить NVDA и послушать этот урок —
+        ты удивишься, как удобно навигировать по <code>h1</code>, <code>h2</code>, <code>h3</code>.
+    </div>
+
+    <h2>9. Атрибуты заголовков</h2>
+
+    <p>
+        У заголовков нет <strong>собственных</strong> атрибутов — только глобальные.
+        Самые используемые:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Зачем</th>
+                <th>Пример</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>id</code></td>
+                <td>Якорь для ссылок и CSS-стилей</td>
+                <td><code>&lt;h2 id="pricing"&gt;Цены&lt;/h2&gt;</code></td>
+            </tr>
+            <tr>
+                <td><code>class</code></td>
+                <td>Группировка для CSS</td>
+                <td><code>&lt;h2 class="section-title"&gt;...&lt;/h2&gt;</code></td>
+            </tr>
+            <tr>
+                <td><code>style</code></td>
+                <td>Быстрая правка внешнего вида</td>
+                <td><code>&lt;h3 style="color: blue;"&gt;...&lt;/h3&gt;</code></td>
+            </tr>
+            <tr>
+                <td><code>title</code></td>
+                <td>Подсказка при наведении</td>
+                <td><code>&lt;h2 title="Раздел о ценах"&gt;Цены&lt;/h2&gt;</code></td>
+            </tr>
+            <tr>
+                <td><code>lang</code></td>
+                <td>Язык заголовка (если отличается)</td>
+                <td><code>&lt;h2 lang="en"&gt;Introduction&lt;/h2&gt;</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Якорь для навигации</h3>
+
+    <p>Атрибут <code>id</code> на заголовке позволяет создать ссылку на этот раздел:</p>
+
+    <pre><code>&lt;h2 id="pricing"&gt;Цены&lt;/h2&gt;
+
+&lt;!-- Где-то выше по странице: --&gt;
+&lt;a href="#pricing"&gt;Перейти к ценам&lt;/a&gt;</code></pre>
+
+    <p>При клике браузер прокрутит страницу к этому заголовку. Это называется <strong>якорная ссылка</strong>.</p>
+
+    <h2>10. Полный пример страницы с заголовками</h2>
+
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Кулинарная книга — Блог&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Кулинарная книга&lt;/h1&gt;
+    &lt;p&gt;Сборник простых рецептов на каждый день.&lt;/p&gt;
+
+    &lt;h2&gt;Супы&lt;/h2&gt;
+        &lt;h3&gt;Борщ&lt;/h3&gt;
+        &lt;p&gt;Классический рецепт с говядиной и свёклой.&lt;/p&gt;
+
+        &lt;h3&gt;Щи из свежей капусты&lt;/h3&gt;
+        &lt;p&gt;Лёгкий летний вариант.&lt;/p&gt;
+
+    &lt;h2&gt;Десерты&lt;/h2&gt;
+        &lt;h3&gt;Тирамису&lt;/h3&gt;
+        &lt;p&gt;Итальянский десерт с маскарпоне.&lt;/p&gt;
+
+        &lt;h3&gt;Чизкейк&lt;/h3&gt;
+        &lt;p&gt;Нежный творожный десерт.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <p>
+        Обрати внимание: <strong>один <code>&lt;h1&gt;</code></strong> — название книги,
+        <strong>два <code>&lt;h2&gt;</code></strong> — разделы, <strong>четыре <code>&lt;h3&gt;</code></strong> — подразделы.
+        Иерархия чёткая, ничего не перескакивает.
+    </p>
+
+    <h2>11. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Несколько <code>&lt;h1&gt;</code> на одной странице</td>
+                <td>Размывает SEO, путает screen reader'ы. Один h1 — оптимально.</td>
+            </tr>
+            <tr>
+                <td>Пропуск уровней (<code>h1</code> → <code>h4</code>)</td>
+                <td>Ломает структуру, «дырка» в навигации</td>
+            </tr>
+            <tr>
+                <td>Использование <code>h3</code> только потому что «так меньше»</td>
+                <td>Заголовки — не для размера, а для смысла</td>
+            </tr>
+            <tr>
+                <td>Заголовок без текста (<code>&lt;h2&gt;&lt;/h2&gt;</code>)</td>
+                <td>Бессмысленно, вредит a11y</td>
+            </tr>
+            <tr>
+                <td>Заголовки вместо ссылок или кнопок</td>
+                <td>Для оформления пользуйся <code>&lt;div&gt;</code> + CSS</td>
+            </tr>
+            <tr>
+                <td>Вложенные блочные теги внутри <code>&lt;h2&gt;</code></td>
+                <td>Невалидно: <code>&lt;h2&gt;&lt;div&gt;...&lt;/div&gt;&lt;/h2&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Заголовки «Раздел 1», «Текст», «Информация»</td>
+                <td>Непонятно ни пользователю, ни поисковику</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>12. Как браузер стилизует по умолчанию</h2>
+
+    <p>По умолчанию (без CSS) браузер применяет к заголовкам такие стили:</p>
+
+    <ul>
+        <li><strong>font-weight: bold</strong> (жирный)</li>
+        <li>Свой размер шрифта (см. таблицу в разделе 2)</li>
+        <li>Отступы сверху и снизу (margin) — от 0.67em до 21.4px в зависимости от уровня</li>
+    </ul>
+
+    <div class="note">
+        Эти стили задаются <strong>таблицей стилей браузера по умолчанию</strong> (user agent stylesheet).
+        Ты можешь их переопределить через CSS — например, сделать <code>&lt;h1&gt;</code>
+        маленьким или <code>&lt;h6&gt;</code> огромным.
+    </div>
+
+    <h2>13. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Статья»</strong></p>
+        <p>Создай файл <code>05-practice.html</code>. Напиши статью о том, что ты уже знаешь в HTML, используя заголовки:</p>
+        <ul>
+            <li>Один <code>&lt;h1&gt;</code> — название статьи.</li>
+            <li>2–3 <code>&lt;h2&gt;</code> — основные разделы.</li>
+            <li>В каждом разделе 1–2 <code>&lt;h3&gt;</code> — подразделы.</li>
+            <li>Под каждым заголовком — 1–2 абзаца текста.</li>
+        </ul>
+
+        <p><strong>Задание 2. «Якорная навигация»</strong></p>
+        <ul>
+            <li>Дай каждому <code>&lt;h2&gt;</code> атрибут <code>id</code> (например, <code>id="tags"</code>).</li>
+            <li>В самом начале страницы сделай список ссылок на эти якоря.</li>
+            <li>Проверь: клик по ссылке прокручивает страницу к нужному разделу.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Сделай два <code>&lt;h1&gt;</code> — посмотри, как это выглядит. Потом верни один.</li>
+            <li>Пропусти уровень: <code>h1</code> → <code>h4</code>. Открой в браузере — визуально всё ок, но структура плохая.</li>
+            <li>Поменяй уровни <code>h2</code> и <code>h4</code> местами через <code>style="font-size: ..."</code> — убедись, что размер ≠ уровень.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Проверка структуры»</strong></p>
+        <ul>
+            <li>Установи расширение для браузера <strong>HeadingsMap</strong> (для Chrome / Firefox).</li>
+            <li>Открой свою страницу — расширение покажет дерево заголовков.</li>
+            <li>Проверь, что структура логична и без пропусков.</li>
+        </ul>
+    </div>
+
+    <h2>14. Что запомнить из урока</h2>
+
+    <ul>
+        <li>Шесть тегов: <code>&lt;h1&gt;</code> (главный) — <code>&lt;h6&gt;</code> (мельчайший).</li>
+        <li>Заголовки — это <strong>смысл</strong>, а не размер шрифта.</li>
+        <li>Иерархия как оглавление: 1 → 2 → 3 → 3 → 2 → 3. Нельзя перескакивать.</li>
+        <li>Один <code>&lt;h1&gt;</code> на страницу — золотое правило.</li>
+        <li>Заголовки помогают SEO и screen reader'ам.</li>
+        <li>Размер шрифта настраивается через CSS, а не выбором уровня.</li>
+        <li><code>id</code> на заголовке = якорь для навигации.</li>
+        <li>Внутри заголовка — только текст и фразовые теги, никаких <code>&lt;div&gt;</code> и <code>&lt;p&gt;</code>.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 5 · Следующий урок: <em>Параграфы, переносы строк и горизонтальная линия</em>
+    </p>
+
+</body>
+</html>

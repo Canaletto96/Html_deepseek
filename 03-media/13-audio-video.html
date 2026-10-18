@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 13 по HTML: теги audio и video — атрибуты, форматы, source, track, субтитры.">
+    <title>Урок 13. Аудио и видео в HTML</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        audio, video {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 13. Аудио и видео</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: освоить встраивание аудио и видео без         -->
+    <!-- сторонних библиотек — нативно, через теги HTML5.           -->
+    <!-- ========================================================= -->
+
+    <h2>1. Что было раньше и что стало</h2>
+
+    <p>
+        До HTML5 для встраивания видео и аудио нужны были плагины (Flash, Silverlight)
+        или тег <code>&lt;object&gt;</code>. Это было неудобно: работало не везде,
+        требовало установки плагинов.
+    </p>
+
+    <p>
+        В HTML5 появились <strong>нативные</strong> теги <code>&lt;audio&gt;</code>
+        и <code>&lt;video&gt;</code>. Браузер воспроизводит их сам, без плагинов.
+    </p>
+
+    <h2>2. Тег &lt;audio&gt;</h2>
+
+    <p>Для звука — музыка, подкасты, звуковые эффекты.</p>
+
+    <pre><code>&lt;audio controls&gt;
+    &lt;source src="music.mp3" type="audio/mpeg"&gt;
+    &lt;source src="music.ogg" type="audio/ogg"&gt;
+    Ваш браузер не поддерживает аудио.
+&lt;/audio&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (если браузер поддерживает):</div>
+        <audio controls>
+            <source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">
+            Ваш браузер не поддерживает аудио.
+        </audio>
+    </div>
+
+    <p>
+        Браузер сам рисует панель управления: play/pause, громкость, прогресс.
+        Это возможно благодаря атрибуту <code>controls</code>.
+    </p>
+
+    <h2>3. Тег &lt;video&gt;</h2>
+
+    <p>Для видео — фильмы, ролики, анимации.</p>
+
+    <pre><code>&lt;video controls width="640" height="360"&gt;
+    &lt;source src="movie.mp4" type="video/mp4"&gt;
+    &lt;source src="movie.webm" type="video/webm"&gt;
+    Ваш браузер не поддерживает видео.
+&lt;/video&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <video controls width="640" height="360">
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+        </video>
+    </div>
+
+    <h2>4. Атрибуты &lt;audio&gt; и &lt;video&gt;</h2>
+
+    <p>Большинство атрибутов — общие для обоих тегов.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Что делает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>controls</code></td>
+                <td>булев</td>
+                <td>Показать панель управления (play, pause, громкость)</td>
+            </tr>
+            <tr>
+                <td><code>autoplay</code></td>
+                <td>булев</td>
+                <td>Начать воспроизведение автоматически</td>
+            </tr>
+            <tr>
+                <td><code>loop</code></td>
+                <td>булев</td>
+                <td>Повторять бесконечно</td>
+            </tr>
+            <tr>
+                <td><code>muted</code></td>
+                <td>булев</td>
+                <td>Начать без звука</td>
+            </tr>
+            <tr>
+                <td><code>preload</code></td>
+                <td><code>none</code>, <code>metadata</code>, <code>auto</code></td>
+                <td>Что загружать заранее</td>
+            </tr>
+            <tr>
+                <td><code>src</code></td>
+                <td>URL</td>
+                <td>Источник (если не используется <code>&lt;source&gt;</code>)</td>
+            </tr>
+            <tr>
+                <td><code>poster</code></td>
+                <td>URL картинки</td>
+                <td>Превью до начала воспроизведения (<strong>только video</strong>)</td>
+            </tr>
+            <tr>
+                <td><code>width</code> / <code>height</code></td>
+                <td>Число (px)</td>
+                <td>Размеры (<strong>только video</strong>)</td>
+            </tr>
+            <tr>
+                <td><code>playsinline</code></td>
+                <td>булев</td>
+                <td>Не открывать на весь экран на мобильных (<strong>только video</strong>)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="warn">
+        <strong>Важно про autoplay:</strong> современные браузеры <strong>запрещают</strong>
+        автозапуск со звуком. Чтобы <code>autoplay</code> сработал, нужно добавить
+        <code>muted</code>. Это борьба с навязчивыми сайтами.
+    </div>
+
+    <pre><code>&lt;video autoplay muted loop controls&gt;
+    &lt;source src="movie.mp4" type="video/mp4"&gt;
+&lt;/video&gt;</code></pre>
+
+    <h2>5. Тег &lt;source&gt; — несколько форматов</h2>
+
+    <p>
+        Разные браузеры поддерживают разные форматы. Тег <code>&lt;source&gt;</code>
+        позволяет указать <strong>несколько версий</strong> одного медиа — браузер сам
+        выберет поддерживаемую.
+    </p>
+
+    <pre><code>&lt;video controls&gt;
+    &lt;source src="movie.webm" type="video/webm"&gt;
+    &lt;source src="movie.mp4" type="video/mp4"&gt;
+    &lt;source src="movie.ogv" type="video/ogg"&gt;
+    Ваш браузер не поддерживает видео.
+&lt;/video&gt;</code></pre>
+
+    <p><strong>Порядок важен:</strong> браузер берёт <em>первый поддерживаемый</em> формат. Ставь сверху более эффективные (WebM), снизу — универсальные (MP4).</p>
+
+    <h2>6. Форматы аудио</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Формат</th>
+                <th>MIME-тип</th>
+                <th>Поддержка</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>MP3</td>
+                <td><code>audio/mpeg</code></td>
+                <td>Везде. Универсальный.</td>
+            </tr>
+            <tr>
+                <td>OGG</td>
+                <td><code>audio/ogg</code></td>
+                <td>Firefox, Chrome, Opera</td>
+            </tr>
+            <tr>
+                <td>WAV</td>
+                <td><code>audio/wav</code></td>
+                <td>Везде, но огромный размер</td>
+            </tr>
+            <tr>
+                <td>AAC / M4A</td>
+                <td><code>audio/aac</code>, <code>audio/mp4</code></td>
+                <td>Все современные браузеры, лучше MP3 по качеству/размеру</td>
+            </tr>
+            <tr>
+                <td>FLAC</td>
+                <td><code>audio/flac</code></td>
+                <td>Без потерь, но тяжелее</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>7. Форматы видео</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Формат</th>
+                <th>MIME-тип</th>
+                <th>Поддержка</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>MP4 (H.264)</td>
+                <td><code>video/mp4</code></td>
+                <td>Везде. Универсальный стандарт.</td>
+            </tr>
+            <tr>
+                <td>WebM</td>
+                <td><code>video/webm</code></td>
+                <td>Chrome, Firefox, Edge, Opera. Меньше размер.</td>
+            </tr>
+            <tr>
+                <td>OGG</td>
+                <td><code>video/ogg</code></td>
+                <td>Firefox, Chrome, Opera</td>
+            </tr>
+            <tr>
+                <td>MP4 (H.265/HEVC)</td>
+                <td><code>video/mp4</code></td>
+                <td>Лучше качество, но не везде поддерживается</td>
+            </tr>
+            <tr>
+                <td>AV1</td>
+                <td><code>video/mp4</code> или <code>video/webm</code></td>
+                <td>Новейший, отличное сжатие, поддержка растёт</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Практический совет:</strong> для веба используй <strong>MP4 (H.264)</strong>
+        как основной и <strong>WebM</strong> как альтернативу. MP4 работает везде.
+    </div>
+
+    <h2>8. Тег &lt;track&gt; — субтитры</h2>
+
+    <p>
+        <code>&lt;track&gt;</code> подключает текстовую дорожку: субтитры, титры, описания.
+        Формат файла — <strong>WebVTT</strong> (<code>.vtt</code>).
+    </p>
+
+    <pre><code>&lt;video controls&gt;
+    &lt;source src="movie.mp4" type="video/mp4"&gt;
+    &lt;track src="subtitles-ru.vtt" kind="subtitles" srclang="ru" label="Русские"&gt;
+    &lt;track src="subtitles-en.vtt" kind="subtitles" srclang="en" label="English"&gt;
+&lt;/video&gt;</code></pre>
+
+    <h3>Атрибуты &lt;track&gt;</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Что делает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>src</code></td>
+                <td>URL .vtt файла</td>
+                <td>Путь к дорожке</td>
+            </tr>
+            <tr>
+                <td><code>kind</code></td>
+                <td><code>subtitles</code>, <code>captions</code>, <code>descriptions</code>, <code>chapters</code>, <code>metadata</code></td>
+                <td>Тип дорожки</td>
+            </tr>
+            <tr>
+                <td><code>srclang</code></td>
+                <td>Код языка: <code>ru</code>, <code>en</code></td>
+                <td>Язык дорожки</td>
+            </tr>
+            <tr>
+                <td><code>label</code></td>
+                <td>Текст</td>
+                <td>Название в меню плеера</td>
+            </tr>
+            <tr>
+                <td><code>default</code></td>
+                <td>булев</td>
+                <td>Включить эту дорожку по умолчанию</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Пример файла .vtt</h3>
+
+    <pre><code>WEBVTT
+
+00:00:00.000 --&gt; 00:00:03.000
+Привет! Это первая строка субтитров.
+
+00:00:03.000 --&gt; 00:00:06.000
+А это вторая.</code></pre>
+
+    <div class="note">
+        <strong>Формат WebVTT:</strong> начинается с <code>WEBVTT</code>, потом блоки
+        с временем и текстом. Время в формате <code>ЧЧ:ММ:СС.ммм</code>.
+    </div>
+
+    <h2>9. Атрибут poster — превью для видео</h2>
+
+    <p>
+        Пока видео не запущено, браузер показывает либо первый кадр, либо пустоту.
+        Атрибут <code>poster</code> задаёт <strong>картинку-превью</strong>.
+    </p>
+
+    <pre><code>&lt;video controls poster="preview.jpg" width="640"&gt;
+    &lt;source src="movie.mp4" type="video/mp4"&gt;
+&lt;/video&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (превью + видео):</div>
+        <video controls width="640" poster="https://picsum.photos/640/360?random=5">
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <h2>10. Фоновое видео (autoplay + muted + loop)</h2>
+
+    <p>
+        Классический приём на лендингах: видео играет в фоне без звука и панели управления.
+    </p>
+
+    <pre><code>&lt;video autoplay muted loop playsinline
+       style="width: 100%; height: auto;"&gt;
+    &lt;source src="background.mp4" type="video/mp4"&gt;
+&lt;/video&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <video autoplay muted loop playsinline width="640" style="width:100%;height:auto;border-radius:8px;">
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <h2>11. Что делать, если браузер не поддерживает</h2>
+
+    <p>
+        Текст внутри <code>&lt;audio&gt;</code> или <code>&lt;video&gt;</code>,
+        который <strong>не является</strong> <code>&lt;source&gt;</code> или
+        <code>&lt;track&gt;</code>, показывается как запасной вариант:
+    </p>
+
+    <pre><code>&lt;video controls&gt;
+    &lt;source src="movie.mp4" type="video/mp4"&gt;
+    &lt;p&gt;Ваш браузер не поддерживает видео.
+       &lt;a href="movie.mp4"&gt;Скачать файл&lt;/a&gt;.&lt;/p&gt;
+&lt;/video&gt;</code></pre>
+
+    <p>Современные браузеры это показывают редко, но для старых — полезно.</p>
+
+    <h2>12. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Забыть <code>controls</code></td>
+                <td>Пользователь не сможет запустить воспроизведение</td>
+            </tr>
+            <tr>
+                <td><code>autoplay</code> без <code>muted</code></td>
+                <td>Браузер заблокирует автозапуск</td>
+            </tr>
+            <tr>
+                <td>Только MP4 без WebM</td>
+                <td>Работает, но размер файла больше. WebM эффективнее</td>
+            </tr>
+            <tr>
+                <td>Указывать <code>src</code> в теге и в <code>&lt;source&gt;</code> одновременно</td>
+                <td>Дублирование, лучше выбрать что-то одно</td>
+            </tr>
+            <tr>
+                <td>Забыть про субтитры</td>
+                <td>Плохо для доступности (a11y) и SEO</td>
+            </tr>
+            <tr>
+                <td>Тяжёлые видео без сжатия</td>
+                <td>Долгая загрузка, плохой UX</td>
+            </tr>
+            <tr>
+                <td>Нет <code>poster</code> на видео</td>
+                <td>Пользователь видит чёрный или случайный кадр</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>13. Полезные комбинации</h2>
+
+    <h3>Аудио с несколькими форматами</h3>
+
+    <pre><code>&lt;audio controls preload="metadata"&gt;
+    &lt;source src="podcast.m4a" type="audio/mp4"&gt;
+    &lt;source src="podcast.mp3" type="audio/mpeg"&gt;
+    &lt;source src="podcast.ogg" type="audio/ogg"&gt;
+    Ваш браузер не поддерживает аудио.
+&lt;/audio&gt;</code></pre>
+
+    <h3>Видео с превью и субтитрами</h3>
+
+    <pre><code>&lt;video controls width="640" height="360"
+       poster="preview.jpg" preload="metadata"&gt;
+    &lt;source src="movie.webm" type="video/webm"&gt;
+    &lt;source src="movie.mp4" type="video/mp4"&gt;
+    &lt;track src="subs-ru.vtt" kind="subtitles" srclang="ru" label="Русский" default&gt;
+    &lt;track src="subs-en.vtt" kind="subtitles" srclang="en" label="English"&gt;
+    Ваш браузер не поддерживает видео.
+&lt;/video&gt;</code></pre>
+
+    <h3>Фоновое видео на лендинге</h3>
+
+    <pre><code>&lt;video autoplay muted loop playsinline
+       style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;"&gt;
+    &lt;source src="bg.mp4" type="video/mp4"&gt;
+&lt;/video&gt;</code></pre>
+
+    <h2>14. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Аудиоплеер»</strong></p>
+        <p>Создай файл <code>13-practice.html</code>. Размести на странице:</p>
+        <ul>
+            <li><code>&lt;audio controls&gt;</code> с одним источником (можно использовать публичный URL).</li>
+            <li>Второй <code>&lt;audio&gt;</code> с двумя <code>&lt;source&gt;</code> (mp3 + ogg).</li>
+            <li>Третий <code>&lt;audio&gt;</code> с <code>loop</code> — зацикленный звук.</li>
+        </ul>
+
+        <p><strong>Задание 2. «Видеоплеер»</strong></p>
+        <ul>
+            <li><code>&lt;video controls&gt;</code> с <code>width="640"</code> и <code>poster</code>.</li>
+            <li>Добавь два формата: <code>.mp4</code> и <code>.webm</code>.</li>
+            <li>Проверь через DevTools → Network, какой формат загрузился.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Фоновое видео»</strong></p>
+        <ul>
+            <li>Сделай блок с <code>&lt;video autoplay muted loop playsinline&gt;</code>.</li>
+            <li>Добавь CSS: <code>width: 100%; height: 500px; object-fit: cover;</code>.</li>
+            <li>Убедись, что видео занимает весь блок.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Субтитры»</strong></p>
+        <ul>
+            <li>Создай файл <code>subs-ru.vtt</code> рядом с HTML.</li>
+            <li>Напиши 3–4 строки субтитров в формате WebVTT.</li>
+            <li>Подключи через <code>&lt;track&gt;</code> к видео.</li>
+            <li>Включи субтитры в плеере — проверь, что работают.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Убери <code>controls</code> — увидишь «немой» плеер без элементов управления.</li>
+            <li>Убери <code>muted</code> у <code>autoplay</code> — браузер не запустит видео.</li>
+            <li>Укажи несуществующий путь к файлу — увидишь alt-текст или пустое место.</li>
+        </ul>
+    </div>
+
+    <h2>15. Что запомнить из урока</h2>
+
+    <ul>
+        <li><code>&lt;audio&gt;</code> — для звука, <code>&lt;video&gt;</code> — для видео. Оба нативные.</li>
+        <li><strong>Обязательно</strong> добавляй <code>controls</code> — иначе пользователь ничего не запустит.</li>
+        <li><code>autoplay</code> работает только с <code>muted</code> (защита браузеров).</li>
+        <li><code>loop</code> — зацикливание, <code>preload</code> — что грузить заранее.</li>
+        <li><code>&lt;source&gt;</code> — несколько форматов, браузер выберет поддерживаемый.</li>
+        <li>Для видео: <strong>MP4 (H.264)</strong> — универсальный, <strong>WebM</strong> — эффективнее.</li>
+        <li>Для аудио: <strong>MP3</strong> — универсальный, <strong>M4A/AAC</strong> — качественнее.</li>
+        <li><code>poster</code> — превью для видео (картинка до запуска).</li>
+        <li><code>&lt;track&gt;</code> — субтитры в формате WebVTT (<code>.vtt</code>).</li>
+        <li>Для фонового видео: <code>autoplay muted loop playsinline</code> + CSS.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 13 · Следующий урок: <em>Встраивание: &lt;iframe&gt;, &lt;embed&gt;, &lt;object&gt;</em>
+    </p>
+
+</body>
+</html>

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 26 по HTML: валидация кода, инструменты разработчика в браузере — DevTools, проверка ошибок, W3C валидатор.">
+    <title>Урок 26. Валидация и DevTools</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        kbd {
+            background: #333;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 0.85em;
+            box-shadow: 0 2px 0 #000;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 26. Валидация и DevTools</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: научиться проверять свой HTML и пользоваться  -->
+    <!-- инструментами разработчика в браузере.                     -->
+    <!-- ========================================================= -->
+
+    <h2>1. Зачем валидировать HTML</h2>
+
+    <p>
+        <strong>Валидация</strong> — это проверка кода на соответствие стандарту.
+        Валидный HTML:
+    </p>
+
+    <ul>
+        <li><strong>Работает одинаково</strong> во всех браузерах.</li>
+        <li><strong>Лучше для SEO</strong> — поисковики понимают структуру.</li>
+        <li><strong>Доступен</strong> для screen reader'ов.</li>
+        <li><strong>Легче поддерживать</strong> — если сломалось, понятно где.</li>
+    </ul>
+
+    <p>
+        Браузеры <strong>прощают ошибки</strong> — «дорисовывают» недостающие теги,
+        закрывают незакрытые. Но это не значит, что ошибки не важны. Браузеры
+        чинят по-разному, и результат может быть непредсказуемым.
+    </p>
+
+    <h2>2. Типичные ошибки новичков</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Пример</th>
+                <th>Правильно</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Незакрытый тег</td>
+                <td><code>&lt;p&gt;Текст&lt;p&gt;</code></td>
+                <td><code>&lt;p&gt;Текст&lt;/p&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Пересечение тегов</td>
+                <td><code>&lt;strong&gt;&lt;em&gt;...&lt;/strong&gt;&lt;/em&gt;</code></td>
+                <td><code>&lt;strong&gt;&lt;em&gt;...&lt;/em&gt;&lt;/strong&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Атрибут без кавычек</td>
+                <td><code>&lt;p class=intro&gt;</code></td>
+                <td><code>&lt;p class="intro"&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Несколько <code>&lt;h1&gt;</code></td>
+                <td><code>&lt;h1&gt;A&lt;/h1&gt;&lt;h1&gt;B&lt;/h1&gt;</code></td>
+                <td>Один <code>&lt;h1&gt;</code> на страницу</td>
+            </tr>
+            <tr>
+                <td>Два одинаковых <code>id</code></td>
+                <td><code>&lt;p id="a"&gt;...&lt;p id="a"&gt;</code></td>
+                <td><code>id</code> уникален</td>
+            </tr>
+            <tr>
+                <td>Блочный тег внутри строчного</td>
+                <td><code>&lt;span&gt;&lt;div&gt;...&lt;/div&gt;&lt;/span&gt;</code></td>
+                <td><code>&lt;div&gt;&lt;span&gt;...&lt;/span&gt;&lt;/div&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Забыть <code>alt</code> у картинки</td>
+                <td><code>&lt;img src="cat.jpg"&gt;</code></td>
+                <td><code>&lt;img src="cat.jpg" alt="Кот"&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Ссылка без <code>href</code></td>
+                <td><code>&lt;a&gt;Текст&lt;/a&gt;</code></td>
+                <td><code>&lt;a href="..."&gt;Текст&lt;/a&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Забыть <code>&lt;!DOCTYPE html&gt;</code></td>
+                <td>Начинается с <code>&lt;html&gt;</code></td>
+                <td><code>&lt;!DOCTYPE html&gt;</code> первым</td>
+            </tr>
+            <tr>
+                <td>Пустой <code>href=""</code></td>
+                <td><code>&lt;a href=""&gt;</code></td>
+                <td><code>&lt;a href="#"&gt;</code> или реальный URL</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>3. W3C Validator — главный инструмент</h2>
+
+    <p>
+        Официальный валидатор от W3C (организация, которая разрабатывает стандарты веба).
+        Бесплатный, показывает все ошибки с пояснениями.
+    </p>
+
+    <p><strong>Сайт:</strong> <a href="https://validator.w3.org" target="_blank">validator.w3.org</a></p>
+
+    <h3>Три способа проверить</h3>
+
+    <ol>
+        <li><strong>По URL</strong> — вводишь адрес сайта (если уже выложил).</li>
+        <li><strong>Загрузить файл</strong> — выбираешь HTML-файл с компьютера.</li>
+        <li><strong>Вставить код</strong> — копируешь HTML и вставляешь в поле.</li>
+    </ol>
+
+    <p>Для локальной разработки удобен <strong>3-й способ</strong>: скопировал код из VS Code → вставил → проверил.</p>
+
+    <h3>Что покажет валидатор</h3>
+
+    <ul>
+        <li><strong>Errors</strong> — реальные ошибки (невалидный HTML).</li>
+        <li><strong>Warnings</strong> — предупреждения (не критично, но стоит исправить).</li>
+        <li><strong>Info</strong> — просто информация.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Не паникуй от 20 ошибок.</strong> Часто одна ошибка (например,
+        незакрытый тег) тянет за собой 5–10 «вторичных». Исправляй <strong>сверху вниз</strong> —
+        многие исчезнут сами.
+    </div>
+
+    <h2>4. Другие валидаторы</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Инструмент</th>
+                <th>Что проверяет</th>
+                <th>Ссылка</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>W3C HTML Validator</td>
+                <td>Стандарт HTML</td>
+                <td>validator.w3.org</td>
+            </tr>
+            <tr>
+                <td>W3C CSS Validator</td>
+                <td>Стандарт CSS</td>
+                <td>jigsaw.w3.org/css-validator</td>
+            </tr>
+            <tr>
+                <td>HTMLHint</td>
+                <td>Стиль кода (расширение VS Code)</td>
+                <td>htmlhint.com</td>
+            </tr>
+            <tr>
+                <td>WAVE</td>
+                <td>Доступность (a11y)</td>
+                <td>wave.webaim.org</td>
+            </tr>
+            <tr>
+                <td>Lighthouse</td>
+                <td>SEO, доступность, скорость (в Chrome DevTools)</td>
+                <td>Встроен в Chrome</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>5. DevTools — инструменты разработчика</h2>
+
+    <p>
+        <strong>DevTools</strong> (Developer Tools) — встроенный в браузер набор инструментов.
+        Открывается клавишей <kbd>F12</kbd> или <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd>
+        (на Mac: <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd>).
+    </p>
+
+    <h3>Основные вкладки</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Вкладка</th>
+                <th>Что там</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Elements</strong></td>
+                <td>DOM-дерево, стили, структура страницы</td>
+            </tr>
+            <tr>
+                <td><strong>Console</strong></td>
+                <td>Вывод JavaScript, ошибки, можно писать команды</td>
+            </tr>
+            <tr>
+                <td><strong>Network</strong></td>
+                <td>Все запросы: HTML, CSS, JS, картинки, API</td>
+            </tr>
+            <tr>
+                <td><strong>Sources</strong></td>
+                <td>Исходники файлов, точки останова</td>
+            </tr>
+            <tr>
+                <td><strong>Performance</strong></td>
+                <td>Скорость загрузки, узкие места</td>
+            </tr>
+            <tr>
+                <td><strong>Application</strong></td>
+                <td>Cookies, LocalStorage, Service Workers</td>
+            </tr>
+            <tr>
+                <td><strong>Lighthouse</strong></td>
+                <td>Аудит: SEO, доступность, производительность</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>6. Elements — самое нужное</h2>
+
+    <p>
+        Здесь ты видишь <strong>как браузер «понял» твой HTML</strong>. Если что-то
+        сломалось — здесь это видно.
+    </p>
+
+    <h3>Что можно делать</h3>
+
+    <ul>
+        <li><strong>Разворачивать/сворачивать</strong> теги (стрелки слева).</li>
+        <li><strong>Редактировать HTML</strong> двойным кликом.</li>
+        <li><strong>Видеть стили</strong> справа — какие CSS применились.</li>
+        <li><strong>Искать элементы</strong> — <kbd>Ctrl</kbd>+<kbd>F</kbd>.</li>
+        <li><strong>Копировать</strong> — правый клик → Copy → Copy outerHTML.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Важно:</strong> изменения в Elements <strong>не сохраняются</strong> —
+        это только для проверки. При обновлении страницы всё вернётся.
+    </div>
+
+    <h3>Как проверить структуру</h3>
+
+    <ol>
+        <li>Открой <kbd>F12</kbd> → Elements.</li>
+        <li>Нажми на стрелку у <code>&lt;body&gt;</code> — увидишь все элементы.</li>
+        <li>Обрати внимание: браузер <strong>сам добавил</strong> <code>&lt;head&gt;</code>,
+            <code>&lt;body&gt;</code>, даже если ты их не писал.</li>
+    </ol>
+
+    <h2>7. Console — ошибки и проверки</h2>
+
+    <p>
+        Console показывает <strong>ошибки JavaScript</strong> и позволяет писать
+        команды прямо в браузере.
+    </p>
+
+    <h3>Что искать в Console</h3>
+
+    <ul>
+        <li><strong>Красные ошибки</strong> — что-то сломалось.</li>
+        <li><strong>Жёлтые предупреждения</strong> — не критично, но стоит знать.</li>
+        <li><strong>404</strong> — файл не найден (неправильный путь).</li>
+    </ul>
+
+    <h3>Проверка через Console</h3>
+
+    <p>Попробуй ввести в Console (на этой странице):</p>
+
+    <pre><code>document.title              // "Урок 26. Валидация и DevTools"
+document.querySelectorAll('h2').length   // количество h2 на странице
+document.compatMode        // "CSS1Compat" (standards mode)</code></pre>
+
+    <h2>8. Network — что загружается</h2>
+
+    <p>
+        Показывает <strong>все файлы</strong>, которые браузер запрашивает:
+        HTML, CSS, JS, картинки, шрифты, API-запросы.
+    </p>
+
+    <h3>Как проверить, что все файлы нашлись</h3>
+
+    <ol>
+        <li>Открой <kbd>F12</kbd> → Network.</li>
+        <li>Обнови страницу (<kbd>F5</kbd>).</li>
+        <li>Смотри столбец <strong>Status</strong>:
+            <ul>
+                <li><code>200</code> — успех ✅</li>
+                <li><code>404</code> — файл не найден ❌</li>
+                <li><code>500</code> — ошибка сервера ❌</li>
+            </ul>
+        </li>
+    </ol>
+
+    <div class="note">
+        <strong>Network — главный инструмент для поиска проблем с путями.</strong>
+        Если картинка не отображается — открой Network, найди её, посмотри URL.
+        Скорее всего путь неправильный (см. урок 25).
+    </div>
+
+    <h2>9. Lighthouse — аудит страницы</h2>
+
+    <p>
+        Встроенный в Chrome инструмент, который проверяет страницу по 4 критериям:
+    </p>
+
+    <ul>
+        <li><strong>Performance</strong> — скорость загрузки.</li>
+        <li><strong>Accessibility</strong> — доступность (a11y).</li>
+        <li><strong>Best Practices</strong> — лучшие практики.</li>
+        <li><strong>SEO</strong> — оптимизация для поисковиков.</li>
+    </ul>
+
+    <p>
+        Открой <kbd>F12</kbd> → Lighthouse → <strong>Analyze page load</strong>.
+        Через 10–30 секунд получишь отчёт с оценками и рекомендациями.
+    </p>
+
+    <h2>10. Расширение HTMLHint для VS Code</h2>
+
+    <p>
+        Если не хочешь каждый раз открывать сайт-валидатор — установи расширение
+        <strong>HTMLHint</strong> прямо в VS Code.
+    </p>
+
+    <ol>
+        <li>Открой VS Code → расширения (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>).</li>
+        <li>Найди «HTMLHint».</li>
+        <li>Установи.</li>
+        <li>Теперь ошибки подсвечиваются прямо в редакторе.</li>
+    </ol>
+
+    <p>
+        Подсветка: жёлтые/красные волны под проблемными местами. Наведи —
+        увидишь описание ошибки.
+    </p>
+
+    <h2>11. Расширение Web Developer для браузера</h2>
+
+    <p>Полезные расширения:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Расширение</th>
+                <th>Что делает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>WAVE</strong></td>
+                <td>Проверка доступности — подсвечивает проблемы</td>
+            </tr>
+            <tr>
+                <td><strong>Lighthouse</strong></td>
+                <td>Аудит SEO, доступности, производительности</td>
+            </tr>
+            <tr>
+                <td><strong>HeadingsMap</strong></td>
+                <td>Показывает дерево заголовков h1–h6</td>
+            </tr>
+            <tr>
+                <td><strong>Web Developer</strong></td>
+                <td>Много инструментов для отладки</td>
+            </tr>
+            <tr>
+                <td><strong>ColorZilla</strong></td>
+                <td>Пипетка — взять цвет с любого элемента</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>12. Чек-лист перед публикацией</h2>
+
+    <div class="task">
+        <p>Перед тем как выложить страницу на сервер, проверь:</p>
+        <ul>
+            <li>☐ Есть <code>&lt;!DOCTYPE html&gt;</code> в первой строке.</li>
+            <li>☐ Есть <code>&lt;meta charset="UTF-8"&gt;</code> в <code>&lt;head&gt;</code>.</li>
+            <li>☐ Есть <code>&lt;meta name="viewport"&gt;</code>.</li>
+            <li>☐ Есть <code>&lt;title&gt;</code> (уникальный).</li>
+            <li>☐ Есть <code>&lt;meta name="description"&gt;</code>.</li>
+            <li>☐ Один <code>&lt;h1&gt;</code> на страницу.</li>
+            <li>☐ Все <code>&lt;img&gt;</code> имеют <code>alt</code>.</li>
+            <li>☐ Все <code>id</code> уникальны.</li>
+            <li>☐ Все теги закрыты.</li>
+            <li>☐ Нет ошибок в W3C Validator.</li>
+            <li>☐ В DevTools → Network нет красных 404.</li>
+            <li>☐ В Console нет красных ошибок.</li>
+            <li>☐ Lighthouse: хорошие оценки (зелёные).</li>
+        </ul>
+    </div>
+
+    <h2>13. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Найди ошибки»</strong></p>
+        <p>Создай файл <code>26-practice-broken.html</code> с намеренными ошибками:</p>
+        <pre><code>&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Тест&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;p&gt;Первый параграф
+    &lt;p&gt;Второй параграф&lt;/p&gt;
+    &lt;h1&gt;Заголовок&lt;/h1&gt;
+    &lt;h1&gt;Ещё заголовок&lt;/h1&gt;
+    &lt;img src="cat.jpg"&gt;
+    &lt;div id="x"&gt;1&lt;/div&gt;
+    &lt;div id="x"&gt;2&lt;/div&gt;
+    &lt;strong&gt;&lt;em&gt;текст&lt;/strong&gt;&lt;/em&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        <ul>
+            <li>Открой <a href="https://validator.w3.org" target="_blank">validator.w3.org</a>.</li>
+            <li>Вставь код (вкладка «Validate by Direct Input»).</li>
+            <li>Посмотри все ошибки.</li>
+            <li>Исправь <strong>сверху вниз</strong> и проверь снова.</li>
+        </ul>
+
+        <p><strong>Задание 2. «DevTools → Elements»</strong></p>
+        <ul>
+            <li>Открой этот урок в браузере.</li>
+            <li>Нажми <kbd>F12</kbd> → Elements.</li>
+            <li>Найди <code>&lt;body&gt;</code>, <code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>.</li>
+            <li>Посмотри справа стили — какие CSS применились.</li>
+            <li>Поменяй цвет h1 через редактирование стилей (двойной клик по значению).</li>
+        </ul>
+
+        <p><strong>Задание 3. «DevTools → Console»</strong></p>
+        <ul>
+            <li>Открой Console (<kbd>F12</kbd> → Console).</li>
+            <li>Введи: <code>document.title</code> — увидишь заголовок страницы.</li>
+            <li>Введи: <code>document.querySelectorAll('h2').length</code> — количество h2.</li>
+            <li>Введи: <code>document.compatMode</code> — режим документа.</li>
+        </ul>
+
+        <p><strong>Задание 4. «DevTools → Network»</strong></p>
+        <ul>
+            <li>Открой Network, обнови страницу.</li>
+            <li>Найди все файлы — их статус (200/404).</li>
+            <li>Попробуй создать картинку с неправильным путём — увидишь 404.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Lighthouse»</strong></p>
+        <ul>
+            <li>Открой этот урок в Chrome.</li>
+            <li>F12 → Lighthouse → Analyze page load.</li>
+            <li>Посмотри оценки по 4 критериям.</li>
+            <li>Прочитай рекомендации — что можно улучшить.</li>
+        </ul>
+
+        <p><strong>Задание 6. «HTMLHint в VS Code»</strong></p>
+        <ul>
+            <li>Установи расширение HTMLHint в VS Code.</li>
+            <li>Открой файл с ошибками из задания 1.</li>
+            <li>Посмотри, как ошибки подсвечиваются в редакторе.</li>
+        </ul>
+    </div>
+
+    <h2>14. Что запомнить из урока</h2>
+
+    <ul>
+        <li><strong>Валидный HTML</strong> — работает одинаково везде, лучше для SEO и a11y.</li>
+        <li><strong>W3C Validator</strong> (validator.w3.org) — главный инструмент проверки.</li>
+        <li><strong>Исправляй ошибки сверху вниз</strong> — многие исчезнут сами.</li>
+        <li><strong>DevTools</strong> (<kbd>F12</kbd>) — главный инструмент разработчика.</li>
+        <li><strong>Elements</strong> — как браузер понял твой HTML.</li>
+        <li><strong>Console</strong> — ошибки JS и проверки.</li>
+        <li><strong>Network</strong> — все загруженные файлы (главное для 404).</li>
+        <li><strong>Lighthouse</strong> — аудит по 4 критериям.</li>
+        <li><strong>HTMLHint</strong> — проверка в VS Code без браузера.</li>
+        <li><strong>Чек-лист</strong> перед публикацией — 13 пунктов.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 26 · Следующий урок: <em>&lt;details&gt;/&lt;summary&gt;, &lt;dialog&gt;, &lt;template&gt;, &lt;slot&gt;</em>
+    </p>
+
+</body>
+</html>

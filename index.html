@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Оглавление курса HTML — все уроки с прямыми ссылками.">
+    <title>Курс HTML — Оглавление</title>
+
+    <style>
+        :root {
+            --accent: #b5651d;
+            --accent-light: #fff3e0;
+            --bg: #fafafa;
+            --card: #ffffff;
+            --text: #222;
+            --muted: #888;
+            --border: #e0e0e0;
+            --done: #43a047;
+            --pending: #bdbdbd;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 48px;
+            padding-bottom: 24px;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        h1 {
+            color: var(--accent);
+            margin: 0 0 8px 0;
+            font-size: 2.2em;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 1.05em;
+            margin: 0;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--accent);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            background: #333;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px 8px 0 0;
+            margin: 0;
+            font-size: 1.15em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-title .section-count {
+            font-size: 0.85em;
+            opacity: 0.7;
+            font-weight: normal;
+        }
+
+        .lessons {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+        }
+
+        .lesson {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            transition: background 0.15s;
+        }
+
+        .lesson:last-child {
+            border-bottom: none;
+        }
+
+        .lesson:hover {
+            background: var(--accent-light);
+        }
+
+        .lesson-number {
+            font-family: Consolas, Monaco, monospace;
+            font-size: 0.9em;
+            font-weight: bold;
+            color: var(--accent);
+            background: var(--accent-light);
+            padding: 4px 10px;
+            border-radius: 6px;
+            min-width: 40px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .lesson:hover .lesson-number {
+            background: #fff;
+        }
+
+        .lesson-title {
+            flex: 1;
+            font-size: 1em;
+        }
+
+        .lesson-tags {
+            font-size: 0.8em;
+            color: var(--muted);
+            font-family: Consolas, Monaco, monospace;
+            white-space: nowrap;
+        }
+
+        .lesson-status {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .lesson-status.done {
+            background: var(--done);
+        }
+
+        .lesson-status.pending {
+            background: var(--pending);
+        }
+
+        .lesson-status.done::before { content: "✓"; }
+        .lesson-status.pending::before { content: "·"; font-size: 18px; }
+
+        .footer {
+            text-align: center;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.9em;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+            font-size: 0.85em;
+            color: var(--muted);
+        }
+
+        .legend span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend .dot.done { background: var(--done); }
+        .legend .dot.pending { background: var(--pending); }
+
+        @media (max-width: 600px) {
+            .lesson-tags { display: none; }
+            .lesson { padding: 12px 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Курс HTML</h1>
+        <p class="subtitle">Личный справочник-оглавление всех уроков</p>
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-value">32</span>
+                <span class="stat-label">урока</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">8</span>
+                <span class="stat-label">разделов</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- БЛОК 1. ОСНОВЫ                                                -->
+    <!-- ============================================================ -->
+
+    <div class="section">
+        <h2 class="section-title">
+            🟢 Блок 1. Основы
+            <span class="section-count">4 урока</span>
+        </h2>
+        <div class="lessons">
+
+            <a class="lesson" href="01-basics/01-intro.html">
+                <span class="lesson-number">01</span>
+                <span class="lesson-title">Что такое HTML, как работает браузер, структура документа</span>
+                <span class="lesson-status done"></span>
+            </a>
+
+            <a class="lesson" href="01-basics/02-tags-attributes.html">
+                <span class="lesson-number">02</span>
+                <span class="lesson-title">Теги, атрибуты, вложенность, комментарии</span>
+                <span class="lesson-status done"></span>
+            </a>
+
+            <a class="lesson" href="01-basics/03-document-structure.html">
+                <span class="lesson-number">03</span>
+                <span class="lesson-title">&lt;!DOCTYPE&gt;, &lt;html&gt;, &lt;head&gt;, &lt;body&gt; — структура документа</span>
+                <span class="lesson-status done"></span>
+            </a>
+
+            <a class="lesson" href="01-basics/04-meta-tags.html">
+                <span class="lesson-number">04</span>
+                <span class="lesson-title">Метатеги — charset, viewport, title, description, Open Graph</span>
+                <span class="lesson-status done"></span>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- БЛОК 2. ТЕКСТ                                                 -->
+    <!-- ============================================================ -->
+
+    <div class="section">
+        <h2 class="section-title">
+            🟢 Блок 2. Текст
+            <span class="section-count">6 уроков</span>
+        </h2>
+        <div class="lessons">
+
+            <a class="lesson" href="02-text/05-headings.html">
+                <span class="lesson-number">05</span>
+                <span class="lesson-title">Заголовки &lt;h1&gt;–&lt;h6&gt;</span>
+                <span class="lesson-tags">h1 h2 h3 h4 h5 h6</span>
+                <span class="lesson-status done"></span>
+            </a>
+
+            <a class="lesson" href="02-text/06-paragraphs.html">
+                <span class="lesson-number">06</span>
+                <span class="lesson-title">Параграфы &lt;p&gt;, переносы &lt;br&gt;, горизонтальная линия &lt;hr&gt;</span>
+                <span class="lesson-tags">p br hr</span>
+                <span class="lesson-status done"></span>
+            </a>
+
+            <a class="lesson" href="02-text/07-text-formatting.html">
+                <span class="lesson-number">07</span>
+                <span class="lesson-title">Форматирование текста — strong, em, b, i, u, mark, small, del, ins</span>
+                <span class="lesson-tags">strong em b i u mark small del ins</span>
+                <span class="lesson-status done"></span>
+            </a>
+
+            <a class="lesson" href="02-text/08-entities.html">
+                <span class="lesson-number">08</span>
+                <span class="lesson-title">HTML-сущности — полный справочник</span>
+                <span class="lesson-tags">&amp;lt; &amp;copy; &amp;nbsp;</span>
+                <span class="lesson-status done"></span>
+            </a>
+
+            <a class="lesson" href="02-text/09-lists.html">
+                <span class="lesson-number">09</span>
+                <span class="lesson-title">Списки — &lt;ul&gt;, &lt;ol&gt;, &lt;dl&gt;</span>
+                <span class="lesson-tags">ul ol li dl dt dd</span>
+                <span class="lesson-status done"></span>
+            </a>
+
+            <a class="lesson" href="02-text/10-links.html">
+                <span class="lesson-number">10</span>
+                <span class="lesson-title">Ссылки &lt;a&gt; — абсолютные, относительные, якоря</span>
+                <span class="lesson-tags">a href target rel mailto tel</span>
+                <span class="lesson-status done"></span>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- БЛОК 3. ИЗОБРАЖЕНИЯ И МЕДИА                                   -->
+    <!-- ============================================================ -->
+
+    <div class="section">
+        <h2 class="section-title">
+            🟢 Блок 3. Изображения и медиа
+            <span class="section-count">4 урока</span>
+        </h2>
+        <div class="lessons">
+
+            <a class="lesson" href="03-media/11-images.html">
+                <span class="lesson-number">11</span>
+                <span class="lesson-title">Изображения &lt;img&gt;: src, alt, width, height, srcset</span>
+                <span class="lesson-tags">img src alt width height srcset</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="03-media/12-figure.html">
+                <span class="lesson-number">12</span>
+                <span class="lesson-title">&lt;figure&gt; и &lt;figcaption&gt;</span>
+                <span class="lesson-tags">figure figcaption</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="03-media/13-audio-video.html">
+                <span class="lesson-number">13</span>
+                <span class="lesson-title">Аудио &lt;audio&gt; и видео &lt;video&gt;</span>
+                <span class="lesson-tags">audio video source track</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="03-media/14-iframe.html">
+                <span class="lesson-number">14</span>
+                <span class="lesson-title">Встраивание: &lt;iframe&gt;, &lt;embed&gt;, &lt;object&gt;</span>
+                <span class="lesson-tags">iframe embed object</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- БЛОК 4. ТАБЛИЦЫ                                               -->
+    <!-- ============================================================ -->
+
+    <div class="section">
+        <h2 class="section-title">
+            🟢 Блок 4. Таблицы
+            <span class="section-count">2 урока</span>
+        </h2>
+        <div class="lessons">
+
+            <a class="lesson" href="04-tables/15-tables-basics.html">
+                <span class="lesson-number">15</span>
+                <span class="lesson-title">Базовые таблицы: &lt;table&gt;, &lt;tr&gt;, &lt;td&gt;, &lt;th&gt;</span>
+                <span class="lesson-tags">table tr td th</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="04-tables/16-tables-advanced.html">
+                <span class="lesson-number">16</span>
+                <span class="lesson-title">Структура: thead, tbody, tfoot, caption, colspan, rowspan</span>
+                <span class="lesson-tags">thead tbody tfoot caption colspan rowspan</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- БЛОК 5. ФОРМЫ                                                 -->
+    <!-- ============================================================ -->
+
+    <div class="section">
+        <h2 class="section-title">
+            🟢 Блок 5. Формы
+            <span class="section-count">5 уроков</span>
+        </h2>
+        <div class="lessons">
+
+            <a class="lesson" href="05-forms/17-forms-basics.html">
+                <span class="lesson-number">17</span>
+                <span class="lesson-title">Формы: &lt;form&gt;, action, method</span>
+                <span class="lesson-tags">form action method</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="05-forms/18-input-types.html">
+                <span class="lesson-number">18</span>
+                <span class="lesson-title">&lt;input&gt; — все типы (text, email, password, number, date, checkbox, radio, file, range…)</span>
+                <span class="lesson-tags">input type</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="05-forms/19-label-textarea-select.html">
+                <span class="lesson-number">19</span>
+                <span class="lesson-title">&lt;label&gt;, &lt;textarea&gt;, &lt;select&gt;, &lt;option&gt;, &lt;button&gt;</span>
+                <span class="lesson-tags">label textarea select option button</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="05-forms/20-validation.html">
+                <span class="lesson-number">20</span>
+                <span class="lesson-title">Атрибуты валидации: required, pattern, min, max, placeholder</span>
+                <span class="lesson-tags">required pattern min max placeholder</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="05-forms/21-fieldset-datalist.html">
+                <span class="lesson-number">21</span>
+                <span class="lesson-title">&lt;fieldset&gt;, &lt;legend&gt;, &lt;datalist&gt;, &lt;output&gt;</span>
+                <span class="lesson-tags">fieldset legend datalist output</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- БЛОК 6. СЕМАНТИКА И СТРУКТУРА                                 -->
+    <!-- ============================================================ -->
+
+    <div class="section">
+        <h2 class="section-title">
+            🟢 Блок 6. Семантика и структура
+            <span class="section-count">3 урока</span>
+        </h2>
+        <div class="lessons">
+
+            <a class="lesson" href="06-semantics/22-semantic-tags.html">
+                <span class="lesson-number">22</span>
+                <span class="lesson-title">Семантические теги: header, nav, main, section, article, aside, footer</span>
+                <span class="lesson-tags">header nav main section article aside footer</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="06-semantics/23-div-span.html">
+                <span class="lesson-number">23</span>
+                <span class="lesson-title">&lt;div&gt; и &lt;span&gt; — когда использовать</span>
+                <span class="lesson-tags">div span</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="06-semantics/24-global-attributes.html">
+                <span class="lesson-number">24</span>
+                <span class="lesson-title">Глобальные атрибуты: id, class, style, title, data-*, hidden</span>
+                <span class="lesson-tags">id class style title data-* hidden</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- БЛОК 7. ПРОДВИНУТОЕ                                           -->
+    <!-- ============================================================ -->
+
+    <div class="section">
+        <h2 class="section-title">
+            🟢 Блок 7. Продвинутое
+            <span class="section-count">6 уроков</span>
+        </h2>
+        <div class="lessons">
+
+            <a class="lesson" href="07-advanced/25-file-paths.html">
+                <span class="lesson-number">25</span>
+                <span class="lesson-title">Пути к файлам (относительные/абсолютные, ../, /)</span>
+                <span class="lesson-tags">./ ../ /</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="07-advanced/26-html-validation.html">
+                <span class="lesson-number">26</span>
+                <span class="lesson-title">Валидация HTML, инструменты разработчика в браузере</span>
+                <span class="lesson-tags">DevTools validator</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="07-advanced/27-details-dialog-template.html">
+                <span class="lesson-number">27</span>
+                <span class="lesson-title">&lt;details&gt;/&lt;summary&gt;, &lt;dialog&gt;, &lt;template&gt;, &lt;slot&gt;</span>
+                <span class="lesson-tags">details summary dialog template slot</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="07-advanced/28-accessibility.html">
+                <span class="lesson-number">28</span>
+                <span class="lesson-title">Доступность (a11y): ARIA, alt, роли, клавиатурная навигация</span>
+                <span class="lesson-tags">ARIA a11y alt role</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="07-advanced/29-seo.html">
+                <span class="lesson-number">29</span>
+                <span class="lesson-title">SEO-основы в HTML: meta, Open Graph, link rel="canonical"</span>
+                <span class="lesson-tags">SEO og: canonical</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+            <a class="lesson" href="07-advanced/30-final-project.html">
+                <span class="lesson-number">30</span>
+                <span class="lesson-title">Итоговый проект: сделать полноценную страницу-резюме</span>
+                <span class="lesson-tags">проект</span>
+                <span class="lesson-status pending"></span>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- СПРАВОЧНИКИ                                                   -->
+    <!-- ============================================================ -->
+
+    <div class="section">
+        <h2 class="section-title">
+            📘 Справочники и заметки
+            <span class="section-count">2 файла</span>
+        </h2>
+        <div class="lessons">
+
+            <a class="lesson" href="notes/head-reference.html">
+                <span class="lesson-number">📘</span>
+                <span class="lesson-title">Справочник: Все элементы внутри &lt;head&gt;</span>
+                <span class="lesson-tags">meta link base style script</span>
+                <span class="lesson-status done"></span>
+            </a>
+
+            <a class="lesson" href="notes/checkmarks.html">
+                <span class="lesson-number">📘</span>
+                <span class="lesson-title">Галочка и крестик — 4 способа</span>
+                <span class="lesson-tags">&#10004; &#10008; ✅ ❌</span>
+                <span class="lesson-status done"></span>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Курс HTML · Личный справочник</p>
+        <div class="legend">
+            <span><span class="dot done"></span> Урок готов</span>
+            <span><span class="dot pending"></span> Ещё не сгенерирован</span>
+        </div>
+    </div>
+
+</body>
+</html>

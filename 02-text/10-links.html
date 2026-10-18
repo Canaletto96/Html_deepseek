@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 10 по HTML: тег a — абсолютные и относительные ссылки, якоря, target, mailto, tel.">
+    <title>Урок 10. Ссылки в HTML</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        a { color: #1565c0; }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 10. Ссылки &lt;a&gt;</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: освоить все виды ссылок и их атрибуты.        -->
+    <!-- ========================================================= -->
+
+    <h2>1. Что такое ссылка</h2>
+
+    <p>
+        <strong>Ссылка</strong> (link, гиперссылка) — элемент, по клику на который браузер
+        переходит на другой документ, другую часть страницы или запускает действие
+        (звонок, письмо, скачивание).
+    </p>
+
+    <p>
+        Создаётся тегом <code>&lt;a&gt;</code> (от англ. <em>anchor</em> — «якорь»).
+        Это <strong>парный</strong> тег, содержимым может быть текст, картинка, что угодно.
+    </p>
+
+    <pre><code>&lt;a href="https://example.com"&gt;Перейти на сайт&lt;/a&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <a href="https://example.com">Перейти на сайт</a>
+    </div>
+
+    <p><strong>Обязательный атрибут</strong> — <code>href</code> (hypertext reference). Без него ссылка не работает.</p>
+
+    <h2>2. Абсолютные ссылки</h2>
+
+    <p>
+        <strong>Абсолютная ссылка</strong> содержит полный адрес, включая протокол
+        (<code>https://</code>) и домен.
+    </p>
+
+    <pre><code>&lt;a href="https://developer.mozilla.org"&gt;MDN&lt;/a&gt;
+&lt;a href="https://google.com"&gt;Google&lt;/a&gt;
+&lt;a href="http://example.com/page"&gt;Пример&lt;/a&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <a href="https://developer.mozilla.org">MDN</a> ·
+        <a href="https://google.com">Google</a> ·
+        <a href="http://example.com/page">Пример</a>
+    </div>
+
+    <div class="note">
+        <strong>Когда использовать:</strong> ссылки на <em>внешние</em> сайты.
+        Всегда указывай полный адрес с протоколом.
+    </div>
+
+    <h3>Протоколы</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Протокол</th>
+                <th>Что означает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>https://</code></td>
+                <td>Защищённый (современный стандарт)</td>
+            </tr>
+            <tr>
+                <td><code>http://</code></td>
+                <td>Незащищённый (устаревает)</td>
+            </tr>
+            <tr>
+                <td><code>//example.com</code></td>
+                <td>Протокол-относительный: браузер подставит тот же, что у страницы</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>3. Относительные ссылки</h2>
+
+    <p>
+        <strong>Относительная ссылка</strong> — путь к файлу <em>относительно</em> текущего
+        документа. Не содержит домена и протокола.
+    </p>
+
+    <p>Представь такую структуру папок:</p>
+
+    <pre><code>my-site/
+├── index.html          ← мы здесь
+├── about.html
+├── contact.html
+├── pages/
+│   ├── blog.html
+│   └── article.html
+└── images/
+    └── logo.png</code></pre>
+
+    <h3>Ссылки в той же папке</h3>
+
+    <pre><code>&lt;a href="about.html"&gt;О нас&lt;/a&gt;
+&lt;a href="contact.html"&gt;Контакты&lt;/a&gt;</code></pre>
+
+    <h3>Ссылки во вложенной папке</h3>
+
+    <pre><code>&lt;a href="pages/blog.html"&gt;Блог&lt;/a&gt;
+&lt;a href="pages/article.html"&gt;Статья&lt;/a&gt;</code></pre>
+
+    <h3>Ссылки на уровень выше (две точки)</h3>
+
+    <p>Если файл находится во вложенной папке и нужно «подняться наверх»:</p>
+
+    <pre><code>&lt;!-- Из pages/blog.html на главную --&gt;
+&lt;a href="../index.html"&gt;На главную&lt;/a&gt;
+
+&lt;!-- Из pages/blog.html в папку images --&gt;
+&lt;a href="../images/logo.png"&gt;Логотип&lt;/a&gt;</code></pre>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Символ</th>
+                <th>Значение</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>./</code> или ничего</td>
+                <td>Текущая папка</td>
+            </tr>
+            <tr>
+                <td><code>../</code></td>
+                <td>Одна папка выше</td>
+            </tr>
+            <tr>
+                <td><code>../../</code></td>
+                <td>Две папки выше</td>
+            </tr>
+            <tr>
+                <td><code>/</code></td>
+                <td>Корень сайта (абсолютный путь от домена)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Совет:</strong> для локальной разработки используй относительные пути.
+        Для публикации на сервере можно использовать пути от корня: <code>/pages/blog.html</code>.
+    </div>
+
+    <h2>4. Ссылки-якоря (внутри страницы)</h2>
+
+    <p>
+        <strong>Якорь</strong> — ссылка на определённое место <em>внутри той же</em> страницы.
+        Используется символ <code>#</code> и <code>id</code> целевого элемента.
+    </p>
+
+    <pre><code>&lt;!-- Целевой элемент --&gt;
+&lt;h2 id="pricing"&gt;Цены&lt;/h2&gt;
+
+&lt;!-- Ссылка на него --&gt;
+&lt;a href="#pricing"&gt;Перейти к ценам&lt;/a&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (клик — прокрутка):</div>
+        <a href="#section-demo">Перейти к разделу «Проверка» внизу страницы</a>
+    </div>
+
+    <h3>Ссылка «вверх страницы»</h3>
+
+    <p>Особый случай — ссылка на самое начало:</p>
+
+    <pre><code>&lt;a href="#"&gt;Вверх&lt;/a&gt;   &lt;!-- наверх (может добавить # в URL) --&gt;
+&lt;a href="#"&gt;Вверх&lt;/a&gt;   &lt;!-- тоже наверх --&gt;</code></pre>
+
+    <h3>Ссылка на якорь на другой странице</h3>
+
+    <pre><code>&lt;a href="about.html#team"&gt;О нашей команде&lt;/a&gt;</code></pre>
+
+    <h2>5. Атрибут target</h2>
+
+    <p>Определяет, <strong>где</strong> открыть ссылку.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Значение</th>
+                <th>Что делает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>_self</code> (по умолчанию)</td>
+                <td>В текущей вкладке</td>
+            </tr>
+            <tr>
+                <td><code>_blank</code></td>
+                <td>В новой вкладке</td>
+            </tr>
+            <tr>
+                <td><code>_parent</code></td>
+                <td>В родительском фрейме</td>
+            </tr>
+            <tr>
+                <td><code>_top</code></td>
+                <td>Во всём окне (выход из фреймов)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;a href="https://example.com" target="_blank"&gt;Открыть в новой вкладке&lt;/a&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <a href="https://example.com" target="_blank">Открыть в новой вкладке</a>
+    </div>
+
+    <div class="warn">
+        <strong>Важно:</strong> при использовании <code>target="_blank"</code> обязательно
+        добавляй <code>rel="noopener noreferrer"</code>. Иначе открытая страница может
+        управлять твоей через <code>window.opener</code> (угроза безопасности).
+    </div>
+
+    <pre><code>&lt;a href="https://example.com" target="_blank" rel="noopener noreferrer"&gt;
+    Безопасная внешняя ссылка
+&lt;/a&gt;</code></pre>
+
+    <h2>6. Атрибут rel — связь с ресурсом</h2>
+
+    <p>
+        <code>rel</code> описывает <strong>тип связи</strong> между текущим документом
+        и целевым. Влияет на SEO и безопасность.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Значение</th>
+                <th>Что означает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>noopener</code></td>
+                <td>Открытая страница не получает доступ к текущей (безопасность)</td>
+            </tr>
+            <tr>
+                <td><code>noreferrer</code></td>
+                <td>Не передавать referer (информацию об источнике)</td>
+            </tr>
+            <tr>
+                <td><code>nofollow</code></td>
+                <td>Поисковикам: не передавать вес ссылки</td>
+            </tr>
+            <tr>
+                <td><code>sponsored</code></td>
+                <td>Это платная/рекламная ссылка</td>
+            </tr>
+            <tr>
+                <td><code>ugc</code></td>
+                <td>Ссылка создана пользователем (UGC — user-generated content)</td>
+            </tr>
+            <tr>
+                <td><code>author</code></td>
+                <td>Ссылка на автора документа</td>
+            </tr>
+            <tr>
+                <td><code>license</code></td>
+                <td>Ссылка на лицензию</td>
+            </tr>
+            <tr>
+                <td><code>next</code>, <code>prev</code></td>
+                <td>Следующая / предыдущая страница серии</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;!-- Внешняя ссылка в новой вкладке --&gt;
+&lt;a href="https://example.com" target="_blank" rel="noopener noreferrer"&gt;...&lt;/a&gt;
+
+&lt;!-- Рекламная ссылка --&gt;
+&lt;a href="https://partner.com" rel="sponsored"&gt;Реклама&lt;/a&gt;
+
+&lt;!-- Ссылка из комментариев --&gt;
+&lt;a href="https://user-blog.com" rel="ugc"&gt;Блог автора&lt;/a&gt;</code></pre>
+
+    <h2>7. Специальные ссылки: mailto, tel, sms</h2>
+
+    <h3>mailto — открыть почтовый клиент</h3>
+
+    <pre><code>&lt;a href="mailto:info@example.com"&gt;Написать нам&lt;/a&gt;
+
+&lt;!-- С темой и текстом --&gt;
+&lt;a href="mailto:info@example.com?subject=Вопрос&amp;body=Здравствуйте!"&gt;
+    Написать письмо
+&lt;/a&gt;</code></pre>
+
+    <h3>tel — позвонить (на мобильных)</h3>
+
+    <pre><code>&lt;a href="tel:+79001234567"&gt;+7 900 123-45-67&lt;/a&gt;</code></pre>
+
+    <h3>sms</h3>
+
+    <pre><code>&lt;a href="sms:+79001234567"&gt;Отправить SMS&lt;/a&gt;</code></pre>
+
+    <h3>Другие полезные протоколы</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Протокол</th>
+                <th>Что откроет</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>mailto:</code></td>
+                <td>Почтовый клиент</td>
+            </tr>
+            <tr>
+                <td><code>tel:</code></td>
+                <td>Набор номера</td>
+            </tr>
+            <tr>
+                <td><code>sms:</code></td>
+                <td>СМС</td>
+            </tr>
+            <tr>
+                <td><code>skype:</code></td>
+                <td>Skype</td>
+            </tr>
+            <tr>
+                <td><code>whatsapp://</code></td>
+                <td>WhatsApp</td>
+            </tr>
+            <tr>
+                <td><code>tg://</code></td>
+                <td>Telegram</td>
+            </tr>
+            <tr>
+                <td><code>geo:</code></td>
+                <td>Карты с координатами</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <a href="mailto:info@example.com">Написать нам</a> ·
+        <a href="tel:+79001234567">+7 900 123-45-67</a> ·
+        <a href="sms:+79001234567">Отправить SMS</a>
+    </div>
+
+    <h2>8. Скачивание файлов</h2>
+
+    <p>Атрибут <code>download</code> заставляет браузер скачать файл, а не открыть его:</p>
+
+    <pre><code>&lt;a href="document.pdf" download&gt;Скачать PDF&lt;/a&gt;
+
+&lt;!-- С заданным именем файла --&gt;
+&lt;a href="file.pdf" download="Инструкция.pdf"&gt;Скачать&lt;/a&gt;</code></pre>
+
+    <div class="note">
+        <code>download</code> работает только для <strong>того же домена</strong>.
+        Для внешних ссылок браузер может проигнорировать атрибут.
+    </div>
+
+    <h2>9. Ссылка-картинка</h2>
+
+    <p>Внутри <code>&lt;a&gt;</code> может быть не только текст, но и картинка:</p>
+
+    <pre><code>&lt;a href="https://example.com"&gt;
+    &lt;img src="logo.png" alt="Логотип" width="100"&gt;
+&lt;/a&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (картинки нет, но структура работает):</div>
+        <a href="https://example.com">
+            <img src="https://via.placeholder.com/100x50?text=Logo" alt="Логотип" width="100">
+        </a>
+    </div>
+
+    <h2>10. Атрибут title — подсказка</h2>
+
+    <pre><code>&lt;a href="https://example.com" title="Перейти на главную"&gt;Главная&lt;/a&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (наведи — увидишь всплывающую подсказку):</div>
+        <a href="https://example.com" title="Перейти на главную">Главная</a>
+    </div>
+
+    <div class="warn">
+        <strong>Не полагайся на title:</strong> он не работает на мобильных и плохо
+        воспринимается screen reader'ами. Если что-то важно — пиши в тексте ссылки.
+    </div>
+
+    <h2>11. Правила хорошей ссылки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Правило</th>
+                <th>Плохо</th>
+                <th>Хорошо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Текст описательный</td>
+                <td>«Нажмите <a href="#">здесь</a>»</td>
+                <td>«<a href="#">Читайте инструкцию</a>»</td>
+            </tr>
+            <tr>
+                <td>Не «голая» ссылка</td>
+                <td><a href="#">https://example.com/page</a></td>
+                <td><a href="#">Страница о нас</a></td>
+            </tr>
+            <tr>
+                <td>Понятно, что откроется</td>
+                <td><a href="#">PDF</a></td>
+                <td><a href="#">Скачать инструкцию (PDF, 2 МБ)</a></td>
+            </tr>
+            <tr>
+                <td>Внешняя ссылка помечена</td>
+                <td><a href="#">Пример</a></td>
+                <td><a href="#">Пример ↗</a> или target="_blank"</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Почему важно:</strong> screen reader'ы часто выводят список всех ссылок
+        на странице. Если все ссылки называются «здесь» — пользователь не поймёт, куда они ведут.
+    </div>
+
+    <h2>12. Полный список атрибутов &lt;a&gt;</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Обязательный?</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>href</code></td>
+                <td>Да (обычно)</td>
+                <td>URL, путь, mailto, tel, #id</td>
+                <td>Адрес назначения</td>
+            </tr>
+            <tr>
+                <td><code>target</code></td>
+                <td>Нет</td>
+                <td><code>_self</code>, <code>_blank</code>, <code>_parent</code>, <code>_top</code></td>
+                <td>Где открыть ссылку</td>
+            </tr>
+            <tr>
+                <td><code>rel</code></td>
+                <td>Нет</td>
+                <td><code>noopener</code>, <code>noreferrer</code>, <code>nofollow</code>, <code>sponsored</code>, <code>ugc</code> и др.</td>
+                <td>Связь с ресурсом</td>
+            </tr>
+            <tr>
+                <td><code>download</code></td>
+                <td>Нет</td>
+                <td>Имя файла или пусто</td>
+                <td>Скачать, а не открыть</td>
+            </tr>
+            <tr>
+                <td><code>title</code></td>
+                <td>Нет</td>
+                <td>Текст</td>
+                <td>Подсказка при наведении</td>
+            </tr>
+            <tr>
+                <td><code>hreflang</code></td>
+                <td>Нет</td>
+                <td><code>ru</code>, <code>en</code></td>
+                <td>Язык целевой страницы</td>
+            </tr>
+            <tr>
+                <td><code>type</code></td>
+                <td>Нет</td>
+                <td>MIME-тип</td>
+                <td>Тип ресурса</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>13. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Забыть <code>href</code></td>
+                <td>Ссылка не работает</td>
+            </tr>
+            <tr>
+                <td>Пустой <code>href=""</code></td>
+                <td>Перезагружает текущую страницу</td>
+            </tr>
+            <tr>
+                <td><code>href="example.com"</code> без протокола</td>
+                <td>Браузер посчитает это относительным путём: <code>example.com</code> в текущей папке</td>
+            </tr>
+            <tr>
+                <td><code>target="_blank"</code> без <code>rel="noopener"</code></td>
+                <td>Уязвимость через <code>window.opener</code></td>
+            </tr>
+            <tr>
+                <td>«Нажмите здесь» как текст ссылки</td>
+                <td>Плохо для a11y и SEO</td>
+            </tr>
+            <tr>
+                <td><code>&lt;a&gt;</code> без текста</td>
+                <td>Невидимая ссылка — плохо для доступности</td>
+            </tr>
+            <tr>
+                <td>Вкладывать <code>&lt;a&gt;</code> в <code>&lt;a&gt;</code></td>
+                <td>Невалидно: вложенные ссылки запрещены</td>
+            </tr>
+            <tr>
+                <td>Забыть <code>&amp;</code> в mailto-параметрах</td>
+                <td>Сломает URL: нужно <code>&amp;amp;</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>14. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Все виды ссылок»</strong></p>
+        <p>Создай файл <code>10-practice.html</code>. Размести на странице:</p>
+        <ul>
+            <li>Абсолютную ссылку на <code>https://developer.mozilla.org</code>.</li>
+            <li>Относительную ссылку на <code>about.html</code> (файла нет, но структура важна).</li>
+            <li>Ссылку-якорь на раздел этой же страницы (нужно добавить <code>&lt;h2 id="target"&gt;</code>).</li>
+            <li>Ссылку <code>mailto:</code> на твой email.</li>
+            <li>Ссылку <code>tel:</code> на номер телефона.</li>
+            <li>Внешнюю ссылку с <code>target="_blank"</code> и <code>rel="noopener noreferrer"</code>.</li>
+        </ul>
+
+        <p><strong>Задание 2. «Структура папок»</strong></p>
+        <p>Создай структуру:</p>
+        <pre><code>site/
+├── index.html      ← ссылки на about, pages/blog, images/logo
+├── about.html
+├── pages/
+│   └── blog.html   ← ссылки на ../../index, ../about
+└── images/
+    └── logo.png</code></pre>
+        <p>Сделай по 3 ссылки из каждого файла. Проверь, что переходы работают.</p>
+
+        <p><strong>Задание 3. «Внутренняя навигация»</strong></p>
+        <ul>
+            <li>Сделай страницу с 3 большими разделами (<code>&lt;h2 id="..."&gt;</code>).</li>
+            <li>Вверху — список ссылок на каждый раздел.</li>
+            <li>Внизу каждого раздела — ссылка «↑ Наверх» (на <code>#top</code> или на первый <code>id</code>).</li>
+        </ul>
+
+        <p><strong>Задание 4. «Проверь ссылки»</strong></p>
+        <ul>
+            <li>Открой DevTools (<code>F12</code>), найди все <code>&lt;a&gt;</code> в этом уроке.</li>
+            <li>Посмотри, какие атрибуты у каждой ссылки.</li>
+            <li>Проверь консоль — нет ли ошибок загрузки.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Напиши <code>&lt;a href="example.com"&gt;</code> (без протокола) — открой, посмотри на URL в адресной строке.</li>
+            <li>Убери <code>href</code> совсем — стиль ссылки пропадёт.</li>
+            <li>Попробуй вложить одну ссылку в другую — посмотри в DevTools, как браузер перестроил DOM.</li>
+        </ul>
+    </div>
+
+    <!-- Якорь для демонстрации -->
+    <h2 id="section-demo">15. Проверка якоря</h2>
+
+    <p>
+        Ты только что нажал на ссылку-якорь в разделе 4 и попал сюда. Это работает через
+        <code>id="section-demo"</code> и <code>href="#section-demo"</code>.
+    </p>
+
+    <p><a href="#top">↑ Наверх</a></p>
+
+    <h2 id="top">16. Что запомнить из урока</h2>
+
+    <ul>
+        <li>Ссылка создаётся тегом <code>&lt;a&gt;</code> с обязательным <code>href</code>.</li>
+        <li><strong>Абсолютная</strong> ссылка — полный адрес с протоколом и доменом (для внешних сайтов).</li>
+        <li><strong>Относительная</strong> — путь к файлу относительно текущего (для своих страниц).</li>
+        <li><code>../</code> — на уровень выше, <code>./</code> — текущая, <code>/</code> — корень сайта.</li>
+        <li><strong>Якорь</strong> <code>#id</code> — переход внутри страницы.</li>
+        <li><code>target="_blank"</code> — новая вкладка, но обязательно с <code>rel="noopener noreferrer"</code>.</li>
+        <li><code>rel</code>: <code>nofollow</code>, <code>sponsored</code>, <code>ugc</code> — для SEO.</li>
+        <li>Специальные протоколы: <code>mailto:</code>, <code>tel:</code>, <code>sms:</code>.</li>
+        <li><code>download</code> — скачать файл, а не открыть.</li>
+        <li>Текст ссылки должен быть <strong>описательным</strong>, а не «здесь» или «читать далее».</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 10 · Следующий урок: <em>Изображения &lt;img&gt; — src, alt, width, height, srcset</em>
+    </p>
+
+</body>
+</html>

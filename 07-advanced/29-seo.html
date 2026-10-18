@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 29 по HTML: SEO-основы — meta description, title, Open Graph, canonical, структурированные данные.">
+    <title>Урок 29. SEO-основы в HTML</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        .serp-preview {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+            max-width: 600px;
+        }
+        .serp-preview .url {
+            color: #006621;
+            font-size: 14px;
+        }
+        .serp-preview .title {
+            color: #1a0dab;
+            font-size: 18px;
+            font-weight: 500;
+            margin: 4px 0;
+            cursor: pointer;
+        }
+        .serp-preview .title:hover {
+            text-decoration: underline;
+        }
+        .serp-preview .desc {
+            color: #545454;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .og-preview {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 400px;
+            margin: 12px 0;
+        }
+        .og-preview .og-image {
+            background: linear-gradient(135deg, #b5651d, #e65100);
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .og-preview .og-content {
+            padding: 12px;
+        }
+        .og-preview .og-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .og-preview .og-desc {
+            color: #666;
+            font-size: 13px;
+        }
+        .og-preview .og-url {
+            color: #999;
+            font-size: 12px;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 29. SEO-основы в HTML</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: понять, какие HTML-теги влияют на поисковую   -->
+    <!-- выдачу и как их правильно использовать.                    -->
+    <!-- ========================================================= -->
+
+    <h2>1. Что такое SEO</h2>
+
+    <p>
+        <strong>SEO</strong> (Search Engine Optimization) — оптимизация сайта
+        для поисковых систем. Цель — чтобы сайт показывался <strong>выше</strong>
+        в результатах поиска Google, Яндекс, Bing.
+    </p>
+
+    <p>SEO делится на три части:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тип</th>
+                <th>Что входит</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Техническое SEO</strong></td>
+                <td>Скорость, мобильность, sitemap, robots.txt, HTTPS</td>
+            </tr>
+            <tr>
+                <td><strong>Контентное SEO</strong></td>
+                <td>Тексты, заголовки, ключевые слова, структура</td>
+            </tr>
+            <tr>
+                <td><strong>Внешнее SEO</strong></td>
+                <td>Ссылки с других сайтов (backlinks)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        В этом уроке — то, что относится <strong>к HTML</strong>: метатеги,
+        семантика, структура. Это <strong>не «магия»</strong>, которая
+        поднимет сайт в топ сама по себе, но <strong>база</strong>, без которой
+        поисковики не поймут страницу.
+    </p>
+
+    <div class="note">
+        <strong>Важно:</strong> SEO — это долгосрочная игра. Один урок не
+        сделает сайт популярным. Но правильная разметка — обязательное условие.
+        Самое важное — <strong>качественный контент</strong>. Без него никакие
+        метатеги не помогут.
+    </div>
+
+    <h2>2. Как Google «видит» страницу</h2>
+
+    <ol>
+        <li><strong>Сканирует</strong> (crawling) — робот Googlebot обходит сайты, переходит по ссылкам.</li>
+        <li><strong>Индексирует</strong> (indexing) — сохраняет содержимое в базу.</li>
+        <li><strong>Ранжирует</strong> (ranking) — сортирует по релевантности запросу.</li>
+        <li><strong>Показывает</strong> (serving) — выдаёт пользователю результаты.</li>
+    </ol>
+
+    <p>
+        HTML влияет на все этапы: робот читает HTML, из него извлекаются
+        заголовки, описание, структура. Если HTML плохой — робот не поймёт,
+        о чём страница.
+    </p>
+
+    <h2>3. Как выглядит результат поиска</h2>
+
+    <p>В выдаче Google для каждой страницы показывается:</p>
+
+    <div class="serp-preview">
+        <div class="url">example.com › blog</div>
+        <div class="title">Как варить кофе: пошаговый рецепт для начинающих</div>
+        <div class="desc">Узнайте, как правильно варить кофе в турке, кофемашине и френч-прессе. Секреты вкусного напитка и типичные ошибки.</div>
+    </div>
+
+    <p>Три элемента — и каждый задаётся своим тегом:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Часть выдачи</th>
+                <th>Откуда берётся</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>URL (зелёный)</td>
+                <td>Структура сайта + <code>&lt;link rel="canonical"&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Заголовок (синий)</td>
+                <td><code>&lt;title&gt;</code> + <code>&lt;h1&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Описание (серый)</td>
+                <td><code>&lt;meta name="description"&gt;</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>4. title — самый важный тег</h2>
+
+    <p>
+        <code>&lt;title&gt;</code> — это <strong>самый важный</strong> тег для SEO.
+        Google использует его как заголовок в выдаче. Показывается на вкладке
+        браузера и в закладках.
+    </p>
+
+    <pre><code>&lt;title&gt;Как варить кофе: пошаговый рецепт для начинающих&lt;/title&gt;</code></pre>
+
+    <h3>Правила хорошего title</h3>
+
+    <ul>
+        <li><strong>Длина:</strong> до 60 символов (длиннее — обрежется в выдаче).</li>
+        <li><strong>Уникальный:</strong> на каждой странице свой.</li>
+        <li><strong>Ключевые слова в начале:</strong> «Как варить кофе» → «Как варить кофе — Блог Ивана».</li>
+        <li><strong>Описательный:</strong> понятно, о чём страница.</li>
+        <li><strong>Без спама:</strong> «Купить кофе, купить кофе, купить кофе» — плохо.</li>
+        <li><strong>Бренд в конце:</strong> «... — Название сайта».</li>
+    </ul>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Плохо</th>
+                <th>Хорошо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Главная</code></td>
+                <td><code>Мой блог — о кофе и чае</code></td>
+            </tr>
+            <tr>
+                <td><code>Купить кофе купить кофе купить кофе</code></td>
+                <td><code>Купить кофе в Москве — Питомник «Мурлыка»</code></td>
+            </tr>
+            <tr>
+                <td><code>Page 1</code></td>
+                <td><code>Как варить кофе в турке: рецепт</code></td>
+            </tr>
+            <tr>
+                <td>Очень длинный title на 200 символов</td>
+                <td>Короткий, до 60 символов</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Проверить длину:</strong> используй <a href="https://www.highervisibility.com/seo/tools/serp-snippet-optimizer/" target="_blank">SERP Snippet Optimizer</a> —
+        он покажет, как title обрежется в Google.
+    </div>
+
+    <h2>5. meta description — описание</h2>
+
+    <p>
+        <code>&lt;meta name="description"&gt;</code> — краткое описание страницы.
+        Google <strong>может</strong> использовать его как сниппет в выдаче.
+    </p>
+
+    <pre><code>&lt;meta name="description" content="Пошаговый рецепт вкусного кофе в турке. Секреты правильной пропорции, температуры и помола. Для начинающих."&gt;</code></pre>
+
+    <h3>Правила</h3>
+
+    <ul>
+        <li><strong>Длина:</strong> 120–160 символов.</li>
+        <li><strong>Уникальный:</strong> на каждой странице свой.</li>
+        <li><strong>Описывает пользу:</strong> что человек получит на странице.</li>
+        <li><strong>Без спама:</strong> «купить купить купить» — плохо.</li>
+        <li><strong>С призывом:</strong> «Узнайте, как...».</li>
+    </ul>
+
+    <div class="warn">
+        <strong>Google не гарантирует</strong>, что покажет твой description.
+        Если он решит, что сниппет из текста страницы лучше — покажет его.
+        Но хороший description увеличивает шанс, что покажут именно его.
+    </div>
+
+    <h2>6. h1 — заголовок страницы</h2>
+
+    <p>
+        <code>&lt;h1&gt;</code> — главный заголовок. Google использует его,
+        чтобы понять тему страницы.
+    </p>
+
+    <pre><code>&lt;h1&gt;Как варить кофе в турке: пошаговый рецепт&lt;/h1&gt;</code></pre>
+
+    <h3>Правила</h3>
+
+    <ul>
+        <li><strong>Один <code>&lt;h1&gt;</code></strong> на страницу (урок 5).</li>
+        <li><strong>Совпадает по теме с <code>&lt;title&gt;</code></strong>, но может быть длиннее.</li>
+        <li><strong>Содержит ключевой запрос:</strong> если страница про кофе в турке — «кофе в турке» в h1.</li>
+        <li><strong>Виден пользователю:</strong> h1 — это видимый заголовок на странице, не только для SEO.</li>
+    </ul>
+
+    <h3>title vs h1</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th><code>&lt;title&gt;</code></th>
+                <th><code>&lt;h1&gt;</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Где видно</td>
+                <td>Вкладка, закладки, выдача</td>
+                <td>На самой странице</td>
+            </tr>
+            <tr>
+                <td>Длина</td>
+                <td>До 60 символов</td>
+                <td>Любая</td>
+            </tr>
+            <tr>
+                <td>Совпадает?</td>
+                <td colspan="2">Не обязательно, но об одной теме</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>7. Open Graph — для соцсетей</h2>
+
+    <p>
+        Когда пользователь кидает ссылку в Telegram, WhatsApp, Facebook — мессенджер
+        показывает <strong>карточку</strong> с картинкой, заголовком и описанием.
+        Эти данные берутся из <strong>Open Graph</strong> (OG).
+    </p>
+
+    <pre><code>&lt;meta property="og:title" content="Как варить кофе в турке"&gt;
+&lt;meta property="og:description" content="Пошаговый рецепт для начинающих"&gt;
+&lt;meta property="og:image" content="https://example.com/coffee.jpg"&gt;
+&lt;meta property="og:url" content="https://example.com/blog/coffee"&gt;
+&lt;meta property="og:type" content="article"&gt;</code></pre>
+
+    <div class="og-preview">
+        <div class="og-image">☕ Кофе</div>
+        <div class="og-content">
+            <div class="og-title">Как варить кофе в турке</div>
+            <div class="og-desc">Пошаговый рецепт для начинающих. Секреты вкусного напитка.</div>
+            <div class="og-url">example.com</div>
+        </div>
+    </div>
+
+    <h3>Основные OG-теги</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Свойство</th>
+                <th>Что задаёт</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>og:title</code></td>
+                <td>Заголовок карточки</td>
+            </tr>
+            <tr>
+                <td><code>og:description</code></td>
+                <td>Описание карточки</td>
+            </tr>
+            <tr>
+                <td><code>og:image</code></td>
+                <td>Картинка-превью (1200×630 px)</td>
+            </tr>
+            <tr>
+                <td><code>og:url</code></td>
+                <td>Канонический URL</td>
+            </tr>
+            <tr>
+                <td><code>og:type</code></td>
+                <td>Тип: <code>website</code>, <code>article</code>, <code>video.movie</code></td>
+            </tr>
+            <tr>
+                <td><code>og:site_name</code></td>
+                <td>Название сайта</td>
+            </tr>
+            <tr>
+                <td><code>og:locale</code></td>
+                <td>Язык: <code>ru_RU</code>, <code>en_US</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Twitter Cards</h3>
+
+    <p>
+        Для Twitter (X) — свои теги с префиксом <code>twitter:</code>:
+    </p>
+
+    <pre><code>&lt;meta name="twitter:card" content="summary_large_image"&gt;
+&lt;meta name="twitter:title" content="Как варить кофе"&gt;
+&lt;meta name="twitter:description" content="Пошаговый рецепт"&gt;
+&lt;meta name="twitter:image" content="https://example.com/coffee.jpg"&gt;</code></pre>
+
+    <div class="note">
+        Twitter часто автоматически подхватывает OG-теги. Но для точного
+        контроля добавляют и <code>twitter:*</code>.
+    </div>
+
+    <h2>8. link rel="canonical" — канонический URL</h2>
+
+    <p>
+        Проблема: одна и та же страница может быть доступна по нескольким URL:
+    </p>
+
+    <ul>
+        <li><code>https://example.com/page</code></li>
+        <li><code>https://example.com/page/</code> (со слэшем)</li>
+        <li><code>https://example.com/page?utm_source=twitter</code></li>
+        <li><code>https://example.com/page?ref=facebook</code></li>
+    </ul>
+
+    <p>
+        Для Google это <strong>разные страницы</strong>. Это размывает SEO-вес.
+        Решение — <code>&lt;link rel="canonical"&gt;</code>.
+    </p>
+
+    <pre><code>&lt;link rel="canonical" href="https://example.com/page"&gt;</code></pre>
+
+    <p>
+        Это говорит Google: «главная версия страницы — вот эта. Все остальные —
+        копии, не индексируй их отдельно».
+    </p>
+
+    <div class="note">
+        <strong>Когда нужен canonical:</strong>
+        <ul>
+            <li>Страница доступна по нескольким URL.</li>
+            <li>URL с UTM-метками (для аналитики).</li>
+            <li>Пагинация (страницы /page/1, /page/2 — каждая со своим canonical).</li>
+            <li>Параметры фильтрации (товары с фильтрами).</li>
+        </ul>
+    </div>
+
+    <h2>9. Структурированные данные (JSON-LD)</h2>
+
+    <p>
+        <strong>Schema.org</strong> — словарь для описания контента: статьи, товара,
+        рецепта, события. Google использует эти данные для «расширенных сниппетов»:
+        рейтинги, цены, даты.
+    </p>
+
+    <pre><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Как варить кофе в турке",
+  "author": {
+    "@type": "Person",
+    "name": "Иван Иванов"
+  },
+  "datePublished": "2026-01-15"
+}
+&lt;/script&gt;</code></pre>
+
+    <p>
+        Это <strong>продвинутая тема</strong>. Но знать, что она есть — полезно.
+        Если у тебя блог о рецептах или магазин — структурированные данные
+        могут дать красивые сниппеты в выдаче.
+    </p>
+
+    <div class="note">
+        <strong>Проверить свои данные:</strong> <a href="https://search.google.com/test/rich-results" target="_blank">Google Rich Results Test</a>.
+    </div>
+
+    <h2>10. Семантика и SEO</h2>
+
+    <p>
+        Семантические теги (урок 22) помогают Google понять структуру:
+    </p>
+
+    <ul>
+        <li><code>&lt;main&gt;</code> — основной контент, не меню/футер.</li>
+        <li><code>&lt;article&gt;</code> — отдельная статья, может быть в выдаче Google Discover.</li>
+        <li><code>&lt;nav&gt;</code> — навигация, не индексируется как контент.</li>
+        <li><code>&lt;aside&gt;</code> — дополнительно, менее важно.</li>
+        <li><code>&lt;time&gt;</code> — дата публикации (важно для новостей).</li>
+    </ul>
+
+    <pre><code>&lt;article&gt;
+    &lt;header&gt;
+        &lt;h1&gt;Как варить кофе&lt;/h1&gt;
+        &lt;time datetime="2026-01-15"&gt;15 января 2026&lt;/time&gt;
+    &lt;/header&gt;
+    &lt;p&gt;Текст...&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+
+    <p>
+        <code>&lt;time&gt;</code> с атрибутом <code>datetime</code> — для Google это
+        сигнал «свежий контент». Особенно важно для новостных сайтов.
+    </p>
+
+    <h2>11. robots.txt и sitemap.xml</h2>
+
+    <h3>robots.txt</h3>
+
+    <p>
+        Файл в корне сайта. Говорит роботам, что можно индексировать:
+    </p>
+
+    <pre><code>User-agent: *
+Disallow: /admin/
+Disallow: /cart/
+
+Sitemap: https://example.com/sitemap.xml</code></pre>
+
+    <h3>sitemap.xml</h3>
+
+    <p>
+        Список всех страниц сайта — чтобы робот их нашёл быстрее:
+    </p>
+
+    <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
+    &lt;url&gt;
+        &lt;loc&gt;https://example.com/&lt;/loc&gt;
+        &lt;lastmod&gt;2026-01-15&lt;/lastmod&gt;
+    &lt;/url&gt;
+    &lt;url&gt;
+        &lt;loc&gt;https://example.com/blog/&lt;/loc&gt;
+        &lt;lastmod&gt;2026-01-10&lt;/lastmod&gt;
+    &lt;/url&gt;
+&lt;/urlset&gt;</code></pre>
+
+    <div class="note">
+        Это <strong>файлы в корне сайта</strong>, не HTML-теги. Но знать про них
+        важно. Google Search Console подскажет, как их настроить.
+    </div>
+
+    <h2>12. Что НЕ влияет на SEO (мифы)</h2>
+
+    <div class="warn">
+        <ul>
+            <li><strong><code>&lt;meta name="keywords"&gt;</code></strong> — игнорируется Google с 2009 года. Не используй.</li>
+            <li><strong>Количество слов</strong> — не важно само по себе. Важно качество.</li>
+            <li><strong>Плотность ключевых слов</strong> — «ключевое слово в 5% текста» — плохо. Пиши естественно.</li>
+            <li><strong>Покупка ссылок</strong> — Google наказывает за это.</li>
+            <li><strong>Скрытый текст</strong> — «белый на белом» — бан.</li>
+        </ul>
+    </div>
+
+    <h2>13. Чек-лист SEO для каждой страницы</h2>
+
+    <div class="task">
+        <p>Проверь любую свою страницу:</p>
+
+        <h4>Основное</h4>
+        <ul>
+            <li>☐ <code>&lt;title&gt;</code> — до 60 символов, уникальный, с ключевым словом.</li>
+            <li>☐ <code>&lt;meta name="description"&gt;</code> — 120–160 символов, уникальное.</li>
+            <li>☐ <code>&lt;h1&gt;</code> — один на странице, содержит тему.</li>
+            <li>☐ <code>&lt;html lang="ru"&gt;</code> — язык указан.</li>
+            <li>☐ <code>&lt;meta charset="UTF-8"&gt;</code> — кодировка.</li>
+            <li>☐ <code>&lt;meta name="viewport"&gt;</code> — мобильная адаптация.</li>
+        </ul>
+
+        <h4>Соцсети</h4>
+        <ul>
+            <li>☐ <code>og:title</code>, <code>og:description</code>, <code>og:image</code>.</li>
+            <li>☐ <code>twitter:card</code>, <code>twitter:title</code>, <code>twitter:image</code>.</li>
+        </ul>
+
+        <h4>Структура</h4>
+        <ul>
+            <li>☐ Семантические теги: <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code>.</li>
+            <li>☐ Иерархия заголовков: h1 → h2 → h3.</li>
+            <li>☐ Ссылки с осмысленным текстом (не «здесь»).</li>
+            <li>☐ Изображения с <code>alt</code>.</li>
+            <li>☐ <code>&lt;time datetime&gt;</code> для дат.</li>
+        </ul>
+
+        <h4>Техническое</h4>
+        <ul>
+            <li>☐ <code>&lt;link rel="canonical"&gt;</code> — если есть дубли URL.</li>
+            <li>☐ <code>robots.txt</code> — если есть что закрыть.</li>
+            <li>☐ <code>sitemap.xml</code> — для поисковиков.</li>
+            <li>☐ HTTPS (SSL-сертификат).</li>
+            <li>☐ Быстрая загрузка (Lighthouse).</li>
+        </ul>
+
+        <h4>Не делать</h4>
+        <ul>
+            <li>☐ Не использовать <code>&lt;meta name="keywords"&gt;</code>.</li>
+            <li>☐ Не спамить ключами в тексте.</li>
+            <li>☐ Не скрывать текст.</li>
+            <li>☐ Не покупать ссылки.</li>
+        </ul>
+    </div>
+
+    <h2>14. Полный шаблон SEO-страницы</h2>
+
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+
+    &lt;!-- Основное SEO --&gt;
+    &lt;title&gt;Как варить кофе в турке: пошаговый рецепт&lt;/title&gt;
+    &lt;meta name="description" content="Пошаговый рецепт вкусного кофе в турке. Секреты пропорций, температуры и помола. Для начинающих."&gt;
+    &lt;meta name="author" content="Иван Иванов"&gt;
+
+    &lt;!-- Open Graph (соцсети) --&gt;
+    &lt;meta property="og:title" content="Как варить кофе в турке"&gt;
+    &lt;meta property="og:description" content="Пошаговый рецепт для начинающих"&gt;
+    &lt;meta property="og:image" content="https://example.com/coffee.jpg"&gt;
+    &lt;meta property="og:url" content="https://example.com/blog/coffee"&gt;
+    &lt;meta property="og:type" content="article"&gt;
+    &lt;meta property="og:locale" content="ru_RU"&gt;
+
+    &lt;!-- Twitter --&gt;
+    &lt;meta name="twitter:card" content="summary_large_image"&gt;
+    &lt;meta name="twitter:title" content="Как варить кофе в турке"&gt;
+    &lt;meta name="twitter:description" content="Пошаговый рецепт для начинающих"&gt;
+    &lt;meta name="twitter:image" content="https://example.com/coffee.jpg"&gt;
+
+    &lt;!-- Канонический URL --&gt;
+    &lt;link rel="canonical" href="https://example.com/blog/coffee"&gt;
+
+    &lt;!-- Favicon --&gt;
+    &lt;link rel="icon" href="/favicon.ico"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;nav&gt;...&lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &lt;article&gt;
+            &lt;header&gt;
+                &lt;h1&gt;Как варить кофе в турке: пошаговый рецепт&lt;/h1&gt;
+                &lt;time datetime="2026-01-15"&gt;15 января 2026&lt;/time&gt;
+            &lt;/header&gt;
+            &lt;p&gt;Текст статьи...&lt;/p&gt;
+        &lt;/article&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;...&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <h2>15. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «SEO-страница»</strong></p>
+        <p>Создай файл <code>29-practice.html</code>. Сделай страницу о своём хобби:</p>
+        <ul>
+            <li><code>&lt;title&gt;</code> — до 60 символов, с ключевым словом.</li>
+            <li><code>&lt;meta name="description"&gt;</code> — 120–160 символов.</li>
+            <li>Один <code>&lt;h1&gt;</code> с темой.</li>
+            <li>2–3 <code>&lt;h2&gt;</code> для разделов.</li>
+            <li>OG-теги: <code>og:title</code>, <code>og:description</code>, <code>og:image</code>, <code>og:type="article"</code>.</li>
+            <li>Семантические теги: <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code>.</li>
+            <li><code>&lt;time datetime&gt;</code> для даты публикации.</li>
+            <li><code>&lt;link rel="canonical"&gt;</code>.</li>
+        </ul>
+
+        <p><strong>Задание 2. «Проверь title»</strong></p>
+        <ul>
+            <li>Открой <a href="https://www.highervisibility.com/seo/tools/serp-snippet-optimizer/" target="_blank">SERP Snippet Optimizer</a>.</li>
+            <li>Введи свой title и description.</li>
+            <li>Посмотри, как они обрежутся в Google.</li>
+            <li>Если длиннее 60/160 — сократи.</li>
+        </ul>
+
+        <p><strong>Задание 3. «OG-превью»</strong></p>
+        <ul>
+            <li>Открой <a href="https://www.opengraph.xyz" target="_blank">opengraph.xyz</a>.</li>
+            <li>Введи URL любой известной страницы (например, <code>https://developer.mozilla.org/ru/</code>).</li>
+            <li>Посмотри, как выглядит карточка в соцсетях.</li>
+            <li>Сравни со своими OG-тегами.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Аудит через Lighthouse»</strong></p>
+        <ul>
+            <li>Открой свою страницу в Chrome.</li>
+            <li><kbd>F12</kbd> → Lighthouse → только SEO.</li>
+            <li>Получи оценку. Прочитай рекомендации.</li>
+            <li>Исправь проблемы, проверь снова.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Добавь <code>&lt;meta name="keywords" content="кофе, рецепт"&gt;</code> — узнай, что Google его игнорирует.</li>
+            <li>Сделай title длиной 150 символов — увидишь, как он обрежется в выдаче.</li>
+            <li>Убери <code>&lt;meta name="description"&gt;</code> — Google возьмёт случайный текст со страницы.</li>
+            <li>Добавь три <code>&lt;h1&gt;</code> — проверь через валидатор (формально не ошибка, но плохо для SEO).</li>
+        </ul>
+    </div>
+
+    <h2>16. Что запомнить из урока</h2>
+
+    <ul>
+        <li><strong>SEO</strong> — оптимизация для поисковых систем. Делится на техническое, контентное и внешнее.</li>
+        <li><strong><code>&lt;title&gt;</code></strong> — самый важный тег. До 60 символов, уникальный, с ключевым словом.</li>
+        <li><strong><code>&lt;meta name="description"&gt;</code></strong> — 120–160 символов. Google <em>может</em> использовать его в сниппете.</li>
+        <li><strong><code>&lt;h1&gt;</code></strong> — один на страницу, содержит тему.</li>
+        <li><strong>Open Graph</strong> (<code>og:*</code>) — для красивых карточек в соцсетях.</li>
+        <li><strong><code>&lt;link rel="canonical"&gt;</code></strong> — для дублей URL.</li>
+        <li><strong>Семантика</strong> — <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;time&gt;</code> помогают Google понять структуру.</li>
+        <li><strong><code>robots.txt</code></strong> и <strong><code>sitemap.xml</code></strong> — технические файлы в корне сайта.</li>
+        <li><strong>Структурированные данные</strong> (JSON-LD) — для расширенных сниппетов.</li>
+        <li><strong>Не работает:</strong> <code>&lt;meta name="keywords"&gt;</code>, спам ключами, скрытый текст, покупка ссылок.</li>
+        <li><strong>Главное — контент.</strong> Метатеги не спасут плохую страницу.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 29 · Следующий урок: <em>Итоговый проект — страница-резюме</em>
+    </p>
+
+</body>
+</html>

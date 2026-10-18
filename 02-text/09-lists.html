@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 9 по HTML: списки ul, ol, dl — маркированные, нумерованные и списки определений.">
+    <title>Урок 9. Списки в HTML</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 9. Списки в HTML</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: освоить три типа списков и их атрибуты.       -->
+    <!-- ========================================================= -->
+
+    <h2>1. Зачем нужны списки</h2>
+
+    <p>
+        В HTML есть <strong>три типа списков</strong>, каждый — для своей задачи:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Название</th>
+                <th>Внешний вид</th>
+                <th>Когда использовать</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;ul&gt;</code></td>
+                <td>Маркированный (unordered list)</td>
+                <td>• • •</td>
+                <td>Порядок не важен: ингредиенты, свойства</td>
+            </tr>
+            <tr>
+                <td><code>&lt;ol&gt;</code></td>
+                <td>Нумерованный (ordered list)</td>
+                <td>1. 2. 3.</td>
+                <td>Порядок важен: шаги, инструкция</td>
+            </tr>
+            <tr>
+                <td><code>&lt;dl&gt;</code></td>
+                <td>Список определений (description list)</td>
+                <td>термин → значение</td>
+                <td>Словарь, FAQ, метаданные</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Правило выбора:</strong> если порядок пунктов <em>можно</em> поменять без потери смысла —
+        <code>&lt;ul&gt;</code>. Если <em>нельзя</em> (шаги 1, 2, 3) — <code>&lt;ol&gt;</code>.
+    </div>
+
+    <h2>2. Маркированный список &lt;ul&gt;</h2>
+
+    <p>
+        <code>&lt;ul&gt;</code> (unordered list) — список с маркерами (точками, кружками).
+        Каждый пункт — внутри <code>&lt;li&gt;</code> (list item).
+    </p>
+
+    <pre><code>&lt;ul&gt;
+    &lt;li&gt;Мука&lt;/li&gt;
+    &lt;li&gt;Сахар&lt;/li&gt;
+    &lt;li&gt;Яйца&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <ul>
+            <li>Мука</li>
+            <li>Сахар</li>
+            <li>Яйца</li>
+        </ul>
+    </div>
+
+    <p><strong>Когда использовать &lt;ul&gt;:</strong></p>
+    <ul>
+        <li>Перечисление однотипных предметов</li>
+        <li>Список ингредиентов</li>
+        <li>Характеристики товара</li>
+        <li>Пункты меню навигации (в связке с CSS)</li>
+        <li>Любой список, где порядок не важен</li>
+    </ul>
+
+    <h2>3. Нумерованный список &lt;ol&gt;</h2>
+
+    <p>
+        <code>&lt;ol&gt;</code> (ordered list) — список с автоматической нумерацией.
+        Внутри — те же <code>&lt;li&gt;</code>.
+    </p>
+
+    <pre><code>&lt;ol&gt;
+    &lt;li&gt;Разогрейте духовку до 180°C&lt;/li&gt;
+    &lt;li&gt;Смешайте муку и сахар&lt;/li&gt;
+    &lt;li&gt;Добавьте яйца&lt;/li&gt;
+    &lt;li&gt;Выпекайте 20 минут&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <ol>
+            <li>Разогрейте духовку до 180°C</li>
+            <li>Смешайте муку и сахар</li>
+            <li>Добавьте яйца</li>
+            <li>Выпекайте 20 минут</li>
+        </ol>
+    </div>
+
+    <h3>Атрибуты &lt;ol&gt;</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Что делает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>type</code></td>
+                <td><code>1</code> (по умолчанию), <code>A</code>, <code>a</code>, <code>I</code>, <code>i</code></td>
+                <td>Тип нумерации: цифры, большие/маленькие латинские, римские</td>
+            </tr>
+            <tr>
+                <td><code>start</code></td>
+                <td>Число</td>
+                <td>С какого номера начать (например, <code>start="5"</code>)</td>
+            </tr>
+            <tr>
+                <td><code>reversed</code></td>
+                <td>булев</td>
+                <td>Обратный порядок (от большего к меньшему)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Пример: латинская нумерация</h3>
+
+    <pre><code>&lt;ol type="A"&gt;
+    &lt;li&gt;Первый&lt;/li&gt;
+    &lt;li&gt;Второй&lt;/li&gt;
+    &lt;li&gt;Третий&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <ol type="A">
+            <li>Первый</li>
+            <li>Второй</li>
+            <li>Третий</li>
+        </ol>
+    </div>
+
+    <h3>Пример: старт с 5</h3>
+
+    <pre><code>&lt;ol start="5"&gt;
+    &lt;li&gt;Пятый пункт&lt;/li&gt;
+    &lt;li&gt;Шестой пункт&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <ol start="5">
+            <li>Пятый пункт</li>
+            <li>Шестой пункт</li>
+        </ol>
+    </div>
+
+    <h3>Пример: обратный порядок</h3>
+
+    <pre><code>&lt;ol reversed&gt;
+    &lt;li&gt;Третий&lt;/li&gt;
+    &lt;li&gt;Второй&lt;/li&gt;
+    &lt;li&gt;Первый&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <ol reversed>
+            <li>Третий</li>
+            <li>Второй</li>
+            <li>Первый</li>
+        </ol>
+    </div>
+
+    <h3>Атрибут value у &lt;li&gt;</h3>
+
+    <p>У пункта <code>&lt;li&gt;</code> есть атрибут <code>value</code> — задаёт конкретный номер:</p>
+
+    <pre><code>&lt;ol&gt;
+    &lt;li&gt;Первый&lt;/li&gt;
+    &lt;li value="10"&gt;Десятый&lt;/li&gt;
+    &lt;li&gt;Одиннадцатый&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <ol>
+            <li>Первый</li>
+            <li value="10">Десятый</li>
+            <li>Одиннадцатый</li>
+        </ol>
+    </div>
+
+    <h2>4. Вложенные списки</h2>
+
+    <p>
+        Списки можно вкладывать друг в друга. Вложенный список должен находиться
+        <strong>внутри</strong> <code>&lt;li&gt;</code> родителя, а не между <code>&lt;li&gt;</code>.
+    </p>
+
+    <pre><code>&lt;ul&gt;
+    &lt;li&gt;Фрукты
+        &lt;ul&gt;
+            &lt;li&gt;Яблоки&lt;/li&gt;
+            &lt;li&gt;Бананы&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;Овощи
+        &lt;ul&gt;
+            &lt;li&gt;Морковь&lt;/li&gt;
+            &lt;li&gt;Картофель&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <ul>
+            <li>Фрукты
+                <ul>
+                    <li>Яблоки</li>
+                    <li>Бананы</li>
+                </ul>
+            </li>
+            <li>Овощи
+                <ul>
+                    <li>Морковь</li>
+                    <li>Картофель</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="warn">
+        <strong>Частая ошибка:</strong> вкладывать <code>&lt;ul&gt;</code> <em>между</em>
+        <code>&lt;li&gt;</code>, а не внутри. Так браузер сам перестроит структуру, но код
+        станет невалидным.
+    </div>
+
+    <h3>Смешанные вложенные списки</h3>
+
+    <pre><code>&lt;ol&gt;
+    &lt;li&gt;Подготовка
+        &lt;ul&gt;
+            &lt;li&gt;Достать ингредиенты&lt;/li&gt;
+            &lt;li&gt;Разогреть духовку&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;Замес&lt;/li&gt;
+    &lt;li&gt;Выпечка&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <ol>
+            <li>Подготовка
+                <ul>
+                    <li>Достать ингредиенты</li>
+                    <li>Разогреть духовку</li>
+                </ul>
+            </li>
+            <li>Замес</li>
+            <li>Выпечка</li>
+        </ol>
+    </div>
+
+    <h2>5. Список определений &lt;dl&gt;</h2>
+
+    <p>
+        <code>&lt;dl&gt;</code> (description list) — список из пар <strong>«термин — значение»</strong>.
+        Состоит из трёх тегов:
+    </p>
+
+    <ul>
+        <li><code>&lt;dl&gt;</code> — контейнер списка.</li>
+        <li><code>&lt;dt&gt;</code> (description term) — термин.</li>
+        <li><code>&lt;dd&gt;</code> (description details) — описание.</li>
+    </ul>
+
+    <pre><code>&lt;dl&gt;
+    &lt;dt&gt;HTML&lt;/dt&gt;
+    &lt;dd&gt;Язык разметки гипертекста.&lt;/dd&gt;
+
+    &lt;dt&gt;CSS&lt;/dt&gt;
+    &lt;dd&gt;Язык стилей.&lt;/dd&gt;
+
+    &lt;dt&gt;JS&lt;/dt&gt;
+    &lt;dd&gt;Язык программирования для веба.&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <dl>
+            <dt><strong>HTML</strong></dt>
+            <dd>Язык разметки гипертекста.</dd>
+
+            <dt><strong>CSS</strong></dt>
+            <dd>Язык стилей.</dd>
+
+            <dt><strong>JS</strong></dt>
+            <dd>Язык программирования для веба.</dd>
+        </dl>
+    </div>
+
+    <p><strong>Когда использовать &lt;dl&gt;:</strong></p>
+    <ul>
+        <li>Словарь / глоссарий</li>
+        <li>FAQ (вопрос → ответ)</li>
+        <li>Метаданные (автор → Иван)</li>
+        <li>Параметры товара (цвет → красный)</li>
+    </ul>
+
+    <h3>Особенность &lt;dl&gt;</h3>
+
+    <p>У одного <code>&lt;dt&gt;</code> может быть <strong>несколько</strong> <code>&lt;dd&gt;</code>:</p>
+
+    <pre><code>&lt;dl&gt;
+    &lt;dt&gt;Кофе&lt;/dt&gt;
+    &lt;dd&gt;Горячий напиток.&lt;/dd&gt;
+    &lt;dd&gt;Бодрит по утрам.&lt;/dd&gt;
+    &lt;dd&gt;Бывает чёрный, с молоком или капучино.&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <dl>
+            <dt><strong>Кофе</strong></dt>
+            <dd>Горячий напиток.</dd>
+            <dd>Бодрит по утрам.</dd>
+            <dd>Бывает чёрный, с молоком или капучино.</dd>
+        </dl>
+    </div>
+
+    <h2>6. Сравнение трёх списков</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th><code>&lt;ul&gt;</code></th>
+                <th><code>&lt;ol&gt;</code></th>
+                <th><code>&lt;dl&gt;</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Маркер</td>
+                <td>точка / кружок</td>
+                <td>цифра / буква</td>
+                <td>нет</td>
+            </tr>
+            <tr>
+                <td>Пункт</td>
+                <td><code>&lt;li&gt;</code></td>
+                <td><code>&lt;li&gt;</code></td>
+                <td><code>&lt;dt&gt;</code> + <code>&lt;dd&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Порядок важен</td>
+                <td>нет</td>
+                <td>да</td>
+                <td>нет</td>
+            </tr>
+            <tr>
+                <td>Использование</td>
+                <td>перечисления</td>
+                <td>инструкции</td>
+                <td>словарь, FAQ</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>7. Внешний вид по умолчанию</h2>
+
+    <ul>
+        <li><code>&lt;ul&gt;</code> — маркеры-точки (<code>disc</code>), вложенные — кружки (<code>circle</code>), затем квадраты (<code>square</code>).</li>
+        <li><code>&lt;ol&gt;</code> — цифры, выравниваются вправо.</li>
+        <li><code>&lt;dl&gt;</code> — <code>&lt;dt&gt;</code> жирным, <code>&lt;dd&gt;</code> с отступом слева.</li>
+        <li>У всех — отступ слева ~<code>40px</code> для маркеров.</li>
+    </ul>
+
+    <p>Всё это настраивается через CSS: <code>list-style</code>, <code>list-style-type</code>, <code>padding</code>, <code>margin</code>.</p>
+
+    <pre><code>&lt;ul style="list-style: none; padding: 0;"&gt;
+    &lt;li&gt;Без маркеров&lt;/li&gt;
+    &lt;li&gt;И без отступа&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (часто используется в меню навигации):</div>
+        <ul style="list-style: none; padding: 0;">
+            <li>Без маркеров</li>
+            <li>И без отступа</li>
+        </ul>
+    </div>
+
+    <h2>8. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Класть в <code>&lt;ul&gt;</code> что-то, кроме <code>&lt;li&gt;</code></td>
+                <td>Невалидно (кроме вложенных <code>&lt;ul&gt;</code>/<code>&lt;ol&gt;</code>, и то — внутри <code>&lt;li&gt;</code>)</td>
+            </tr>
+            <tr>
+                <td>Вкладывать <code>&lt;ul&gt;</code> между <code>&lt;li&gt;</code></td>
+                <td>Ломает структуру; вкладывай <em>внутрь</em> <code>&lt;li&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Использовать <code>&lt;ol&gt;</code>, когда порядок не важен</td>
+                <td>Вводит в заблуждение: цифры подразумевают последовательность</td>
+            </tr>
+            <tr>
+                <td>Имитировать список через <code>&lt;br&gt;</code> и <code>•</code></td>
+                <td>Потеря семантики для поисковиков и screen reader'ов</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>&lt;dl&gt;</code> для верстки без семантики пар</td>
+                <td>Должны быть реальные пары «термин — значение»</td>
+            </tr>
+            <tr>
+                <td>Забывать закрывать <code>&lt;li&gt;</code></td>
+                <td>Хотя браузер закроет автоматически, лучше писать явно</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>9. Вложенность и отступы в коде</h2>
+
+    <p>Хорошая практика — отступать вложенные списки, чтобы видеть структуру:</p>
+
+    <pre><code>&lt;ul&gt;
+    &lt;li&gt;Первый пункт&lt;/li&gt;
+    &lt;li&gt;Второй пункт
+        &lt;ul&gt;
+            &lt;li&gt;Подпункт 2.1&lt;/li&gt;
+            &lt;li&gt;Подпункт 2.2&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;Третий пункт&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+    <h2>10. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Список покупок»</strong></p>
+        <p>Создай файл <code>09-practice.html</code>. Сделай список покупок через <code>&lt;ul&gt;</code> с 5 пунктами:</p>
+        <ul>
+            <li>Хлеб</li>
+            <li>Молоко</li>
+            <li>Яйца</li>
+            <li>Сыр</li>
+            <li>Кофе</li>
+        </ul>
+
+        <p><strong>Задание 2. «Рецепт»</strong></p>
+        <p>Сделай страницу с рецептом:</p>
+        <ul>
+            <li><code>&lt;h1&gt;</code> — название блюда.</li>
+            <li><code>&lt;h2&gt;</code> «Ингредиенты» → <code>&lt;ul&gt;</code> из 4–5 пунктов.</li>
+            <li><code>&lt;h2&gt;</code> «Приготовление» → <code>&lt;ol&gt;</code> из 5–6 шагов.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Словарь HTML»</strong></p>
+        <p>Сделай <code>&lt;dl&gt;</code> с 5 терминами HTML:</p>
+        <ul>
+            <li><code>&lt;dt&gt;Тег&lt;/dt&gt;</code> → <code>&lt;dd&gt;...</code></li>
+            <li><code>&lt;dt&gt;Атрибут&lt;/dt&gt;</code> → <code>&lt;dd&gt;...</code></li>
+            <li><code>&lt;dt&gt;Элемент&lt;/dt&gt;</code> → <code>&lt;dd&gt;...</code></li>
+            <li><code>&lt;dt&gt;Параграф&lt;/dt&gt;</code> → <code>&lt;dd&gt;...</code></li>
+            <li><code>&lt;dt&gt;Заголовок&lt;/dt&gt;</code> → <code>&lt;dd&gt;...</code></li>
+        </ul>
+
+        <p><strong>Задание 4. «Вложенные списки»</strong></p>
+        <p>Сделай навигационное меню сайта:</p>
+        <pre><code>Главная
+О нас
+    Команда
+    История
+Услуги
+    Веб-разработка
+    Мобильные приложения
+Контакты</code></pre>
+
+        <p><strong>Задание 5. «Эксперименты»</strong></p>
+        <ul>
+            <li>Сделай <code>&lt;ol type="I"&gt;</code> — римские цифры.</li>
+            <li>Сделай <code>&lt;ol reversed&gt;</code> — обратный порядок.</li>
+            <li>Сделай <code>&lt;ol start="10"&gt;</code> — с 10-го пункта.</li>
+            <li>Убери маркеры через <code>style="list-style: none;"</code>.</li>
+        </ul>
+    </div>
+
+    <h2>11. Что запомнить из урока</h2>
+
+    <ul>
+        <li><strong>Три списка:</strong> <code>&lt;ul&gt;</code> (маркированный), <code>&lt;ol&gt;</code> (нумерованный), <code>&lt;dl&gt;</code> (определения).</li>
+        <li><strong>Выбор:</strong> порядок не важен → <code>ul</code>; важен → <code>ol</code>; пары «термин-значение» → <code>dl</code>.</li>
+        <li>Пункты: <code>&lt;li&gt;</code> для <code>ul</code>/<code>ol</code>, <code>&lt;dt&gt;</code>+<code>&lt;dd&gt;</code> для <code>dl</code>.</li>
+        <li>Внутри <code>&lt;ul&gt;</code>/<code>&lt;ol&gt;</code> могут быть только <code>&lt;li&gt;</code>.</li>
+        <li>Вложенные списки — <strong>внутри <code>&lt;li&gt;</code></strong>, а не между ними.</li>
+        <li>Атрибуты <code>&lt;ol&gt;</code>: <code>type</code> (1/A/a/I/i), <code>start</code> (номер старта), <code>reversed</code>.</li>
+        <li><code>&lt;li&gt;</code> может иметь <code>value</code> — задать конкретный номер.</li>
+        <li>Внешний вид настраивается через CSS: <code>list-style</code>, <code>padding</code>, <code>margin</code>.</li>
+        <li>Списки — <strong>семантические</strong>, а не «просто оформление». Их читают поисковики и screen reader'ы.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 9 · Следующий урок: <em>Ссылки &lt;a&gt; — абсолютные, относительные, якоря</em>
+    </p>
+
+</body>
+</html>

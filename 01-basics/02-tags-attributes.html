@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 2. Теги, атрибуты, вложенность, комментарии</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th { background: #f5f5f5; }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 2. Теги, атрибуты, вложенность, комментарии</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: разобраться, ИЗ ЧЕГО СОСТОИТ любой HTML-тег,  -->
+    <!-- как вкладывать теги друг в друга и как писать заметки.    -->
+    <!-- ========================================================= -->
+
+    <h2>1. Из чего состоит элемент</h2>
+
+    <p>
+        Мы уже знаем, что тег — это команда в угловых скобках. Но у любого элемента
+        HTML есть <strong>анатомия</strong>. Разберём её на примере ссылки:
+    </p>
+
+    <pre><code>&lt;a href="https://example.com" target="_blank"&gt;Открыть сайт&lt;/a&gt;</code></pre>
+
+    <p>Этот элемент состоит из частей:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Часть</th>
+                <th>Что это</th>
+                <th>В примере</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Открывающий тег</td>
+                <td>Имя тега в скобках</td>
+                <td><code>&lt;a ...&gt;</code></td>
+            </tr>
+            <tr>
+                <td><strong>Атрибут</strong></td>
+                <td>Свойство элемента (имя="значение")</td>
+                <td><code>href="https://example.com"</code></td>
+            </tr>
+            <tr>
+                <td><strong>Атрибут</strong></td>
+                <td>Ещё одно свойство</td>
+                <td><code>target="_blank"</code></td>
+            </tr>
+            <tr>
+                <td>Содержимое</td>
+                <td>Текст или другие теги</td>
+                <td><code>Открыть сайт</code></td>
+            </tr>
+            <tr>
+                <td>Закрывающий тег</td>
+                <td>Со слэшем</td>
+                <td><code>&lt;/a&gt;</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Атрибут</strong> — это всегда пара <code>имя="значение"</code>.
+        Имя без кавычек писать нельзя. Кавычки могут быть двойные <code>"</code>
+        или одинарные <code>'</code>, но двойные — стандарт.
+    </div>
+
+    <h2>2. Где живут атрибуты</h2>
+
+    <p>
+        Атрибуты пишутся <strong>только в открывающем теге</strong>. В закрывающем их не бывает.
+    </p>
+
+    <pre><code>&lt;!-- ПРАВИЛЬНО --&gt;
+&lt;p class="intro" id="first"&gt;Текст&lt;/p&gt;
+
+&lt;!-- НЕПРАВИЛЬНО — атрибуты в закрывающем теге бессмысленны --&gt;
+&lt;p&gt;Текст&lt;/p class="intro"&gt;</code></pre>
+
+    <p>
+        Порядок атрибутов не важен. Между ними — пробелы. Значения можно писать
+        в любом порядке, главное чтобы они не повторялись у одного элемента.
+    </p>
+
+    <h2>3. Основные атрибуты, которые ты будешь использовать часто</h2>
+
+    <h3><code>id</code> — уникальный идентификатор</h3>
+    <p>
+        Как «номер паспорта» элемента. Должен быть <strong>один на странице</strong>
+        и <strong>только один</strong>. Служит для якорей, стилей и JavaScript.
+    </p>
+    <pre><code>&lt;h2 id="section-1"&gt;Раздел 1&lt;/h2&gt;</code></pre>
+
+    <h3><code>class</code> — имя класса</h3>
+    <p>
+        Как «фамилия» — может повторяться у многих элементов. Используется для стилизации.
+        У одного элемента может быть <strong>несколько</strong> классов через пробел.
+    </p>
+    <pre><code>&lt;p class="text important"&gt;Жирный текст&lt;/p&gt;</code></pre>
+
+    <h3><code>style</code> — инлайн-стиль</h3>
+    <p>
+        Позволяет задать CSS прямо в теге. Мы почти не будем его использовать
+        (стили принято выносить в отдельный файл), но знать нужно.
+    </p>
+    <pre><code>&lt;p style="color: red; font-size: 20px;"&gt;Красный текст&lt;/p&gt;</code></pre>
+
+    <h3><code>title</code> — подсказка</h3>
+    <p>
+        Всплывающий текст при наведении мыши. Работает почти на любом элементе.
+    </p>
+    <pre><code>&lt;abbr title="HyperText Markup Language"&gt;HTML&lt;/abbr&gt;</code></pre>
+
+    <h3><code>hidden</code> — скрыть элемент</h3>
+    <p>
+        Это <strong>булев</strong> атрибут: либо он есть, либо его нет. Значение писать не нужно.
+    </p>
+    <pre><code>&lt;p hidden&gt;Этот текст не видно&lt;/p&gt;</code></pre>
+
+    <div class="note">
+        <strong>Булевы атрибуты.</strong> Есть атрибуты, которые не требуют значения —
+        само их присутствие уже «включает» поведение. Например: <code>hidden</code>,
+        <code>disabled</code>, <code>required</code>, <code>checked</code>.
+        Их можно писать как <code>disabled</code> или <code>disabled="disabled"</code> — оба варианта валидны.
+    </div>
+
+    <h2>4. Вложенность — теги внутри тегов</h2>
+
+    <p>
+        Теги можно вкладывать друг в друга. Это главный приём HTML.
+        Правило простое: <strong>закрывающий тег — зеркален открывающему</strong>
+        в обратном порядке.
+    </p>
+
+    <pre><code>&lt;p&gt;
+    Это &lt;strong&gt;жирный&lt;/strong&gt; и &lt;em&gt;курсивный&lt;/em&gt; текст.
+&lt;/p&gt;</code></pre>
+
+    <p>Здесь <code>&lt;strong&gt;</code> и <code>&lt;em&gt;</code> находятся <em>внутри</em> <code>&lt;p&gt;</code> — это их «родитель».</p>
+
+    <h3>Правильное закрытие</h3>
+    <p>Представь матрёшку или коробки: закрывать нужно в обратном порядке.</p>
+
+    <pre><code>&lt;!-- ПРАВИЛЬНО: сначала открыли A, потом B → закрываем B, потом A --&gt;
+&lt;p&gt;Текст &lt;strong&gt;важный&lt;/strong&gt; конец&lt;/p&gt;
+
+&lt;!-- НЕПРАВИЛЬНО: теги "пересеклись" --&gt;
+&lt;p&gt;Текст &lt;strong&gt;важный&lt;/p&gt;&lt;/strong&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Пересечение тегов — грубая ошибка.</strong> Браузер, скорее всего,
+        «починит» её сам, но результат может быть неожиданным. Всегда следи
+        за закрытием в правильном порядке.
+    </div>
+
+    <h3>Три уровня вложенности</h3>
+
+    <pre><code>&lt;div&gt;
+    &lt;p&gt;
+        Абзац с &lt;strong&gt;жирным &lt;em&gt;и курсивным&lt;/em&gt;&lt;/strong&gt; словом.
+    &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+    <p>Попробуй мысленно раскрыть: <code>div &gt; p &gt; strong &gt; em</code>. Это называется <strong>дерево</strong>.</p>
+
+    <h2>5. Отступы — «воздух» в коде</h2>
+
+    <p>
+        Браузер игнорирует отступы, но <strong>ты</strong> их видишь.
+        Соглашение: каждый уровень вложенности сдвигается вправо на 2 или 4 пробела.
+    </p>
+
+    <pre><code>&lt;body&gt;
+    &lt;div&gt;
+        &lt;p&gt;
+            Текст с &lt;strong&gt;акцентом&lt;/strong&gt;.
+        &lt;/p&gt;
+    &lt;/div&gt;
+&lt;/body&gt;</code></pre>
+
+    <p>
+        В VS Code: выдели код и нажми <strong>Shift + Alt + F</strong> —
+        редактор сам расставит отступы. Настрой это сразу, чтобы потом не мучиться.
+    </p>
+
+    <h2>6. Комментарии</h2>
+
+    <p>
+        Комментарии — заметки для людей. Браузер их <strong>не отображает</strong>
+        и не выполняет.
+    </p>
+
+    <pre><code>&lt;!-- Это комментарий --&gt;</code></pre>
+
+    <h3>Где они полезны</h3>
+    <ul>
+        <li><strong>Пометки блоков</strong> — чтобы найти нужное место в длинном файле.</li>
+        <li><strong>Пояснения</strong> — «зачем эта строка».</li>
+        <li><strong>Временное отключение кода</strong> — чтобы проверить что-то без удаления.</li>
+    </ul>
+
+    <pre><code>&lt;!-- Начало шапки сайта --&gt;
+&lt;header&gt;...&lt;/header&gt;
+&lt;!-- Конец шапки --&gt;
+
+&lt;!-- &lt;p&gt;Этот абзац временно скрыт&lt;/p&gt; --&gt;</code></pre>
+
+    <h3>Правила</h3>
+    <ul>
+        <li>Начало: <code>&lt;!--</code> (два дефиса!)</li>
+        <li>Конец: <code>--&gt;</code> (два дефиса!)</li>
+        <li>Внутри комментария <strong>нельзя</strong> писать <code>--</code> подряд, это ломает разметку.</li>
+        <li>Многострочные комментарии разрешены.</li>
+    </ul>
+
+    <div class="warn">
+        <strong>Частая ошибка новичков:</strong> написать <code>&lt;!- текст -&gt;</code>
+        (один дефис). Так комментарий не закроется, и браузер съест полстраницы.
+    </div>
+
+    <h2>7. Живая демонстрация</h2>
+
+    <p>Слева — код, справа — результат. Ниже всё это реально работает.</p>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+
+        <p id="demo-paragraph" class="demo-text" title="Подсказка при наведении">
+            Наведи на меня мышью — увидишь всплывающую подсказку (<code>title</code>).
+        </p>
+
+        <p>
+            Атрибут <code>id</code> — уникальный: <code>demo-paragraph</code>.<br>
+            Атрибут <code>class</code> — не уникальный: <code>demo-text</code>.
+        </p>
+
+        <p style="color: #d32f2f;">
+            А это параграф со <strong>стилем</strong> прямо в теге.
+        </p>
+
+        <p hidden>
+            А этот параграф скрыт через <code>hidden</code>. Если ты его видишь — что-то не так.
+        </p>
+
+        <!-- А вот это — комментарий, ты его не видишь на странице. -->
+        <p>А под этим параграфом есть комментарий в исходнике — открой <code>Ctrl+U</code>, найди слово «комментарий».</p>
+    </div>
+
+    <h2>8. Частые ошибки новичков</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Как правильно</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;p&gt;Текст&lt;p&gt;</code></td>
+                <td><code>&lt;p&gt;Текст&lt;/p&gt;</code> — забыт слэш</td>
+            </tr>
+            <tr>
+                <td><code>&lt;p&gt;Текст&lt;/p/&gt;</code></td>
+                <td>Слэш идёт до имени тега: <code>&lt;/p&gt;</code></td>
+            </tr>
+            <tr>
+                <td><code>&lt;p class=intro&gt;</code></td>
+                <td><code>&lt;p class="intro"&gt;</code> — кавычки обязательны</td>
+            </tr>
+            <tr>
+                <td><code>&lt;p&gt;текст&lt;/strong&gt;&lt;/p&gt;</code></td>
+                <td>Закрывающий тег должен совпадать с открывающим</td>
+            </tr>
+            <tr>
+                <td><code>&lt;p&gt;&lt;strong&gt;текст&lt;/p&gt;&lt;/strong&gt;</code></td>
+                <td>Пересечение тегов — так нельзя</td>
+            </tr>
+            <tr>
+                <td><code>&lt;!- комментарий -&gt;</code></td>
+                <td><code>&lt;!-- комментарий --&gt;</code> — по два дефиса</td>
+            </tr>
+            <tr>
+                <td>Два одинаковых <code>id</code> на странице</td>
+                <td><code>id</code> должен быть уникален, используй <code>class</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>9. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Карточка кота»</strong></p>
+        <p>Создай файл <code>02-practice.html</code>. Напиши каркас страницы
+           (<code>&lt;!DOCTYPE html&gt;</code>, <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code>).</p>
+        <p>Внутри <code>&lt;body&gt;</code> построй такой блок:</p>
+        <ul>
+            <li>Заголовок <code>&lt;h1&gt;</code> с <code>id="cat-title"</code></li>
+            <li>Параграф про кота с <code>class="description important"</code> (два класса!)</li>
+            <li>Внутри параграфа — одно слово в <code>&lt;strong&gt;</code>, другое в <code>&lt;em&gt;</code></li>
+            <li>Параграф с аббревиатурой «HTML» через <code>&lt;abbr title="..."&gt;</code></li>
+            <li>Один параграф со <code>style="color: green;"</code></li>
+            <li>Один параграф с атрибутом <code>hidden</code></li>
+        </ul>
+
+        <p><strong>Задание 2. «Комментарии»</strong></p>
+        <ul>
+            <li>Сверху файла добавь комментарий с датой и своей целью: «Учусь HTML».</li>
+            <li>Оберни один из абзацев в комментарий (закомментируй его) — убедись, что он исчез со страницы.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Специально перепутай порядок закрытия тегов <code>&lt;strong&gt;</code> и <code>&lt;em&gt;</code> — посмотри, что сделает браузер.</li>
+            <li>Забудь закрыть <code>&lt;div&gt;</code> — что произойдёт со всем, что ниже?</li>
+            <li>Напиши два одинаковых <code>id</code> — браузер поругается в консоли (F12 → Console).</li>
+        </ul>
+    </div>
+
+    <h2>10. Что запомнить из урока</h2>
+
+    <ul>
+        <li>Элемент = открывающий тег + содержимое + закрывающий тег (иногда только открывающий).</li>
+        <li>Атрибут пишется <strong>в открывающем теге</strong>, всегда в кавычках: <code>имя="значение"</code>.</li>
+        <li><code>id</code> — уникален, <code>class</code> — повторяем, <code>style</code> — для быстрых правок.</li>
+        <li>Вложенность — как матрёшки: закрываем в обратном порядке.</li>
+        <li>Отступы нужны тебе, а не браузеру. <code>Shift + Alt + F</code> в VS Code.</li>
+        <li>Комментарии: <code>&lt;!-- текст --&gt;</code>, по два дефиса с каждой стороны.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 2 · Следующий урок: <em>&lt;!DOCTYPE&gt;, &lt;html&gt;, &lt;head&gt;, &lt;body&gt; — структура документа</em>
+    </p>
+
+</body>
+</html>

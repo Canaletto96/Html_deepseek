@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 22 по HTML: семантические теги — header, nav, main, section, article, aside, footer. Правильная структура страницы.">
+    <title>Урок 22. Семантические теги</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        .layout-demo {
+            display: grid;
+            grid-template-areas:
+                "header header"
+                "nav nav"
+                "main aside"
+                "footer footer";
+            grid-template-columns: 2fr 1fr;
+            gap: 8px;
+            margin: 16px 0;
+        }
+        .layout-demo > * {
+            padding: 16px;
+            border-radius: 6px;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+        }
+        .layout-header { grid-area: header; background: #b5651d; }
+        .layout-nav { grid-area: nav; background: #e65100; }
+        .layout-main { grid-area: main; background: #2e7d32; }
+        .layout-aside { grid-area: aside; background: #6a1b9a; }
+        .layout-footer { grid-area: footer; background: #37474f; }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 22. Семантические теги</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: научиться строить структуру страницы через    -->
+    <!-- семантические теги, а не через «голые» div.                -->
+    <!-- ========================================================= -->
+
+    <h2>1. Проблема «дивового супа»</h2>
+
+    <p>
+        До HTML5 разработчики строили всё через <code>&lt;div&gt;</code> с классами:
+    </p>
+
+    <pre><code>&lt;div class="header"&gt;...&lt;/div&gt;
+&lt;div class="nav"&gt;...&lt;/div&gt;
+&lt;div class="main"&gt;...&lt;/div&gt;
+&lt;div class="sidebar"&gt;...&lt;/div&gt;
+&lt;div class="footer"&gt;...&lt;/div&gt;</code></pre>
+
+    <p>Это называется <strong>«дивовый суп»</strong> (div soup). Проблемы:</p>
+
+    <ul>
+        <li><strong>Браузер не понимает смысл</strong> — все блоки для него одинаковые.</li>
+        <li><strong>Screen reader не может навигировать</strong> — не знает, где шапка, где меню.</li>
+        <li><strong>Поисковики не видят структуру</strong> — не понимают, что главное на странице.</li>
+        <li><strong>Код сложно читать</strong> — 50 одинаковых <code>&lt;div&gt;</code>.</li>
+    </ul>
+
+    <p>
+        В HTML5 появились <strong>семантические теги</strong> — они выглядят как обычные блоки,
+        но <em>говорят браузеру, что это за блок</em>.
+    </p>
+
+    <h2>2. Обзор семантических тегов</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Что означает</th>
+                <th>Где использовать</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;header&gt;</code></td>
+                <td>Шапка</td>
+                <td>Логотип, заголовок, навигация вверху страницы или раздела</td>
+            </tr>
+            <tr>
+                <td><code>&lt;nav&gt;</code></td>
+                <td>Навигация</td>
+                <td>Главное меню, хлебные крошки, пагинация</td>
+            </tr>
+            <tr>
+                <td><code>&lt;main&gt;</code></td>
+                <td>Основное содержимое</td>
+                <td>Уникальный контент страницы (один на страницу)</td>
+            </tr>
+            <tr>
+                <td><code>&lt;section&gt;</code></td>
+                <td>Раздел</td>
+                <td>Смысловой раздел с заголовком</td>
+            </tr>
+            <tr>
+                <td><code>&lt;article&gt;</code></td>
+                <td>Статья</td>
+                <td>Самодостаточный контент: пост, новость, карточка товара</td>
+            </tr>
+            <tr>
+                <td><code>&lt;aside&gt;</code></td>
+                <td>Сбоку</td>
+                <td>Боковая панель: реклама, ссылки, дополнительная информация</td>
+            </tr>
+            <tr>
+                <td><code>&lt;footer&gt;</code></td>
+                <td>Подвал</td>
+                <td>Копирайт, контакты, ссылки внизу страницы или раздела</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>3. Визуальная схема страницы</h2>
+
+    <div class="demo">
+        <div class="demo-label">Типичная структура сайта:</div>
+        <div class="layout-demo">
+            <div class="layout-header">&lt;header&gt;</div>
+            <div class="layout-nav">&lt;nav&gt;</div>
+            <div class="layout-main">&lt;main&gt;</div>
+            <div class="layout-aside">&lt;aside&gt;</div>
+            <div class="layout-footer">&lt;footer&gt;</div>
+        </div>
+    </div>
+
+    <h2>4. Тег &lt;header&gt; — шапка</h2>
+
+    <p>
+        Верхняя часть страницы или раздела. Обычно содержит логотип, название,
+        навигацию, контактную информацию.
+    </p>
+
+    <pre><code>&lt;header&gt;
+    &lt;img src="logo.png" alt="Логотип" width="100"&gt;
+    &lt;h1&gt;Мой блог&lt;/h1&gt;
+    &lt;nav&gt;
+        &lt;a href="/"&gt;Главная&lt;/a&gt;
+        &lt;a href="/about"&gt;О нас&lt;/a&gt;
+    &lt;/nav&gt;
+&lt;/header&gt;</code></pre>
+
+    <div class="note">
+        <strong>Важно:</strong> <code>&lt;header&gt;</code> может быть не только у страницы,
+        но и у отдельного <code>&lt;article&gt;</code> или <code>&lt;section&gt;</code>.
+        Например, шапка статьи с заголовком и датой.
+    </div>
+
+    <pre><code>&lt;article&gt;
+    &lt;header&gt;
+        &lt;h2&gt;Как варить кофе&lt;/h2&gt;
+        &lt;p&gt;Опубликовано: 15 января 2026&lt;/p&gt;
+    &lt;/header&gt;
+    &lt;p&gt;Текст статьи...&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Не путай с <code>&lt;head&gt;</code>!</strong> Это разные теги:
+        <ul>
+            <li><code>&lt;head&gt;</code> — служебная информация документа (meta, title).</li>
+            <li><code>&lt;header&gt;</code> — видимая шапка страницы.</li>
+        </ul>
+    </div>
+
+    <h2>5. Тег &lt;nav&gt; — навигация</h2>
+
+    <p>
+        Блок с <strong>основными ссылками</strong> для перемещения по сайту.
+        Не каждая группа ссылок — <code>&lt;nav&gt;</code>.
+    </p>
+
+    <pre><code>&lt;nav&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;a href="/"&gt;Главная&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/blog"&gt;Блог&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/contact"&gt;Контакты&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+
+    <p><strong>Когда использовать &lt;nav&gt;:</strong></p>
+    <ul>
+        <li>Главное меню сайта</li>
+        <li>Хлебные крошки («Главная → Блог → Статья»)</li>
+        <li>Пагинация (страницы 1, 2, 3...)</li>
+        <li>Оглавление статьи</li>
+    </ul>
+
+    <div class="note">
+        <strong>Не используй <code>&lt;nav&gt;</code></strong> для групп ссылок
+        в тексте (например, «полезные ссылки» в подвале). <code>&lt;nav&gt;</code> —
+        только для <em>основной</em> навигации.
+    </div>
+
+    <p>
+        Screen reader читает <code>&lt;nav&gt;</code> как «навигация» и позволяет
+        пропустить её или перейти к ней — это удобно для незрячих.
+    </p>
+
+    <h2>6. Тег &lt;main&gt; — основное содержимое</h2>
+
+    <p>
+        Главный контент страницы. То, ради чего пользователь пришёл.
+        <strong>Один на страницу</strong>.
+    </p>
+
+    <pre><code>&lt;main&gt;
+    &lt;h1&gt;Добро пожаловать&lt;/h1&gt;
+    &lt;p&gt;Это основной контент страницы.&lt;/p&gt;
+&lt;/main&gt;</code></pre>
+
+    <p><strong>Что НЕ должно быть внутри &lt;main&gt;:</strong></p>
+    <ul>
+        <li>Шапка (<code>&lt;header&gt;</code>)</li>
+        <li>Навигация (<code>&lt;nav&gt;</code>)</li>
+        <li>Подвал (<code>&lt;footer&gt;</code>)</li>
+        <li>Боковые панели (<code>&lt;aside&gt;</code>)</li>
+    </ul>
+
+    <div class="note">
+        <strong>Зачем один:</strong> screen reader читает <code>&lt;main&gt;</code>
+        как «основное содержимое» и позволяет <strong>перейти к нему одним нажатием</strong>,
+        пропустив шапку и меню. Если <code>&lt;main&gt;</code> несколько — это сбивает.
+    </div>
+
+    <h2>7. Тег &lt;section&gt; — раздел</h2>
+
+    <p>
+        Смысловой раздел страницы. Обычно содержит <strong>заголовок</strong>
+        и связанный с ним контент.
+    </p>
+
+    <pre><code>&lt;section&gt;
+    &lt;h2&gt;Услуги&lt;/h2&gt;
+    &lt;p&gt;Мы предлагаем разработку сайтов, дизайн и консультации.&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Не каждую «коробку» делать &lt;section&gt;.</strong> Если блок нужен
+        просто для группировки (без смыслового заголовка) — используй <code>&lt;div&gt;</code>.
+        <code>&lt;section&gt;</code> — только для смысловых разделов.
+    </div>
+
+    <p><strong>Правило:</strong> у каждого <code>&lt;section&gt;</code> должен быть
+    <strong>заголовок</strong> (<code>&lt;h2&gt;</code>–<code>&lt;h6&gt;</code>).
+    Если заголовка нет — скорее всего, это не <code>&lt;section&gt;</code>, а <code>&lt;div&gt;</code>.</p>
+
+    <h2>8. Тег &lt;article&gt; — статья</h2>
+
+    <p>
+        <strong>Самодостаточный контент</strong>, который можно «вырезать» и опубликовать
+        в другом месте без потери смысла.
+    </p>
+
+    <p><strong>Что может быть статьёй:</strong></p>
+    <ul>
+        <li>Пост в блоге</li>
+        <li>Новость</li>
+        <li>Карточка товара</li>
+        <li>Комментарий пользователя</li>
+        <li>Пост в соцсети</li>
+    </ul>
+
+    <pre><code>&lt;article&gt;
+    &lt;header&gt;
+        &lt;h2&gt;Как выбрать ноутбук&lt;/h2&gt;
+        &lt;p&gt;&lt;time datetime="2026-01-15"&gt;15 января 2026&lt;/time&gt;&lt;/p&gt;
+    &lt;/header&gt;
+    &lt;p&gt;При выборе ноутбука обратите внимание на...&lt;/p&gt;
+    &lt;footer&gt;
+        &lt;p&gt;Автор: Иван Иванов&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/article&gt;</code></pre>
+
+    <h3>&lt;article&gt; vs &lt;section&gt;</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th><code>&lt;section&gt;</code></th>
+                <th><code>&lt;article&gt;</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Смысл</td>
+                <td>Раздел внутри чего-то</td>
+                <td>Самодостаточная единица</td>
+            </tr>
+            <tr>
+                <td>Можно вырезать</td>
+                <td>Нет (потеряет контекст)</td>
+                <td>Да (останется смысл)</td>
+            </tr>
+            <tr>
+                <td>Пример</td>
+                <td>Раздел «Услуги» на главной</td>
+                <td>Пост в блоге, карточка товара</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>9. Тег &lt;aside&gt; — сбоку</h2>
+
+    <p>
+        Контент, <strong>косвенно</strong> связанный с основным: реклама, ссылки на другие
+        статьи, боковая панель, «читайте также».
+    </p>
+
+    <pre><code>&lt;aside&gt;
+    &lt;h3&gt;Читайте также&lt;/h3&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;a href="/post-1"&gt;Как варить кофе&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/post-2"&gt;10 рецептов чая&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/aside&gt;</code></pre>
+
+    <p>
+        Screen reader может пропустить <code>&lt;aside&gt;</code>, если пользователь
+        хочет только основной контент.
+    </p>
+
+    <h2>10. Тег &lt;footer&gt; — подвал</h2>
+
+    <p>
+        Нижняя часть страницы или раздела. Копирайт, контакты, ссылки, кнопка «наверх».
+    </p>
+
+    <pre><code>&lt;footer&gt;
+    &lt;p&gt;&amp;copy; 2026 Мой блог. Все права защищены.&lt;/p&gt;
+    &lt;p&gt;Контакты: &lt;a href="mailto:info@example.com"&gt;info@example.com&lt;/a&gt;&lt;/p&gt;
+&lt;/footer&gt;</code></pre>
+
+    <p>
+        Как и <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code> может быть
+        не только у страницы, но и у статьи (с информацией об авторе).
+    </p>
+
+    <h2>11. Полная структура страницы</h2>
+
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Мой блог&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;header&gt;
+        &lt;h1&gt;Мой блог&lt;/h1&gt;
+        &lt;nav&gt;
+            &lt;a href="/"&gt;Главная&lt;/a&gt;
+            &lt;a href="/blog"&gt;Блог&lt;/a&gt;
+            &lt;a href="/about"&gt;О нас&lt;/a&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &lt;h2&gt;Последние статьи&lt;/h2&gt;
+
+        &lt;article&gt;
+            &lt;header&gt;
+                &lt;h3&gt;Как варить кофе&lt;/h3&gt;
+                &lt;p&gt;&lt;time datetime="2026-01-15"&gt;15 января 2026&lt;/time&gt;&lt;/p&gt;
+            &lt;/header&gt;
+            &lt;p&gt;Текст статьи...&lt;/p&gt;
+            &lt;footer&gt;Автор: Иван&lt;/footer&gt;
+        &lt;/article&gt;
+
+        &lt;article&gt;
+            &lt;header&gt;
+                &lt;h3&gt;10 рецептов чая&lt;/h3&gt;
+                &lt;p&gt;&lt;time datetime="2026-01-10"&gt;10 января 2026&lt;/time&gt;&lt;/p&gt;
+            &lt;/header&gt;
+            &lt;p&gt;Текст статьи...&lt;/p&gt;
+        &lt;/article&gt;
+    &lt;/main&gt;
+
+    &lt;aside&gt;
+        &lt;h3&gt;Популярное&lt;/h3&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href="#"&gt;Лучшие сорта чая&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#"&gt;Кофе для начинающих&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/aside&gt;
+
+    &lt;footer&gt;
+        &lt;p&gt;&amp;copy; 2026 Мой блог&lt;/p&gt;
+    &lt;/footer&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <h2>12. Дерево структуры</h2>
+
+    <pre><code>&lt;body&gt;
+├── &lt;header&gt;         ← шапка
+│   ├── &lt;h1&gt;        ← заголовок страницы
+│   └── &lt;nav&gt;       ← навигация
+│
+├── &lt;main&gt;           ← основной контент
+│   ├── &lt;article&gt;    ← первая статья
+│   │   ├── &lt;header&gt; ← шапка статьи
+│   │   └── &lt;footer&gt; ← подвал статьи
+│   │
+│   └── &lt;article&gt;    ← вторая статья
+│
+├── &lt;aside&gt;          ← боковая панель
+│
+└── &lt;footer&gt;         ← подвал страницы</code></pre>
+
+    <h2>13. Как браузер и поисковики это видят</h2>
+
+    <h3>Для screen reader</h3>
+
+    <p>Пользователь нажимает клавишу и перескакивает между регионами:</p>
+
+    <ul>
+        <li><code>&lt;nav&gt;</code> → «навигация, пропустить или перейти»</li>
+        <li><code>&lt;main&gt;</code> → «основное содержимое»</li>
+        <li><code>&lt;aside&gt;</code> → «дополнительно»</li>
+        <li><code>&lt;footer&gt;</code> → «подвал»</li>
+    </ul>
+
+    <h3>Для поисковиков (Google, Яндекс)</h3>
+
+    <p>
+        Алгоритмы понимают структуру: что в <code>&lt;main&gt;</code> — важнее, что
+        в <code>&lt;article&gt;</code> — это отдельная тематическая единица, что в
+        <code>&lt;aside&gt;</code> — второстепенно.
+    </p>
+
+    <div class="note">
+        <strong>Семантика ≠ SEO-магия.</strong> Сами по себе теги не поднимут сайт
+        в выдаче. Но они <strong>помогают</strong> поисковикам понять, что где. А это
+        косвенно влияет на позиции.
+    </div>
+
+    <h2>14. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Несколько <code>&lt;main&gt;</code> на странице</td>
+                <td>Разрешён только один</td>
+            </tr>
+            <tr>
+                <td>Шапка внутри <code>&lt;main&gt;</code></td>
+                <td>Шапка — вне main</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>&lt;section&gt;</code> без заголовка</td>
+                <td>Семантика теряется, лучше <code>&lt;div&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Использовать <code>&lt;article&gt;</code> для всего</td>
+                <td>Это самодостаточный контент, а не любая коробка</td>
+            </tr>
+            <tr>
+                <td>Каждую группу ссылок делать <code>&lt;nav&gt;</code></td>
+                <td><code>&lt;nav&gt;</code> — только для основной навигации</td>
+            </tr>
+            <tr>
+                <td>Путать <code>&lt;header&gt;</code> и <code>&lt;head&gt;</code></td>
+                <td>Совершенно разные теги</td>
+            </tr>
+            <tr>
+                <td>Заменять все <code>&lt;div&gt;</code> на <code>&lt;section&gt;</code></td>
+                <td>Теряется смысл — <code>&lt;section&gt;</code> не универсальная замена</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>15. Когда семантика НЕ нужна</h2>
+
+    <p>
+        Если блок — <strong>чисто декоративный</strong> (обёртка для сетки, контейнер
+        для стилей), используй <code>&lt;div&gt;</code>. Он не несёт смысла.
+    </p>
+
+    <pre><code>&lt;!-- Просто обёртка для CSS-grid --&gt;
+&lt;div class="grid-container"&gt;
+    &lt;div class="grid-item"&gt;...&lt;/div&gt;
+    &lt;div class="grid-item"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <p>
+        <code>&lt;div&gt;</code> — это нормально. Его не надо бояться.
+        Просто для <strong>смысловых</strong> блоков используй семантические теги.
+    </p>
+
+    <h2>16. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Структура блога»</strong></p>
+        <p>Создай файл <code>22-practice.html</code>. Собери страницу блога:</p>
+        <ul>
+            <li><code>&lt;header&gt;</code> с названием блога и <code>&lt;nav&gt;</code> (Главная, Блог, О нас).</li>
+            <li><code>&lt;main&gt;</code> с 2–3 <code>&lt;article&gt;</code>. У каждой статьи — <code>&lt;header&gt;</code> с заголовком и датой.</li>
+            <li><code>&lt;aside&gt;</code> с блоком «Популярные статьи» (список из 3–5 ссылок).</li>
+            <li><code>&lt;footer&gt;</code> с копирайтом.</li>
+        </ul>
+
+        <p><strong>Задание 2. «Семантическая проверка»</strong></p>
+        <ul>
+            <li>Открой DevTools (<code>F12</code>) → Elements.</li>
+            <li>Найди <code>&lt;main&gt;</code>, <code>&lt;header&gt;</code> и т.д. — увидишь их в DOM.</li>
+            <li>Проверь через <a href="https://validator.w3.org">validator.w3.org</a> — нет ли ошибок.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Screen reader»</strong></p>
+        <ul>
+            <li>Установи NVDA (Windows) или используй VoiceOver (Mac) / TalkBack (Android).</li>
+            <li>Открой свою страницу.</li>
+            <li>Попробуй навигировать по регионам (в NVDA — клавиша <code>D</code> для landmark'ов).</li>
+            <li>Ты услышишь «навигация», «основное содержимое», «дополнительно» — это семантика в действии.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Сравни div и section»</strong></p>
+        <ul>
+            <li>Сделай страницу с 5 <code>&lt;div class="section"&gt;</code>.</li>
+            <li>Потом переделай на 5 <code>&lt;section&gt;</code> с заголовками.</li>
+            <li>Проверь через screen reader — разница слышна.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Сделай два <code>&lt;main&gt;</code> — проверь валидатором, увидишь ошибку.</li>
+            <li>Положи <code>&lt;header&gt;</code> внутрь <code>&lt;main&gt;</code> — увидишь предупреждение.</li>
+            <li>Сделай <code>&lt;section&gt;</code> без заголовка — это не ошибка, но семантика слабее. Подумай, зачем он там.</li>
+        </ul>
+    </div>
+
+    <h2>17. Что запомнить из урока</h2>
+
+    <ul>
+        <li><strong>Семь семантических тегов:</strong> header, nav, main, section, article, aside, footer.</li>
+        <li><strong><code>&lt;header&gt;</code></strong> — шапка страницы или раздела.</li>
+        <li><strong><code>&lt;nav&gt;</code></strong> — основная навигация (меню, хлебные крошки).</li>
+        <li><strong><code>&lt;main&gt;</code></strong> — главный контент, <strong>один на страницу</strong>.</li>
+        <li><strong><code>&lt;section&gt;</code></strong> — смысловой раздел <strong>с заголовком</strong>.</li>
+        <li><strong><code>&lt;article&gt;</code></strong> — самодостаточная единица (пост, новость, карточка).</li>
+        <li><strong><code>&lt;aside&gt;</code></strong> — дополнительный контент (боковая панель).</li>
+        <li><strong><code>&lt;footer&gt;</code></strong> — подвал страницы или раздела.</li>
+        <li><strong>Семантика помогает:</strong> screen reader'ам, поисковикам и тебе самому (код читается легче).</li>
+        <li><strong>Не всё — семантика.</strong> Для чисто декоративных обёрток — <code>&lt;div&gt;</code>.</li>
+        <li><strong>Не путай</strong> <code>&lt;header&gt;</code> с <code>&lt;head&gt;</code>.</li>
+        <li><strong>Не путай</strong> <code>&lt;section&gt;</code> с <code>&lt;article&gt;</code>: section — часть, article — целое.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 22 · Следующий урок: <em>&lt;div&gt; и &lt;span&gt; — когда использовать</em>
+    </p>
+
+</body>
+</html>

@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 8 по HTML: HTML-сущности (entities) — полный справочник символов, которые нельзя ввести с клавиатуры.">
+    <title>Урок 8. HTML-сущности — полный справочник</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        td.symbol {
+            font-size: 22px;
+            text-align: center;
+            width: 60px;
+        }
+        td.code {
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 8. HTML-сущности</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: научиться вставлять в HTML символы, которые   -->
+    <!-- нельзя ввести с клавиатуры или которые конфликтуют с      -->
+    <!-- синтаксисом языка.                                         -->
+    <!-- ========================================================= -->
+
+    <h2>1. Что такое HTML-сущности</h2>
+
+    <p>
+        <strong>HTML-сущность</strong> (entity, «мнемоника») — это специальный код,
+        который начинается с амперсанда <code>&amp;</code> и заканчивается точкой с запятой
+        <code>;</code>. Браузер, встретив такой код, подставляет нужный символ.
+    </p>
+
+    <pre><code>&amp;имя;     ← именованная сущность (например &amp;copy;)
+&amp;#номер;   ← числовая сущность (например &amp;#169;)
+&amp;#xHEX;    ← hex-сущность (например &amp;#xA9;)</code></pre>
+
+    <p>Все три варианта выше дают один и тот же символ: <strong>&copy;</strong>.</p>
+
+    <div class="note">
+        <strong>Зачем это нужно:</strong>
+        <ul>
+            <li>Вставить символы, которых нет на клавиатуре (©, ®, €, →, ★).</li>
+            <li>Показать символы, которые конфликтуют с HTML (<code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code>).</li>
+            <li>Добавить неразрывный пробел, тире, кавычки-ёлочки.</li>
+        </ul>
+    </div>
+
+    <h2>2. Три обязательные сущности</h2>
+
+    <p>
+        Эти три ты будешь использовать <strong>постоянно</strong>. Их надо знать наизусть.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Символ</th>
+                <th>Сущность</th>
+                <th>Что это</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="symbol">&lt;</td>
+                <td class="code">&amp;lt;</td>
+                <td>Меньше (less than)</td>
+            </tr>
+            <tr>
+                <td class="symbol">&gt;</td>
+                <td class="code">&amp;gt;</td>
+                <td>Больше (greater than)</td>
+            </tr>
+            <tr>
+                <td class="symbol">&amp;</td>
+                <td class="code">&amp;amp;</td>
+                <td>Амперсанд</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Почему их обязательно экранировать</h3>
+
+    <p>Если написать <code>&lt;</code> «как есть», браузер подумает, что начинается тег:</p>
+
+    <pre><code>&lt;!-- ПЛОХО: браузер решит, что &lt;p&gt; — это тег --&gt;
+&lt;p&gt;Тег &lt;p&gt; создаёт параграф.&lt;/p&gt;
+
+&lt;!-- ХОРОШО: экранируем угловые скобки --&gt;
+&lt;p&gt;Тег &amp;lt;p&amp;gt; создаёт параграф.&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p>Тег <code>&lt;p&gt;</code> создаёт параграф.</p>
+    </div>
+
+    <div class="warn">
+        <strong>Важно про амперсанд:</strong> его нужно экранировать <strong>всегда</strong>,
+        если он не является началом сущности. Например, в URL:
+        <code>&lt;a href="page.php?id=5&amp;amp;name=ivan"&gt;</code>.
+    </div>
+
+    <h2>3. Неразрывный пробел &amp;nbsp;</h2>
+
+    <p>
+        Обычный пробел браузер может «схлопнуть» или использовать как точку переноса строки.
+        <code>&amp;nbsp;</code> (non-breaking space) — это пробел, который
+        <strong>не переносится</strong> и <strong>не схлопывается</strong>.
+    </p>
+
+    <pre><code>&lt;p&gt;10&amp;nbsp;000&amp;nbsp;рублей&lt;/p&gt;
+&lt;p&gt;Иван&amp;nbsp;Иванов&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (число и имя не разорвутся при переносе):</div>
+        <p>10&nbsp;000&nbsp;рублей</p>
+        <p>Иван&nbsp;Иванов</p>
+    </div>
+
+    <p><strong>Где используют &amp;nbsp;:</strong></p>
+    <ul>
+        <li>Числа с разделителем: <code>1&nbsp;000&nbsp;000</code></li>
+        <li>Имена и фамилии: <code>Лев&nbsp;Толстой</code></li>
+        <li>Единицы измерения: <code>5&nbsp;кг</code>, <code>10&nbsp;км</code></li>
+        <li>Пустая ячейка в таблице (иначе схлопнется)</li>
+    </ul>
+
+    <h2>4. Типографика: тире, кавычки, многоточие</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Символ</th>
+                <th>Сущность</th>
+                <th>Название</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="symbol">—</td>
+                <td class="code">&amp;mdash;</td>
+                <td>Длинное тире (em dash)</td>
+            </tr>
+            <tr>
+                <td class="symbol">–</td>
+                <td class="code">&amp;ndash;</td>
+                <td>Короткое тире (en dash)</td>
+            </tr>
+            <tr>
+                <td class="symbol">…</td>
+                <td class="code">&amp;hellip;</td>
+                <td>Многоточие</td>
+            </tr>
+            <tr>
+                <td class="symbol">«</td>
+                <td class="code">&amp;laquo;</td>
+                <td>Левая двойная ёлочка</td>
+            </tr>
+            <tr>
+                <td class="symbol">»</td>
+                <td class="code">&amp;raquo;</td>
+                <td>Правая двойная ёлочка</td>
+            </tr>
+            <tr>
+                <td class="symbol">„</td>
+                <td class="code">&amp;bdquo;</td>
+                <td>Нижняя кавычка</td>
+            </tr>
+            <tr>
+                <td class="symbol">“</td>
+                <td class="code">&amp;ldquo;</td>
+                <td>Левая двойная «лапка»</td>
+            </tr>
+            <tr>
+                <td class="symbol">”</td>
+                <td class="code">&amp;rdquo;</td>
+                <td>Правая двойная «лапка»</td>
+            </tr>
+            <tr>
+                <td class="symbol">‘</td>
+                <td class="code">&amp;lsquo;</td>
+                <td>Левая одинарная</td>
+            </tr>
+            <tr>
+                <td class="symbol">’</td>
+                <td class="code">&amp;rsquo;</td>
+                <td>Правая одинарная (апостроф)</td>
+            </tr>
+            <tr>
+                <td class="symbol"> </td>
+                <td class="code">&amp;nbsp;</td>
+                <td>Неразрывный пробел</td>
+            </tr>
+            <tr>
+                <td class="symbol">­</td>
+                <td class="code">&amp;shy;</td>
+                <td>Мягкий перенос (невидимый)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;p&gt;&amp;laquo;Привет!&amp;raquo; &amp;mdash; сказал он.&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p>&laquo;Привет!&raquo; &mdash; сказал он.</p>
+    </div>
+
+    <h2>5. Знаки авторского права и торговые марки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Символ</th>
+                <th>Сущность</th>
+                <th>Что это</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="symbol">©</td>
+                <td class="code">&amp;copy;</td>
+                <td>Копирайт</td>
+            </tr>
+            <tr>
+                <td class="symbol">®</td>
+                <td class="code">&amp;reg;</td>
+                <td>Зарегистрированный знак</td>
+            </tr>
+            <tr>
+                <td class="symbol">™</td>
+                <td class="code">&amp;trade;</td>
+                <td>Торговая марка</td>
+            </tr>
+            <tr>
+                <td class="symbol">℠</td>
+                <td class="code">&amp;#8480;</td>
+                <td>Service mark</td>
+            </tr>
+            <tr>
+                <td class="symbol">§</td>
+                <td class="code">&amp;sect;</td>
+                <td>Параграф</td>
+            </tr>
+            <tr>
+                <td class="symbol">¶</td>
+                <td class="code">&amp;para;</td>
+                <td>Знак абзаца</td>
+            </tr>
+            <tr>
+                <td class="symbol">†</td>
+                <td class="code">&amp;dagger;</td>
+                <td>Крестик (сноска)</td>
+            </tr>
+            <tr>
+                <td class="symbol">‡</td>
+                <td class="code">&amp;Dagger;</td>
+                <td>Двойной крестик</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>6. Математические символы</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Символ</th>
+                <th>Сущность</th>
+                <th>Что это</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="symbol">+</td>
+                <td class="code">&amp;plus;</td>
+                <td>Плюс</td>
+            </tr>
+            <tr>
+                <td class="symbol">−</td>
+                <td class="code">&amp;minus;</td>
+                <td>Минус</td>
+            </tr>
+            <tr>
+                <td class="symbol">×</td>
+                <td class="code">&amp;times;</td>
+                <td>Умножение</td>
+            </tr>
+            <tr>
+                <td class="symbol">÷</td>
+                <td class="code">&amp;divide;</td>
+                <td>Деление</td>
+            </tr>
+            <tr>
+                <td class="symbol">±</td>
+                <td class="code">&amp;plusmn;</td>
+                <td>Плюс-минус</td>
+            </tr>
+            <tr>
+                <td class="symbol">=</td>
+                <td class="code">&amp;equals;</td>
+                <td>Равно</td>
+            </tr>
+            <tr>
+                <td class="symbol">≠</td>
+                <td class="code">&amp;ne;</td>
+                <td>Не равно</td>
+            </tr>
+            <tr>
+                <td class="symbol">≈</td>
+                <td class="code">&amp;asymp;</td>
+                <td>Приблизительно</td>
+            </tr>
+            <tr>
+                <td class="symbol">≤</td>
+                <td class="code">&amp;le;</td>
+                <td>Меньше или равно</td>
+            </tr>
+            <tr>
+                <td class="symbol">≥</td>
+                <td class="code">&amp;ge;</td>
+                <td>Больше или равно</td>
+            </tr>
+            <tr>
+                <td class="symbol">∞</td>
+                <td class="code">&amp;infin;</td>
+                <td>Бесконечность</td>
+            </tr>
+            <tr>
+                <td class="symbol">√</td>
+                <td class="code">&amp;radic;</td>
+                <td>Квадратный корень</td>
+            </tr>
+            <tr>
+                <td class="symbol">∑</td>
+                <td class="code">&amp;sum;</td>
+                <td>Сумма</td>
+            </tr>
+            <tr>
+                <td class="symbol">∏</td>
+                <td class="code">&amp;prod;</td>
+                <td>Произведение</td>
+            </tr>
+            <tr>
+                <td class="symbol">∫</td>
+                <td class="code">&amp;int;</td>
+                <td>Интеграл</td>
+            </tr>
+            <tr>
+                <td class="symbol">∂</td>
+                <td class="code">&amp;part;</td>
+                <td>Частная производная</td>
+            </tr>
+            <tr>
+                <td class="symbol">π</td>
+                <td class="code">&amp;pi;</td>
+                <td>Число Пи</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>7. Стрелки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Символ</th>
+                <th>Сущность</th>
+                <th>Название</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="symbol">←</td>
+                <td class="code">&amp;larr;</td>
+                <td>Влево</td>
+            </tr>
+            <tr>
+                <td class="symbol">→</td>
+                <td class="code">&amp;rarr;</td>
+                <td>Вправо</td>
+            </tr>
+            <tr>
+                <td class="symbol">↑</td>
+                <td class="code">&amp;uarr;</td>
+                <td>Вверх</td>
+            </tr>
+            <tr>
+                <td class="symbol">↓</td>
+                <td class="code">&amp;darr;</td>
+                <td>Вниз</td>
+            </tr>
+            <tr>
+                <td class="symbol">↔</td>
+                <td class="code">&amp;harr;</td>
+                <td>Влево-вправо</td>
+            </tr>
+            <tr>
+                <td class="symbol">⇐</td>
+                <td class="code">&amp;lArr;</td>
+                <td>Двойная влево</td>
+            </tr>
+            <tr>
+                <td class="symbol">⇒</td>
+                <td class="code">&amp;rArr;</td>
+                <td>Двойная вправо</td>
+            </tr>
+            <tr>
+                <td class="symbol">⟶</td>
+                <td class="code">&amp;longrightarrow;</td>
+                <td>Длинная вправо</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>8. Валюты</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Символ</th>
+                <th>Сущность</th>
+                <th>Валюта</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="symbol">$</td>
+                <td class="code">&amp;dollar;</td>
+                <td>Доллар</td>
+            </tr>
+            <tr>
+                <td class="symbol">€</td>
+                <td class="code">&amp;euro;</td>
+                <td>Евро</td>
+            </tr>
+            <tr>
+                <td class="symbol">£</td>
+                <td class="code">&amp;pound;</td>
+                <td>Фунт</td>
+            </tr>
+            <tr>
+                <td class="symbol">¥</td>
+                <td class="code">&amp;yen;</td>
+                <td>Йена / Юань</td>
+            </tr>
+            <tr>
+                <td class="symbol">¢</td>
+                <td class="code">&amp;cent;</td>
+                <td>Цент</td>
+            </tr>
+            <tr>
+                <td class="symbol">₽</td>
+                <td class="code">&amp;#8381;</td>
+                <td>Рубль (только числом)</td>
+            </tr>
+            <tr>
+                <td class="symbol">₴</td>
+                <td class="code">&amp;#8372;</td>
+                <td>Гривна (только числом)</td>
+            </tr>
+            <tr>
+                <td class="symbol">₸</td>
+                <td class="code">&amp;#8376;</td>
+                <td>Тенге (только числом)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>9. Символы и звёздочки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Символ</th>
+                <th>Сущность</th>
+                <th>Что это</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="symbol">★</td>
+                <td class="code">&amp;starf;</td>
+                <td>Заполненная звезда</td>
+            </tr>
+            <tr>
+                <td class="symbol">☆</td>
+                <td class="code">&amp;star;</td>
+                <td>Пустая звезда</td>
+            </tr>
+            <tr>
+                <td class="symbol">♥</td>
+                <td class="code">&amp;hearts;</td>
+                <td>Червы</td>
+            </tr>
+            <tr>
+                <td class="symbol">♦</td>
+                <td class="code">&amp;diams;</td>
+                <td>Бубны</td>
+            </tr>
+            <tr>
+                <td class="symbol">♣</td>
+                <td class="code">&amp;clubs;</td>
+                <td>Трефы</td>
+            </tr>
+            <tr>
+                <td class="symbol">♠</td>
+                <td class="code">&amp;spades;</td>
+                <td>Пики</td>
+            </tr>
+            <tr>
+                <td class="symbol">•</td>
+                <td class="code">&amp;bull;</td>
+                <td>Буллет (маркер списка)</td>
+            </tr>
+            <tr>
+                <td class="symbol">✓</td>
+                <td class="code">&amp;check;</td>
+                <td>Галочка</td>
+            </tr>
+            <tr>
+                <td class="symbol">✔</td>
+                <td class="code">&amp;#10004;</td>
+                <td>Толстая галочка</td>
+            </tr>
+            <tr>
+                <td class="symbol">✗</td>
+                <td class="code">&amp;#10007;</td>
+                <td>Крестик</td>
+            </tr>
+            <tr>
+                <td class="symbol">✘</td>
+                <td class="code">&amp;#10008;</td>
+                <td>Толстый крестик</td>
+            </tr>
+            <tr>
+                <td class="symbol">☀</td>
+                <td class="code">&amp;#9728;</td>
+                <td>Солнце</td>
+            </tr>
+            <tr>
+                <td class="symbol">☂</td>
+                <td class="code">&amp;#9730;</td>
+                <td>Зонт</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>10. Греческий алфавит</h2>
+
+    <p>Основные буквы — часто нужны в научных текстах:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Символ</th>
+                <th>Сущность</th>
+                <th>Название</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="symbol">α</td>
+                <td class="code">&amp;alpha;</td>
+                <td>Альфа</td>
+            </tr>
+            <tr>
+                <td class="symbol">β</td>
+                <td class="code">&amp;beta;</td>
+                <td>Бета</td>
+            </tr>
+            <tr>
+                <td class="symbol">γ</td>
+                <td class="code">&amp;gamma;</td>
+                <td>Гамма</td>
+            </tr>
+            <tr>
+                <td class="symbol">δ</td>
+                <td class="code">&amp;delta;</td>
+                <td>Дельта</td>
+            </tr>
+            <tr>
+                <td class="symbol">θ</td>
+                <td class="code">&amp;theta;</td>
+                <td>Тета</td>
+            </tr>
+            <tr>
+                <td class="symbol">λ</td>
+                <td class="code">&amp;lambda;</td>
+                <td>Лямбда</td>
+            </tr>
+            <tr>
+                <td class="symbol">μ</td>
+                <td class="code">&amp;mu;</td>
+                <td>Мю</td>
+            </tr>
+            <tr>
+                <td class="symbol">π</td>
+                <td class="code">&amp;pi;</td>
+                <td>Пи</td>
+            </tr>
+            <tr>
+                <td class="symbol">σ</td>
+                <td class="code">&amp;sigma;</td>
+                <td>Сигма</td>
+            </tr>
+            <tr>
+                <td class="symbol">φ</td>
+                <td class="code">&amp;phi;</td>
+                <td>Фи</td>
+            </tr>
+            <tr>
+                <td class="symbol">ω</td>
+                <td class="code">&amp;omega;</td>
+                <td>Омега</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>11. Числовые сущности — универсальный способ</h2>
+
+    <p>
+        Для любого символа Unicode можно использовать числовой код. Это удобно,
+        если у символа нет «имени» или ты не помнишь название.
+    </p>
+
+    <pre><code>&amp;#60;     → &lt;        (десятичный код)
+&amp;#x3C;    → &lt;        (hex-код, тот же символ)
+
+&amp;#169;    → ©
+&amp;#8364;   → €
+&amp;#8594;   → →
+&amp;#9733;   → ★</code></pre>
+
+    <div class="note">
+        <strong>Как найти код символа:</strong> открой <code>https://unicode-table.com</code>,
+        найди символ → увидишь его десятичный и hex-код.
+    </div>
+
+    <h2>12. Где сущности НЕ работают</h2>
+
+    <div class="warn">
+        <p><strong>Внутри тега <code>&lt;script&gt;</code> и <code>&lt;style&gt;</code></strong> сущности не обрабатываются! Там всё пишется как есть.</p>
+        <pre><code>&lt;script&gt;
+    // Это НЕ сработает:
+    var s = "&amp;copy;";
+
+    // Это правильно:
+    var s = "\u00A9";  // JavaScript-эскейп
+&lt;/script&gt;</code></pre>
+    </div>
+
+    <h2>13. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Что будет</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Забыть точку с запятой: <code>&amp;copy</code></td>
+                <td>Браузер может не распознать сущность</td>
+            </tr>
+            <tr>
+                <td>Написать <code>&amp;amp;copy;</code></td>
+                <td>Покажется текст «&amp;copy;», а не символ ©</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>&amp;nbsp;</code> для больших отступов</td>
+                <td>Плохая практика — используй CSS <code>margin</code>/<code>padding</code></td>
+            </tr>
+            <tr>
+                <td>Не экранировать <code>&amp;</code> в URL</td>
+                <td>Может сломать ссылку</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>&amp;lt;</code> вне контекста</td>
+                <td>В тексте — ок. Но не пытайся так «создать тег».</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>14. Быстрая шпаргалка</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Нужно</th>
+                <th>Пиши</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Показать <code>&lt;</code></td><td><code>&amp;lt;</code></td></tr>
+            <tr><td>Показать <code>&gt;</code></td><td><code>&amp;gt;</code></td></tr>
+            <tr><td>Показать <code>&amp;</code></td><td><code>&amp;amp;</code></td></tr>
+            <tr><td>Пробел без переноса</td><td><code>&amp;nbsp;</code></td></tr>
+            <tr><td>Копирайт</td><td><code>&amp;copy;</code></td></tr>
+            <tr><td>Длинное тире</td><td><code>&amp;mdash;</code></td></tr>
+            <tr><td>Многоточие</td><td><code>&amp;hellip;</code></td></tr>
+            <tr><td>Кавычки-ёлочки</td><td><code>&amp;laquo;</code> ... <code>&amp;raquo;</code></td></tr>
+            <tr><td>Стрелка вправо</td><td><code>&amp;rarr;</code></td></tr>
+            <tr><td>Евро</td><td><code>&amp;euro;</code></td></tr>
+            <tr><td>Рубль</td><td><code>&amp;#8381;</code></td></tr>
+            <tr><td>Галочка</td><td><code>&amp;#10004;</code></td></tr>
+            <tr><td>Крестик</td><td><code>&amp;#10008;</code></td></tr>
+            <tr><td>Звезда</td><td><code>&amp;starf;</code></td></tr>
+            <tr><td>Сердце</td><td><code>&amp;hearts;</code></td></tr>
+        </tbody>
+    </table>
+
+    <h2>15. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Текст с символами»</strong></p>
+        <p>Создай файл <code>08-practice.html</code>. Напиши абзац, в котором будут:</p>
+        <ul>
+            <li>Кавычки-ёлочки: «Привет!»</li>
+            <li>Длинное тире: —</li>
+            <li>Копирайт: ©</li>
+            <li>Евро и рубль: € 100, 5000 ₽</li>
+            <li>Стрелка: →</li>
+            <li>Многоточие: …</li>
+        </ul>
+
+        <p><strong>Задание 2. «Показать HTML-код»</strong></p>
+        <ul>
+            <li>Напиши абзац: «Тег &lt;p&gt; создаёт параграф» — с экранированием.</li>
+            <li>Открой в браузере — увидишь текст с угловыми скобками, а не тег.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Неразрывный пробел»</strong></p>
+        <ul>
+            <li>Напиши: «10 000 000 рублей» через <code>&amp;nbsp;</code>.</li>
+            <li>Сузь окно браузера — число не должно разрываться на части.</li>
+            <li>Сравни с обычными пробелами — увидишь разницу.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Найди код символа»</strong></p>
+        <ul>
+            <li>Открой <code>https://unicode-table.com</code>.</li>
+            <li>Найди символы: ⚡ ☕ ✈ ⚙ ❤</li>
+            <li>Узнай их hex-коды и вставь в свою страницу через <code>&amp;#x...</code>.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Напиши <code>&amp;copy</code> без точки с запятой — что покажет браузер?</li>
+            <li>Напиши <code>&amp;amp;copy;</code> — увидишь текст «&amp;copy;», а не символ.</li>
+            <li>Внутри <code>&lt;script&gt;</code> попробуй вывести <code>"&amp;copy;"</code> — увидишь, что сущность

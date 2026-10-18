@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 24 по HTML: глобальные атрибуты — id, class, style, title, data-*, hidden, lang, dir, tabindex.">
+    <title>Урок 24. Глобальные атрибуты</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        .highlight {
+            background: #fff8e1;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #ffb300;
+        }
+        .box {
+            padding: 16px;
+            margin: 8px 0;
+            border-radius: 6px;
+            background: #e3f2fd;
+            border: 1px solid #1565c0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 24. Глобальные атрибуты</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: освоить атрибуты, которые работают на ЛЮБОМ  -->
+    <!-- HTML-теге и нужны постоянно.                              -->
+    <!-- ========================================================= -->
+
+    <h2>1. Что такое глобальные атрибуты</h2>
+
+    <p>
+        <strong>Глобальные атрибуты</strong> — это атрибуты, которые можно применять
+        к <strong>любому</strong> HTML-тегу. Они не привязаны к конкретному элементу
+        (в отличие от <code>href</code> у <code>&lt;a&gt;</code> или <code>src</code>
+        у <code>&lt;img&gt;</code>).
+    </p>
+
+    <p>Самые используемые:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Для чего</th>
+                <th>Пример</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>id</code></td>
+                <td>Уникальный идентификатор элемента</td>
+                <td><code>id="header"</code></td>
+            </tr>
+            <tr>
+                <td><code>class</code></td>
+                <td>Группа для CSS / JS</td>
+                <td><code>class="btn btn-primary"</code></td>
+            </tr>
+            <tr>
+                <td><code>style</code></td>
+                <td>CSS прямо в теге</td>
+                <td><code>style="color: red"</code></td>
+            </tr>
+            <tr>
+                <td><code>title</code></td>
+                <td>Подсказка при наведении</td>
+                <td><code>title="Это подсказка"</code></td>
+            </tr>
+            <tr>
+                <td><code>data-*</code></td>
+                <td>Свои данные для JS</td>
+                <td><code>data-user-id="123"</code></td>
+            </tr>
+            <tr>
+                <td><code>hidden</code></td>
+                <td>Скрыть элемент</td>
+                <td><code>hidden</code></td>
+            </tr>
+            <tr>
+                <td><code>lang</code></td>
+                <td>Язык содержимого</td>
+                <td><code>lang="ru"</code></td>
+            </tr>
+            <tr>
+                <td><code>dir</code></td>
+                <td>Направление текста</td>
+                <td><code>dir="rtl"</code></td>
+            </tr>
+            <tr>
+                <td><code>tabindex</code></td>
+                <td>Порядок фокуса</td>
+                <td><code>tabindex="0"</code></td>
+            </tr>
+            <tr>
+                <td><code>contenteditable</code></td>
+                <td>Разрешить редактирование</td>
+                <td><code>contenteditable="true"</code></td>
+            </tr>
+            <tr>
+                <td><code>draggable</code></td>
+                <td>Разрешить перетаскивание</td>
+                <td><code>draggable="true"</code></td>
+            </tr>
+            <tr>
+                <td><code>spellcheck</code></td>
+                <td>Проверка орфографии</td>
+                <td><code>spellcheck="false"</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>2. Атрибут id — уникальный идентификатор</h2>
+
+    <p>
+        <code>id</code> — это «имя» элемента на странице. Должен быть
+        <strong>уникальным</strong> — один id = один элемент.
+    </p>
+
+    <pre><code>&lt;h1 id="main-title"&gt;Заголовок&lt;/h1&gt;
+&lt;nav id="main-nav"&gt;...&lt;/nav&gt;
+&lt;form id="login-form"&gt;...&lt;/form&gt;</code></pre>
+
+    <h3>Зачем нужен id</h3>
+
+    <ul>
+        <li><strong>Якоря:</strong> <code>&lt;a href="#main-title"&gt;</code> — переход к элементу.</li>
+        <li><strong>CSS:</strong> <code>#main-title { color: red; }</code>.</li>
+        <li><strong>JavaScript:</strong> <code>document.getElementById('main-title')</code>.</li>
+        <li><strong>label:</strong> <code>&lt;label for="email"&gt;</code> → <code>&lt;input id="email"&gt;</code>.</li>
+    </ul>
+
+    <div class="warn">
+        <strong>Правила id:</strong>
+        <ul>
+            <li>Должен быть <strong>уникален</strong> на странице.</li>
+            <li>Не должен содержать пробелов.</li>
+            <li>Чувствителен к регистру (<code>id="Header"</code> ≠ <code>id="header"</code>).</li>
+            <li>Может начинаться с буквы, цифры, <code>_</code>, <code>-</code>.</li>
+            <li>Не должен начинаться с цифры (невалидно).</li>
+        </ul>
+    </div>
+
+    <h3>Пример: якорь</h3>
+
+    <pre><code>&lt;a href="#section-2"&gt;Перейти к разделу 2&lt;/a&gt;
+
+...
+
+&lt;h2 id="section-2"&gt;Раздел 2&lt;/h2&gt;</code></pre>
+
+    <h2>3. Атрибут class — группа для стилей</h2>
+
+    <p>
+        <code>class</code> — это «категория» элемента. Может быть
+        <strong>у многих</strong> элементов, у одного элемента может быть
+        <strong>несколько классов</strong> через пробел.
+    </p>
+
+    <pre><code>&lt;p class="text"&gt;Обычный текст&lt;/p&gt;
+&lt;p class="text important"&gt;Важный текст&lt;/p&gt;
+&lt;p class="text highlight"&gt;Выделенный текст&lt;/p&gt;</code></pre>
+
+    <pre><code>.text { font-size: 16px; }
+.important { color: red; }
+.highlight { background: yellow; }</code></pre>
+
+    <h3>id vs class</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th><code>id</code></th>
+                <th><code>class</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Уникальность</td>
+                <td>Один на страницу</td>
+                <td>Может повторяться</td>
+            </tr>
+            <tr>
+                <td>Количество</td>
+                <td>Один у элемента</td>
+                <td>Сколько угодно (через пробел)</td>
+            </tr>
+            <tr>
+                <td>CSS-селектор</td>
+                <td><code>#id</code></td>
+                <td><code>.class</code></td>
+            </tr>
+            <tr>
+                <td>JS</td>
+                <td><code>getElementById()</code></td>
+                <td><code>getElementsByClassName()</code>, <code>querySelectorAll()</code></td>
+            </tr>
+            <tr>
+                <td>Когда использовать</td>
+                <td>Якоря, label, уникальные элементы</td>
+                <td>Стили, группировка</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Современная практика:</strong> для CSS — почти всегда <code>class</code>.
+        <code>id</code> — для якорей, JS-селекторов и label. Не используй <code>id</code>
+        для стилизации (это усложняет переопределение).
+    </div>
+
+    <h2>4. Атрибут style — CSS прямо в теге</h2>
+
+    <p>
+        Позволяет задать CSS-стили прямо в HTML-теге. Называется
+        <strong>инлайн-стиль</strong>.
+    </p>
+
+    <pre><code>&lt;p style="color: red; font-size: 20px;"&gt;Красный текст&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p style="color: red; font-size: 20px;">Красный текст</p>
+    </div>
+
+    <h3>Когда использовать style</h3>
+
+    <ul>
+        <li><strong>Быстрая правка</strong> — «на 5 секунд», чтобы проверить.</li>
+        <li><strong>Динамические стили</strong> из JavaScript (например, <code>element.style.color = 'red'</code>).</li>
+        <li><strong>Email-письма</strong> — там CSS-файлы не работают, нужны инлайн-стили.</li>
+    </ul>
+
+    <div class="warn">
+        <strong>Не используй style постоянно!</strong>
+        <ul>
+            <li>Стили смешиваются с HTML — код сложно читать.</li>
+            <li>Нельзя кэшировать — загружается с каждым HTML.</li>
+            <li>Сложно переопределять — инлайн-стиль имеет высокий приоритет.</li>
+            <li>Не работает для <code>:hover</code>, медиа-запросов.</li>
+        </ul>
+        Используй <code>class</code> + отдельный CSS-файл. <code>style</code> — только для экстренных случаев.
+    </div>
+
+    <h2>5. Атрибут title — подсказка</h2>
+
+    <p>
+        Показывает всплывающую подсказку при наведении мыши. Работает почти
+        на всех элементах.
+    </p>
+
+    <pre><code>&lt;abbr title="HyperText Markup Language"&gt;HTML&lt;/abbr&gt;
+&lt;a href="https://example.com" title="Перейти на главную"&gt;Главная&lt;/a&gt;
+&lt;button title="Сохранить изменения"&gt;💾&lt;/button&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (наведи мышью):</div>
+        <p><abbr title="HyperText Markup Language">HTML</abbr> — <a href="https://example.com" title="Перейти на главную">Главная</a> — <button title="Сохранить изменения">💾</button></p>
+    </div>
+
+    <div class="note">
+        <strong>Ограничения title:</strong>
+        <ul>
+            <li>Не работает на тач-устройствах (нет hover).</li>
+            <li>Плохо воспринимается screen reader'ами (читают как часть текста).</li>
+            <li>Не используй вместо текста ссылки — если что-то важно, пиши это в содержимом.</li>
+        </ul>
+    </div>
+
+    <h2>6. Атрибут data-* — свои данные для JS</h2>
+
+    <p>
+        Позволяет хранить <strong>любые данные</strong> прямо в HTML-атрибутах.
+        Имя начинается с <code>data-</code>, дальше — что угодно.
+    </p>
+
+    <pre><code>&lt;div data-user-id="123" data-role="admin" data-last-login="2026-01-15"&gt;
+    Иван Иванов
+&lt;/div&gt;
+
+&lt;button data-action="delete" data-item-id="42"&gt;Удалить&lt;/button&gt;</code></pre>
+
+    <p>В JavaScript эти данные доступны через <code>dataset</code>:</p>
+
+    <pre><code>const btn = document.querySelector('button');
+btn.dataset.action;    // "delete"
+btn.dataset.itemId;    // "42" (дефис → camelCase)</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (нажми кнопку — данные выводятся в alert):</div>
+        <button data-action="delete" data-item-id="42"
+                onclick="alert('Действие: ' + this.dataset.action + ', ID: ' + this.dataset.itemId)"
+                style="padding: 8px 16px; cursor: pointer;">
+            Удалить (нажми меня)
+        </button>
+    </div>
+
+    <div class="note">
+        <strong>Правила data-*:</strong>
+        <ul>
+            <li>Имя после <code>data-</code> — только строчные латинские буквы, цифры, дефис.</li>
+            <li>Не используй <code>data-</code> для данных, которые важны для SEO (поисковики их не индексируют).</li>
+            <li>В JS: <code>data-user-id</code> → <code>dataset.userId</code>.</li>
+        </ul>
+    </div>
+
+    <h3>Зачем data-* на практике</h3>
+
+    <ul>
+        <li><strong>ID для JS-обработчиков:</strong> какая кнопка нажата.</li>
+        <li><strong>Настройки компонента:</strong> <code>data-theme="dark"</code>.</li>
+        <li><strong>Параметры анимации:</strong> <code>data-speed="500"</code>.</li>
+        <li><strong>Трекеры аналитики:</strong> <code>data-event="click-buy"</code>.</li>
+    </ul>
+
+    <h2>7. Атрибут hidden — скрыть элемент</h2>
+
+    <p>
+        Полностью скрывает элемент из отображения и из дерева доступности.
+        Это <strong>булев</strong> атрибут — значение не нужно.
+    </p>
+
+    <pre><code>&lt;p hidden&gt;Этот текст не видно на странице.&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (первый абзац скрыт, второй виден):</div>
+        <p hidden>Этот текст НЕ виден.</p>
+        <p>Этот текст виден. Между ними нет пустого места.</p>
+    </div>
+
+    <p>
+        В отличие от <code>display: none</code>, <code>hidden</code>:
+    </p>
+    <ul>
+        <li>Удаляет элемент из <strong>дерева доступности</strong> (screen reader не читает).</li>
+        <li>Не участвует в <strong>tab-навигации</strong>.</li>
+        <li>Обычно эквивалентен <code>display: none</code>, но некоторые браузеры могут переопределять.</li>
+    </ul>
+
+    <h3>hidden vs CSS display: none</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th><code>hidden</code></th>
+                <th><code>style="display: none"</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Скрывает</td>
+                <td>Да</td>
+                <td>Да</td>
+            </tr>
+            <tr>
+                <td>Семантика</td>
+                <td>«скрыт»</td>
+                <td>«не отображается»</td>
+            </tr>
+            <tr>
+                <td>Переопределяется CSS?</td>
+                <td>Да, но не рекомендуется</td>
+                <td>Да (это и есть CSS)</td>
+            </tr>
+            <tr>
+                <td>Когда использовать</td>
+                <td>Контент, который должен быть скрыт по смыслу</td>
+                <td>Скрыть визуально, оставив в DOM</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>8. Атрибут lang — язык содержимого</h2>
+
+    <p>
+        Указывает, на каком языке содержимое элемента. Обычно ставится на
+        <code>&lt;html&gt;</code>, но можно — на отдельные фрагменты.
+    </p>
+
+    <pre><code>&lt;html lang="ru"&gt;
+...
+&lt;p lang="en"&gt;Hello, world!&lt;/p&gt;
+&lt;p lang="fr"&gt;Bonjour le monde!&lt;/p&gt;</code></pre>
+
+    <p><strong>Зачем:</strong></p>
+    <ul>
+        <li>Screen reader читает правильным голосом.</li>
+        <li>Браузер корректно переносит слова, ставит кавычки, проверяет орфографию.</li>
+        <li>Поисковики понимают, на каком языке страница.</li>
+    </ul>
+
+    <h2>9. Атрибут dir — направление текста</h2>
+
+    <p>
+        Определяет направление текста: слева направо (<code>ltr</code>) или
+        справа налево (<code>rtl</code>).
+    </p>
+
+    <pre><code>&lt;p dir="ltr"&gt;Обычный текст слева направо&lt;/p&gt;
+&lt;p dir="rtl"&gt;مرحبا بالعالم! (арабский)&lt;/p&gt;
+&lt;p dir="auto"&gt;Автоопределение направления&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p dir="ltr">Обычный текст слева направо</p>
+        <p dir="rtl">مرحبا بالعالم! (арабский)</p>
+        <p dir="auto">Auto: English text</p>
+        <p dir="auto">مرحبا بالعالم</p>
+    </div>
+
+    <p>
+        <code>dir="auto"</code> — браузер сам определяет направление по первому
+        символу. Удобно для пользовательского контента (комментарии, посты).
+    </p>
+
+    <h2>10. Атрибут tabindex — порядок фокуса</h2>
+
+    <p>
+        Управляет порядком, в котором элементы получают фокус при нажатии
+        <code>Tab</code>.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Значение</th>
+                <th>Что означает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>0</code></td>
+                <td>Естественный порядок (как в DOM)</td>
+            </tr>
+            <tr>
+                <td><code>-1</code></td>
+                <td>Не фокусируется через Tab, но можно через JS</td>
+            </tr>
+            <tr>
+                <td><code>1, 2, 3...</code></td>
+                <td>Приоритетный порядок (обычно не использовать!)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;!-- Сделать нефокусируемый элемент фокусируемым --&gt;
+&lt;div tabindex="0"&gt;Этот div теперь можно выбрать Tab'ом&lt;/div&gt;
+
+&lt;!-- Убрать кнопку из tab-навигации, но оставить кликабельной --&gt;
+&lt;button tabindex="-1"&gt;Скрыта из Tab&lt;/button&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Не используй tabindex больше 0!</strong> Это ломает естественную
+        навигацию и путает пользователей. Оставляй <code>tabindex="0"</code> или
+        <code>-1</code>, а порядок — по DOM.
+    </div>
+
+    <h2>11. contenteditable — редактирование</h2>
+
+    <p>
+        Делает элемент редактируемым, как поле ввода.
+    </p>
+
+    <pre><code>&lt;div contenteditable="true"&gt;
+    Этот текст можно редактировать прямо на странице!
+&lt;/div&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (кликни и попробуй изменить):</div>
+        <div class="box" contenteditable="true">
+            Этот текст можно редактировать. Кликни и попробуй изменить!
+        </div>
+    </div>
+
+    <p>Используется в:</p>
+    <ul>
+        <li>Визуальных редакторах (WYSIWYG).</li>
+        <li>Заметках и to-do-списках.</li>
+        <li>Демо-площадках.</li>
+    </ul>
+
+    <h2>12. Полная шпаргалка</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Что делает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><code>id</code></td><td>Уникальная строка</td><td>Идентификатор</td></tr>
+            <tr><td><code>class</code></td><td>Список классов через пробел</td><td>Группировка для CSS</td></tr>
+            <tr><td><code>style</code></td><td>CSS-код</td><td>Инлайн-стили</td></tr>
+            <tr><td><code>title</code></td><td>Текст</td><td>Подсказка при наведении</td></tr>
+            <tr><td><code>data-*</code></td><td>Любые данные</td><td>Свои данные для JS</td></tr>
+            <tr><td><code>hidden</code></td><td>булев</td><td>Скрыть элемент</td></tr>
+            <tr><td><code>lang</code></td><td><code>ru</code>, <code>en</code>, <code>de</code></td><td>Язык содержимого</td></tr>
+            <tr><td><code>dir</code></td><td><code>ltr</code>, <code>rtl</code>, <code>auto</code></td><td>Направление текста</td></tr>
+            <tr><td><code>tabindex</code></td><td><code>0</code>, <code>-1</code></td><td>Порядок фокуса</td></tr>
+            <tr><td><code>contenteditable</code></td><td><code>true</code>, <code>false</code></td><td>Редактирование</td></tr>
+            <tr><td><code>draggable</code></td><td><code>true</code>, <code>false</code></td><td>Перетаскивание</td></tr>
+            <tr><td><code>spellcheck</code></td><td><code>true</code>, <code>false</code></td><td>Проверка орфографии</td></tr>
+            <tr><td><code>accesskey</code></td><td>Символ</td><td>Горячая клавиша</td></tr>
+            <tr><td><code>translate</code></td><td><code>yes</code>, <code>no</code></td><td>Переводить ли Google Translate</td></tr>
+        </tbody>
+    </table>
+
+    <h2>13. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Два одинаковых <code>id</code> на странице</td>
+                <td>Невалидно, <code>getElementById</code> вернёт только первый</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>id</code> для стилизации</td>
+                <td>Высокий приоритет в CSS, сложно переопределить</td>
+            </tr>
+            <tr>
+                <td>Злоупотреблять <code>style</code></td>
+                <td>Смешивает HTML и CSS, сложно поддерживать</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>title</code> вместо label</td>
+                <td>Не работает на мобильных и в screen reader'ах</td>
+            </tr>
+            <tr>
+                <td><code>tabindex="5"</code> и выше</td>
+                <td>Ломает навигацию, путает пользователей</td>
+            </tr>
+            <tr>
+                <td>Хранить секреты в <code>data-*</code></td>
+                <td>Видны через DevTools</td>
+            </tr>
+            <tr>
+                <td><code>class</code> с пробелами в имени</td>
+                <td>Пробел — разделитель классов, не часть имени</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>14. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Навигация с якорями»</strong></p>
+        <p>Создай файл <code>24-practice.html</code>. Страница с 3 разделами:</p>
+        <ul>
+            <li>У каждого раздела — <code>&lt;h2 id="..."&gt;</code>.</li>
+            <li>Вверху — меню из 3 ссылок с якорями <code>#section-1</code> и т.д.</li>
+            <li>Внизу каждого раздела — ссылка «↑ Наверх» на <code>#top</code>.</li>
+        </ul>
+
+        <p><strong>Задание 2. «data-* кнопки»</strong></p>
+        <ul>
+            <li>Сделай 3 кнопки: «Купить», «В избранное», «Поделиться».</li>
+            <li>У каждой <code>data-action</code> и <code>data-item-id</code>.</li>
+            <li>При клике выводи <code>alert</code> с действием и ID (через <code>onclick</code> и <code>this.dataset</code>).</li>
+        </ul>
+
+        <p><strong>Задание 3. «Скрыть/показать»</strong></p>
+        <ul>
+            <li>Абзац с <code>id="secret"</code> и атрибутом <code>hidden</code>.</li>
+            <li>Кнопка «Показать» — убирает <code>hidden</code> через JS.</li>
+            <li>Кнопка «Скрыть» — возвращает <code>hidden</code>.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Многоязычный текст»</strong></p>
+        <ul>
+            <li>Абзац с русским текстом (<code>lang="ru"</code>).</li>
+            <li>Абзац с английским текстом (<code>lang="en"</code>).</li>
+            <li>Абзац с арабским текстом (<code>dir="rtl"</code>).</li>
+            <li>Проверь: браузер сам поймёт, как отображать.</li>
+        </ul>
+
+        <p><strong>Задание 5. «contenteditable»</strong></p>
+        <ul>
+            <li>Сделай <code>&lt;div contenteditable="true"&gt;</code> с текстом.</li>
+            <li>Кликни и попробуй изменить текст.</li>
+            <li>Открой DevTools — увидишь, что содержимое реально изменилось.</li>
+        </ul>
+
+        <p><strong>Задание 6. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Добавь два элемента с одинаковым <code>id</code>. Проверь валидатором.</li>
+            <li>Используй <code>tabindex="10"</code> у одной кнопки и <code>tabindex="1"</code> у другой — проверь навигацию Tab'ом (не рекомендуется!).</li>
+            <li>Попробуй задать <code>class="btn btn-primary btn-large"</code> — увидишь, что все три класса работают.</li>
+        </ul>
+    </div>
+
+       <h2>15. Что запомнить из урока</h2>
+
+    <ul>
+        <li><strong>Глобальные атрибуты</strong> работают на любом теге.</li>
+        <li><strong><code>id</code></strong> — уникальный, один на страницу. Для якорей, JS, label.</li>
+        <li><strong><code>class</code></strong> — повторяемый, может быть несколько. Для CSS.</li>
+        <li><strong><code>style</code></strong> — инлайн-CSS. Только для экстренных случаев.</li>
+        <li><strong><code>title</code></strong> — подсказка при наведении. Не для важной информации.</li>
+        <li><strong><code>data-*</code></strong> — свои данные для JS, доступны через <code>dataset</code>.</li>
+        <li><strong><code>hidden</code></strong> — скрыть элемент из DOM и из screen reader'ов.</li>
+        <li><strong><code>lang</code></strong> — язык содержимого (<code>ru</code>, <code>en</code>).</li>
+        <li><strong><code>dir</code></strong> — направление текста (<code>ltr</code>, <code>rtl</code>, <code>auto</code>).</li>
+        <li><strong><code>tabindex</code></strong> — порядок фокуса. Только <code>0</code> или <code>-1</code>.</li>
+        <li><strong><code>contenteditable</code></strong> — редактирование прямо на странице.</li>
+        <li><strong><code>draggable</code></strong> — перетаскивание элемента.</li>
+        <li><strong><code>spellcheck</code></strong> — проверка орфографии.</li>
+        <li><strong><code>accesskey</code></strong> — горячая клавиша (использовать редко).</li>
+        <li><strong><code>translate</code></strong> — переводить ли через Google Translate.</li>
+    </ul>
+
+    <h2>16. Шпаргалка: когда какой атрибут</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Задача</th>
+                <th>Атрибут</th>
+                <th>Пример</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Сделать якорь для ссылки</td>
+                <td><code>id</code></td>
+                <td><code>&lt;h2 id="pricing"&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Связать label с полем</td>
+                <td><code>id</code> + <code>for</code></td>
+                <td><code>&lt;label for="email"&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Стилизовать группу элементов</td>
+                <td><code>class</code></td>
+                <td><code>&lt;div class="card"&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Быстрая правка стиля</td>
+                <td><code>style</code></td>
+                <td><code>style="color: red"</code></td>
+            </tr>
+            <tr>
+                <td>Подсказка при наведении</td>
+                <td><code>title</code></td>
+                <td><code>title="Подробнее"</code></td>
+            </tr>
+            <tr>
+                <td>Данные для JS</td>
+                <td><code>data-*</code></td>
+                <td><code>data-id="123"</code></td>
+            </tr>
+            <tr>
+                <td>Скрыть элемент</td>
+                <td><code>hidden</code></td>
+                <td><code>&lt;div hidden&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Указать язык</td>
+                <td><code>lang</code></td>
+                <td><code>lang="en"</code></td>
+            </tr>
+            <tr>
+                <td>Текст справа налево</td>
+                <td><code>dir</code></td>
+                <td><code>dir="rtl"</code></td>
+            </tr>
+            <tr>
+                <td>Сделать div фокусируемым</td>
+                <td><code>tabindex</code></td>
+                <td><code>tabindex="0"</code></td>
+            </tr>
+            <tr>
+                <td>Редактируемый текст</td>
+                <td><code>contenteditable</code></td>
+                <td><code>contenteditable="true"</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>17. id vs class — когда что</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ситуация</th>
+                <th>Используй</th>
+                <th>Почему</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Якорь для ссылки <code>#section</code></td>
+                <td><code>id</code></td>
+                <td>Ссылка работает только с id</td>
+            </tr>
+            <tr>
+                <td>Связка label + input</td>
+                <td><code>id</code></td>
+                <td><code>for</code> работает только с id</td>
+            </tr>
+            <tr>
+                <td>Стилизация карточек, кнопок</td>
+                <td><code>class</code></td>
+                <td>Много элементов — один класс</td>
+            </tr>
+            <tr>
+                <td>JS-селектор</td>
+                <td><code>id</code> или <code>class</code></td>
+                <td>id — для уникальных, class — для групп</td>
+            </tr>
+            <tr>
+                <td>Форма (поля)</td>
+                <td><code>name</code> + <code>id</code></td>
+                <td>name для отправки, id для label</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Правило:</strong> для CSS — почти всегда <code>class</code>.
+        <code>id</code> — для якорей, label, JS-селекторов уникальных элементов.
+        Не используй <code>id</code> для стилизации — это усложняет переопределение.
+    </div>
+
+    <h2>18. Частые ошибки (расширенно)</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Что будет</th>
+                <th>Как исправить</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Два одинаковых <code>id</code></td>
+                <td>Валидатор ругается, <code>getElementById</code> вернёт первый</td>
+                <td>Сделай id уникальным, для группы — <code>class</code></td>
+            </tr>
+            <tr>
+                <td><code>id="my header"</code> (с пробелом)</td>
+                <td>Пробел разрывает имя, работает только <code>my</code></td>
+                <td><code>id="my-header"</code> или <code>id="myHeader"</code></td>
+            </tr>
+            <tr>
+                <td><code>id="123"</code> (начинается с цифры)</td>
+                <td>Валидатор ругается</td>
+                <td><code>id="item-123"</code></td>
+            </tr>
+            <tr>
+                <td><code>class="btn btn"</code></td>
+                <td>Дублирование класса</td>
+                <td><code>class="btn"</code></td>
+            </tr>
+            <tr>
+                <td>Много <code>style</code> атрибутов</td>
+                <td>Код сложно читать</td>
+                <td>Выноси в CSS-файл через <code>class</code></td>
+            </tr>
+            <tr>
+                <td><code>tabindex="5"</code></td>
+                <td>Ломает навигацию</td>
+                <td>Используй <code>0</code> или <code>-1</code></td>
+            </tr>
+            <tr>
+                <td><code>aria-hidden</code> на фокусируемом элементе</td>
+                <td>Пользователь с клавиатурой «теряет» элемент</td>
+                <td>Не скрывай фокусируемое от screen reader'а</td>
+            </tr>
+            <tr>
+                <td>Секреты в <code>data-*</code></td>
+                <td>Видны через DevTools</td>
+                <td>Храни секреты на сервере</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>19. Практическое задание (расширенное)</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Навигация с якорями»</strong></p>
+        <p>Создай файл <code>24-practice.html</code>. Страница с 3 разделами:</p>
+        <ul>
+            <li>У каждого раздела — <code>&lt;h2 id="..."&gt;</code>.</li>
+            <li>Вверху — меню из 3 ссылок с якорями <code>#section-1</code> и т.д.</li>
+            <li>Внизу каждого раздела — ссылка «↑ Наверх» на <code>#top</code>.</li>
+        </ul>
+
+        <p><strong>Задание 2. «data-* кнопки»</strong></p>
+        <ul>
+            <li>Сделай 3 кнопки: «Купить», «В избранное», «Поделиться».</li>
+            <li>У каждой <code>data-action</code> и <code>data-item-id</code>.</li>
+            <li>При клике выводи <code>alert</code> с действием и ID (через <code>this.dataset</code>).</li>
+        </ul>
+
+        <p><strong>Задание 3. «Скрыть/показать»</strong></p>
+        <ul>
+            <li>Абзац с <code>id="secret"</code> и атрибутом <code>hidden</code>.</li>
+            <li>Кнопка «Показать» — убирает <code>hidden</code> через JS.</li>
+            <li>Кнопка «Скрыть» — возвращает <code>hidden</code>.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Многоязычный текст»</strong></p>
+        <ul>
+            <li>Абзац с русским текстом (<code>lang="ru"</code>).</li>
+            <li>Абзац с английским текстом (<code>lang="en"</code>).</li>
+            <li>Абзац с арабским текстом (<code>dir="rtl"</code>).</li>
+            <li>Проверь: браузер сам поймёт, как отображать.</li>
+        </ul>
+
+        <p><strong>Задание 5. «contenteditable»</strong></p>
+        <ul>
+            <li>Сделай <code>&lt;div contenteditable="true"&gt;</code> с текстом.</li>
+            <li>Кликни и попробуй изменить текст.</li>
+            <li>Открой DevTools — увидишь, что содержимое реально изменилось.</li>
+        </ul>
+
+        <p><strong>Задание 6. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Добавь два элемента с одинаковым <code>id</code>. Проверь валидатором.</li>
+            <li>Используй <code>tabindex="10"</code> у одной кнопки и <code>tabindex="1"</code> у другой — проверь навигацию Tab'ом (не рекомендуется!).</li>
+            <li>Попробуй задать <code>class="btn btn-primary btn-large"</code> — увидишь, что все три класса работают.</li>
+        </ul>
+    </div>
+
+    <h2>20. Что запомнить из урока</h2>
+
+    <ul>
+        <li><strong>Глобальные атрибуты</strong> работают на любом теге.</li>
+        <li><strong><code>id</code></strong> — уникальный, один на страницу. Для якорей, JS, label.</li>
+        <li><strong><code>class</code></strong> — повторяемый, может быть несколько. Для CSS.</li>
+        <li><strong><code>style</code></strong> — инлайн-CSS. Только для экстренных случаев.</li>
+        <li><strong><code>title</code></strong> — подсказка при наведении. Не для важной информации.</li>
+        <li><strong><code>data-*</code></strong> — свои данные для JS, доступны через <code>dataset</code>.</li>
+        <li><strong><code>hidden</code></strong> — скрыть элемент из DOM и из screen reader'ов.</li>
+        <li><strong><code>lang</code></strong> — язык содержимого (<code>ru</code>, <code>en</code>).</li>
+        <li><strong><code>dir</code></strong> — направление текста (<code>ltr</code>, <code>rtl</code>, <code>auto</code>).</li>
+        <li><strong><code>tabindex</code></strong> — порядок фокуса. Только <code>0</code> или <code>-1</code>.</li>
+        <li><strong><code>contenteditable</code></strong> — редактирование прямо на странице.</li>
+        <li><strong><code>draggable</code></strong> — перетаскивание элемента.</li>
+        <li><strong><code>spellcheck</code></strong> — проверка орфографии.</li>
+        <li><strong><code>accesskey</code></strong> — горячая клавиша (использовать редко).</li>
+        <li><strong><code>translate</code></strong> — переводить ли через Google Translate.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 24 · Следующий урок: <em>Пути к файлам — относительные, абсолютные, ../, /</em>
+    </p>
+
+</body>
+</html>

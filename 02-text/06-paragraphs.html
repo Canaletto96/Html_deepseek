@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 6 по HTML: теги p, br, hr — как правильно оформлять текстовые блоки.">
+    <title>Урок 6. Параграфы, переносы и горизонтальная линия</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 6. Параграфы, переносы и горизонтальная линия</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: освоить три базовых тега для текстового       -->
+    <!-- контента и понять, когда какой использовать.               -->
+    <!-- ========================================================= -->
+
+    <h2>1. Общая картина</h2>
+
+    <p>В этом уроке — три тега, которые ты будешь использовать <strong>постоянно</strong>:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Что делает</th>
+                <th>Тип</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;p&gt;</code></td>
+                <td>Параграф (абзац текста)</td>
+                <td>Парный</td>
+            </tr>
+            <tr>
+                <td><code>&lt;br&gt;</code></td>
+                <td>Перенос строки внутри текста</td>
+                <td>Одиночный</td>
+            </tr>
+            <tr>
+                <td><code>&lt;hr&gt;</code></td>
+                <td>Горизонтальная линия (разделитель)</td>
+                <td>Одиночный</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>2. Тег &lt;p&gt; — параграф</h2>
+
+    <p>
+        <strong>Параграф</strong> (от англ. <em>paragraph</em>) — это логически завершённый
+        блок текста. Мысль, абзац, фрагмент. Основная «единица» текстового контента.
+    </p>
+
+    <pre><code>&lt;p&gt;Это первый параграф. Он содержит одну законченную мысль.&lt;/p&gt;
+&lt;p&gt;А это второй параграф. У него уже другая мысль.&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p>Это первый параграф. Он содержит одну законченную мысль.</p>
+        <p>А это второй параграф. У него уже другая мысль.</p>
+    </div>
+
+    <h3>Ключевые свойства &lt;p&gt;</h3>
+    <ul>
+        <li>Это <strong>блочный</strong> тег — занимает всю ширину, начинается с новой строки.</li>
+        <li>Браузер автоматически добавляет отступы сверху и снизу (margin).</li>
+        <li>Два соседних параграфа визуально разделяются пустым пространством.</li>
+        <li>Внутри может быть текст и <strong>фразовые</strong> теги: <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;code&gt;</code>, <code>&lt;span&gt;</code>.</li>
+    </ul>
+
+    <div class="warn">
+        <strong>Нельзя</strong> вкладывать в <code>&lt;p&gt;</code> блочные теги:
+        <code>&lt;div&gt;</code>, <code>&lt;h1&gt;</code>, <code>&lt;ul&gt;</code>,
+        <code>&lt;table&gt;</code>, другой <code>&lt;p&gt;</code>.
+        Браузер автоматически «закроет» параграф перед таким тегом, что сломает структуру.
+    </div>
+
+    <h3>Как браузер схлопывает пробелы</h3>
+
+    <p>Важное правило HTML: <strong>лишние пробелы и переносы строк игнорируются</strong>.</p>
+
+    <pre><code>&lt;p&gt;
+    Это      предложение      с      большим      количеством      пробелов.
+
+
+    И даже с переносами строк.
+&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (всё схлопнулось в один абзац):</div>
+        <p>Это предложение с большим количеством пробелов. И даже с переносами строк.</p>
+    </div>
+
+    <div class="note">
+        <strong>Правило:</strong> подряд идущие пробелы, табы и переносы строк браузер
+        превращает в <strong>один пробел</strong>. Так HTML позволяет писать код красиво,
+        не думая о форматировании.
+    </div>
+
+    <h2>3. Тег &lt;br&gt; — перенос строки</h2>
+
+    <p>
+        <code>&lt;br&gt;</code> (от англ. <em>break</em> — «разрыв») — <strong>одиночный</strong>
+        тег. Он заставляет браузер перейти на новую строку <em>внутри</em> одного блочного элемента.
+    </p>
+
+    <pre><code>&lt;p&gt;
+    Строка первая.&lt;br&gt;
+    Строка вторая.&lt;br&gt;
+    Строка третья.
+&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p>
+            Строка первая.<br>
+            Строка вторая.<br>
+            Строка третья.
+        </p>
+    </div>
+
+    <h3>Когда использовать &lt;br&gt;</h3>
+    <ul>
+        <li><strong>Адрес</strong> в несколько строк.</li>
+        <li><strong>Стихи</strong> — каждая строка отдельно.</li>
+        <li><strong>Подпись</strong> под картинкой в несколько строк.</li>
+        <li>Короткие фразы, где перенос важен по смыслу.</li>
+    </ul>
+
+    <pre><code>&lt;p&gt;
+    Иван Иванов&lt;br&gt;
+    ул. Пушкина, д. 10&lt;br&gt;
+    Москва, 101000
+&lt;/p&gt;</code></pre>
+
+    <h3>Когда &lt;br&gt; использовать НЕЛЬЗЯ</h3>
+
+    <div class="warn">
+        <strong>Главная ошибка новичков:</strong> использовать <code>&lt;br&gt;&lt;br&gt;</code>
+        для создания отступов между абзацами. Для этого есть <code>&lt;p&gt;</code> и CSS!
+    </div>
+
+    <pre><code>&lt;!-- ПЛОХО: имитация абзацев через br --&gt;
+&lt;p&gt;Первый абзац.&lt;br&gt;&lt;br&gt;
+Второй абзац.&lt;br&gt;&lt;br&gt;
+Третий абзац.&lt;/p&gt;
+
+&lt;!-- ХОРОШО: настоящие параграфы --&gt;
+&lt;p&gt;Первый абзац.&lt;/p&gt;
+&lt;p&gt;Второй абзац.&lt;/p&gt;
+&lt;p&gt;Третий абзац.&lt;/p&gt;</code></pre>
+
+    <p>Почему «плохо»: ломается семантика, screen reader'ы не делают паузы, поисковики не понимают структуру.</p>
+
+    <h2>4. Тег &lt;hr&gt; — горизонтальная линия</h2>
+
+    <p>
+        <code>&lt;hr&gt;</code> (от англ. <em>horizontal rule</em> — «горизонтальная линейка») —
+        <strong>одиночный</strong> тег. Рисует горизонтальную линию через всю ширину родителя.
+    </p>
+
+    <pre><code>&lt;p&gt;Первый раздел.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Второй раздел.&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p>Первый раздел.</p>
+        <hr>
+        <p>Второй раздел.</p>
+    </div>
+
+    <h3>Семантика &lt;hr&gt;</h3>
+
+    <p>
+        Важно: <code>&lt;hr&gt;</code> — это <strong>не просто линия</strong>, а
+        <em>смысловой разделитель</em>: «здесь заканчивается одна тема и начинается другая».
+        Например, переход между главами, смена сцены, разделение блоков контента.
+    </p>
+
+    <div class="note">
+        <strong>Не используй</strong> <code>&lt;hr&gt;</code> просто «чтобы была линия» для красоты.
+        Для декоративных линий есть CSS (<code>border</code>, <code>background</code>).
+        <code>&lt;hr&gt;</code> — только там, где по смыслу нужен разделитель.
+    </div>
+
+    <h3>Внешний вид</h3>
+
+    <p>По умолчанию браузер рисует <code>&lt;hr&gt;</code> как тонкую серую линию с отступами сверху и снизу. Стиль полностью настраивается через CSS:</p>
+
+    <pre><code>&lt;hr style="border: none; border-top: 2px dashed #b5651d;"&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <hr style="border: none; border-top: 2px dashed #b5651d;">
+    </div>
+
+    <h2>5. Сравнение: &lt;p&gt; vs &lt;br&gt; vs &lt;hr&gt;</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Что нужно</th>
+                <th>Тег</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Новый абзац текста</td>
+                <td><code>&lt;p&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Перенос строки внутри абзаца (адрес, стихи)</td>
+                <td><code>&lt;br&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Пустое пространство между абзацами</td>
+                <td><code>&lt;p&gt;</code> (по умолчанию) или CSS <code>margin</code></td>
+            </tr>
+            <tr>
+                <td>Смысловой разделитель между темами</td>
+                <td><code>&lt;hr&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Декоративная линия для красоты</td>
+                <td>CSS (<code>border-bottom</code>)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>6. Полный пример страницы</h2>
+
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Моя статья&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Как варить кофе&lt;/h1&gt;
+
+    &lt;p&gt;Кофе — это напиток, который любят миллионы людей.&lt;/p&gt;
+    &lt;p&gt;Но не все умеют его правильно готовить.&lt;/p&gt;
+
+    &lt;hr&gt;
+
+    &lt;h2&gt;Ингредиенты&lt;/h2&gt;
+    &lt;p&gt;Вам понадобится:&lt;/p&gt;
+    &lt;p&gt;
+        Кофе в зёрнах&lt;br&gt;
+        Вода&lt;br&gt;
+        Кофемолка&lt;br&gt;
+        Турка
+    &lt;/p&gt;
+
+    &lt;hr&gt;
+
+    &lt;h2&gt;Приготовление&lt;/h2&gt;
+    &lt;p&gt;Смешайте кофе с водой и варите на медленном огне.&lt;/p&gt;
+    &lt;p&gt;Готово!&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <h2>7. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Использовать <code>&lt;br&gt;&lt;br&gt;</code> вместо нового <code>&lt;p&gt;</code></td>
+                <td>Ломает семантику, screen reader'ы не делают пауз</td>
+            </tr>
+            <tr>
+                <td>Вкладывать <code>&lt;div&gt;</code> внутрь <code>&lt;p&gt;</code></td>
+                <td>Невалидно, браузер сам «закроет» параграф</td>
+            </tr>
+            <tr>
+                <td>Вкладывать <code>&lt;p&gt;</code> внутрь <code>&lt;p&gt;</code></td>
+                <td>Невалидно: параграф нельзя вкладывать в параграф</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>&lt;hr&gt;</code> для красоты</td>
+                <td>Линия без смысла = лишний тег. Для декора — CSS</td>
+            </tr>
+            <tr>
+                <td>Закрывать <code>&lt;br&gt;&lt;/br&gt;</code></td>
+                <td>Нельзя: <code>&lt;br&gt;</code> — одиночный тег</td>
+            </tr>
+            <tr>
+                <td>Закрывать <code>&lt;hr&gt;&lt;/hr&gt;</code></td>
+                <td>То же самое: <code>&lt;hr&gt;</code> одиночный</td>
+            </tr>
+            <tr>
+                <td>Пытаться создать отступ через пустые <code>&lt;p&gt;&lt;/p&gt;</code></td>
+                <td>Пустые параграфы игнорируются браузером, используй CSS</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>8. Как браузер стилизует по умолчанию</h2>
+
+    <ul>
+        <li><code>&lt;p&gt;</code> — отступ сверху и снизу примерно <code>1em</code>, никаких других стилей.</li>
+        <li><code>&lt;br&gt;</code> — просто перенос, без стилей.</li>
+        <li><code>&lt;hr&gt;</code> — линия шириной 1px, отступы ~<code>0.5em</code> сверху и снизу, цвет серый.</li>
+    </ul>
+
+    <h2>9. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Статья»</strong></p>
+        <p>Создай файл <code>06-practice.html</code>. Напиши короткую статью о своём хобби:</p>
+        <ul>
+            <li><code>&lt;h1&gt;</code> — название статьи.</li>
+            <li>3–4 <code>&lt;p&gt;</code> — основные абзацы текста.</li>
+            <li>Один <code>&lt;hr&gt;</code> — разделитель между введением и основной частью.</li>
+            <li>Один абзац с <code>&lt;br&gt;</code> — например, список инвентаря или адрес.</li>
+        </ul>
+
+        <p><strong>Задание 2. «Проверка схлопывания»</strong></p>
+        <ul>
+            <li>Напиши один параграф с большим количеством пробелов и переносов внутри.</li>
+            <li>Открой в браузере — увидишь, что всё схлопнулось в один пробел.</li>
+            <li>Теперь сделай то же в <code>&lt;pre&gt;</code> — увидишь разницу.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Стилизация hr»</strong></p>
+        <ul>
+            <li>Сделай <code>&lt;hr&gt;</code> пунктирной линией: <code>style="border: none; border-top: 2px dashed red;"</code>.</li>
+            <li>Попробуй сделать толстую цветную линию через <code>border-top: 5px solid green;</code>.</li>
+            <li>Убери линию совсем: <code>border: none;</code>.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Вложи <code>&lt;div&gt;</code> в <code>&lt;p&gt;</code>. Открой в браузере, посмотри исходник — браузер сам перестроит структуру.</li>
+            <li>Вложи <code>&lt;p&gt;</code> в <code>&lt;p&gt;</code>. Тот же результат.</li>
+            <li>Сделай «отступы» через <code>&lt;br&gt;&lt;br&gt;</code>. Убедись, что это выглядит хуже, чем <code>&lt;p&gt;</code>.</li>
+        </ul>
+    </div>
+
+    <h2>10. Что запомнить из урока</h2>
+
+    <ul>
+        <li><code>&lt;p&gt;</code> — параграф, блочный тег, основная единица текста.</li>
+        <li>Внутри <code>&lt;p&gt;</code> — только текст и фразовые теги, никаких блочных.</li>
+        <li>Лишние пробелы и переносы строк браузер схлопывает в один пробел.</li>
+        <li><code>&lt;br&gt;</code> — перенос строки внутри блока (адрес, стихи). <strong>Не для отступов!</strong></li>
+        <li><code>&lt;hr&gt;</code> — смысловой разделитель между темами, а не декоративная линия.</li>
+        <li><code>&lt;br&gt;</code> и <code>&lt;hr&gt;</code> — <strong>одиночные</strong> теги, у них нет закрывающей части.</li>
+        <li>Для отступов и линий «для красоты» используй CSS, а не HTML-теги.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 6 · Следующий урок: <em>Форматирование текста — strong, em, b, i, u, mark, small, del, ins</em>
+    </p>
+
+</body>
+</html>

@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 18 по HTML: все типы input — text, email, password, number, date, checkbox, radio, file, range и другие.">
+    <title>Урок 18. Все типы &lt;input&gt;</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        label {
+            display: block;
+            margin: 12px 0 4px;
+            font-weight: 500;
+        }
+        input, textarea, select, button {
+            font-family: inherit;
+            font-size: 14px;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+        input[type="checkbox"],
+        input[type="radio"] {
+            width: auto;
+            max-width: none;
+            margin-right: 8px;
+        }
+        button {
+            background: #b5651d;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            width: auto;
+            padding: 10px 20px;
+            margin-top: 12px;
+        }
+        button:hover {
+            background: #8b4a15;
+        }
+        .inline-label {
+            display: inline;
+            margin-right: 16px;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 18. Все типы &lt;input&gt;</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: освоить все типы input и понять, какой когда  -->
+    <!-- использовать. Это сердце форм.                             -->
+    <!-- ========================================================= -->
+
+    <h2>1. Что такое &lt;input&gt;</h2>
+
+    <p>
+        <code>&lt;input&gt;</code> — <strong>одиночный</strong> тег для ввода данных.
+        У него нет содержимого — всё настраивается через атрибуты.
+    </p>
+
+    <p>
+        Главный атрибут — <code>type</code>. Он определяет <strong>вид поля</strong>:
+        текстовое, пароль, чекбокс, дата, файл и т.д. Всего около 20 типов.
+    </p>
+
+    <pre><code>&lt;input type="text" name="username"&gt;
+&lt;input type="email" name="email"&gt;
+&lt;input type="checkbox" name="agree"&gt;</code></pre>
+
+    <h2>2. Текстовые поля</h2>
+
+    <h3>type="text" — обычный текст</h3>
+
+    <pre><code>&lt;label for="name"&gt;Имя:&lt;/label&gt;
+&lt;input type="text" id="name" name="name" placeholder="Иван"&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <label for="demo-text">Имя:</label>
+        <input type="text" id="demo-text" name="name" placeholder="Иван">
+    </div>
+
+    <h3>type="password" — скрытый текст</h3>
+
+    <p>Символы отображаются точками. Значение всё равно отправляется открыто — для безопасности нужен HTTPS.</p>
+
+    <pre><code>&lt;label for="pwd"&gt;Пароль:&lt;/label&gt;
+&lt;input type="password" id="pwd" name="password"&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <label for="demo-pwd">Пароль:</label>
+        <input type="password" id="demo-pwd" name="password" placeholder="••••••••">
+    </div>
+
+    <h3>type="email" — email</h3>
+
+    <p>Браузер проверяет формат (должна быть @ и домен). На мобильных открывает клавиатуру с @.</p>
+
+    <pre><code>&lt;input type="email" name="email" placeholder="user@example.com"&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (попробуй ввести без @):</div>
+        <label for="demo-email">Email:</label>
+        <input type="email" id="demo-email" name="email" placeholder="user@example.com">
+    </div>
+
+    <h3>type="tel" — телефон</h3>
+
+    <p>На мобильных открывает цифровую клавиатуру. Формат не проверяется — он слишком разный в разных странах.</p>
+
+    <pre><code>&lt;input type="tel" name="phone" placeholder="+7 900 123-45-67"&gt;</code></pre>
+
+    <h3>type="url" — адрес сайта</h3>
+
+    <pre><code>&lt;input type="url" name="website" placeholder="https://example.com"&gt;</code></pre>
+
+    <h3>type="search" — поиск</h3>
+
+    <p>Как <code>text</code>, но с крестиком для очистки и возможной историей.</p>
+
+    <pre><code>&lt;input type="search" name="q" placeholder="Поиск..."&gt;</code></pre>
+
+    <h2>3. Числовые поля</h2>
+
+    <h3>type="number" — число</h3>
+
+    <p>Стрелочки для увеличения/уменьшения. Можно ограничить min/max/step.</p>
+
+    <pre><code>&lt;input type="number" name="age" min="1" max="120" step="1"&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <label for="demo-num">Возраст:</label>
+        <input type="number" id="demo-num" name="age" min="1" max="120" step="1" value="25">
+    </div>
+
+    <h3>type="range" — ползунок</h3>
+
+    <pre><code>&lt;input type="range" name="volume" min="0" max="100" step="1" value="50"&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <label for="demo-range">Громкость:</label>
+        <input type="range" id="demo-range" name="volume" min="0" max="100" step="1" value="50">
+    </div>
+
+    <h2>4. Дата и время</h2>
+
+    <h3>type="date"</h3>
+
+    <pre><code>&lt;input type="date" name="birthday"&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <label for="demo-date">Дата рождения:</label>
+        <input type="date" id="demo-date" name="birthday">
+    </div>
+
+    <h3>type="time"</h3>
+
+    <pre><code>&lt;input type="time" name="meeting-time"&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <label for="demo-time">Время встречи:</label>
+        <input type="time" id="demo-time" name="meeting-time">
+    </div>
+
+    <h3>type="datetime-local"</h3>
+
+    <p>Дата + время без часового пояса.</p>
+
+    <pre><code>&lt;input type="datetime-local" name="event"&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <label for="demo-dt">Событие:</label>
+        <input type="datetime-local" id="demo-dt" name="event">
+    </div>
+
+    <h3>type="month" и type="week"</h3>
+
+    <pre><code>&lt;input type="month" name="month"&gt;
+&lt;input type="week" name="week"&gt;</code></pre>
+
+    <h2>5. Чекбоксы и радиокнопки</h2>
+
+    <h3>type="checkbox" — флажок</h3>
+
+    <p>Можно выбрать несколько. Подходит для «согласен с условиями», «выберите интересы».</p>
+
+    <pre><code>&lt;label&gt;&lt;input type="checkbox" name="subscribe" value="yes"&gt; Подписаться на рассылку&lt;/label&gt;
+&lt;label&gt;&lt;input type="checkbox" name="news" value="yes" checked&gt; Получать новости&lt;/label&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <label class="inline-label"><input type="checkbox" name="subscribe" value="yes"> Подписаться на рассылку</label>
+        <label class="inline-label"><input type="checkbox" name="news" value="yes" checked> Получать новости</label>
+    </div>
+
+    <h3>type="radio" — радиокнопка</h3>
+
+    <p>Можно выбрать только <strong>один</strong> вариант из группы. Все радио одной группы должны иметь <strong>одинаковый name</strong>.</p>
+
+    <pre><code>&lt;label&gt;&lt;input type="radio" name="gender" value="m"&gt; Мужской&lt;/label&gt;
+&lt;label&gt;&lt;input type="radio" name="gender" value="f"&gt; Женский&lt;/label&gt;
+&lt;label&gt;&lt;input type="radio" name="gender" value="other"&gt; Другой&lt;/label&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (можно выбрать только один):</div>
+        <label class="inline-label"><input type="radio" name="gender" value="m"> Мужской</label>
+        <label class="inline-label"><input type="radio" name="gender" value="f"> Женский</label>
+        <label class="inline-label"><input type="radio" name="gender" value="other"> Другой</label>
+    </div>
+
+    <div class="note">
+        <strong>Ключевое отличие:</strong> checkbox — «много из многих», radio — «один из многих».
+        И у radio одинаковый <code>name</code>, иначе они не связаны в группу.
+    </div>
+
+    <h2>6. Специальные поля</h2>
+
+    <h3>type="file" — загрузка файлов</h3>
+
+    <pre><code>&lt;input type="file" name="avatar" accept="image/*"&gt;
+&lt;input type="file" name="docs" accept=".pdf,.docx" multiple&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <label for="demo-file">Аватар (только картинки):</label>
+        <input type="file" id="demo-file" name="avatar" accept="image/*">
+
+        <label for="demo-file-multi">Несколько файлов:</label>
+        <input type="file" id="demo-file-multi" name="docs" multiple>
+    </div>
+
+    <div class="warn">
+        <strong>Для загрузки файлов</strong> на форме обязательно <code>method="post"</code>
+        и <code>enctype="multipart/form-data"</code>. Иначе файл не отправится.
+    </div>
+
+    <h3>type="color" — выбор цвета</h3>
+
+    <pre><code>&lt;input type="color" name="favorite-color" value="#b5651d"&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <label for="demo-color">Любимый цвет:</label>
+        <input type="color" id="demo-color" name="favorite-color" value="#b5651d">
+    </div>
+
+    <h3>type="hidden" — скрытое поле</h3>
+
+    <p>Пользователь не видит, но значение отправляется на сервер. Для технических данных: id пользователя, токен.</p>
+
+    <pre><code>&lt;input type="hidden" name="user_id" value="12345"&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Не храни в hidden ничего секретного!</strong> Пользователь может открыть
+        DevTools и увидеть или изменить значение. Только для технических данных.
+    </div>
+
+    <h3>type="submit" — кнопка отправки</h3>
+
+    <pre><code>&lt;input type="submit" value="Отправить"&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (это и есть кнопка, а не просто текст):</div>
+        <input type="submit" value="Отправить">
+    </div>
+
+    <h3>type="reset" — сброс формы</h3>
+
+    <pre><code>&lt;input type="reset" value="Очистить"&gt;</code></pre>
+
+    <h3>type="button" — просто кнопка</h3>
+
+    <p>Не отправляет форму. Для JavaScript-действий.</p>
+
+    <pre><code>&lt;input type="button" value="Нажми меня" onclick="alert('Привет!')"&gt;</code></pre>
+
+    <h3>type="image" — кнопка-картинка</h3>
+
+    <pre><code>&lt;input type="image" src="button.png" alt="Отправить" width="100"&gt;</code></pre>
+
+    <h2>7. Общие атрибуты &lt;input&gt;</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>type</code></td>
+                <td>text, email, password, number, date, …</td>
+                <td>Тип поля</td>
+            </tr>
+            <tr>
+                <td><code>name</code></td>
+                <td>Текст</td>
+                <td>Имя поля для отправки (обязательно)</td>
+            </tr>
+            <tr>
+                <td><code>value</code></td>
+                <td>Текст</td>
+                <td>Значение по умолчанию</td>
+            </tr>
+            <tr>
+                <td><code>placeholder</code></td>
+                <td>Текст</td>
+                <td>Подсказка внутри поля</td>
+            </tr>
+            <tr>
+                <td><code>required</code></td>
+                <td>булев</td>
+                <td>Поле обязательно для заполнения</td>
+            </tr>
+            <tr>
+                <td><code>disabled</code></td>
+                <td>булев</td>
+                <td>Отключить поле (не отправляется)</td>
+            </tr>
+            <tr>
+                <td><code>readonly</code></td>
+                <td>булев</td>
+                <td>Только для чтения (отправляется)</td>
+            </tr>
+            <tr>
+                <td><code>autofocus</code></td>
+                <td>булев</td>
+                <td>Автоматический фокус при загрузке</td>
+            </tr>
+            <tr>
+                <td><code>autocomplete</code></td>
+                <td>on/off или конкретное значение</td>
+                <td>Автозаполнение</td>
+            </tr>
+            <tr>
+                <td><code>min</code> / <code>max</code></td>
+                <td>Число, дата</td>
+                <td>Минимум / максимум</td>
+            </tr>
+            <tr>
+                <td><code>step</code></td>
+                <td>Число</td>
+                <td>Шаг изменения</td>
+            </tr>
+            <tr>
+                <td><code>pattern</code></td>
+                <td>Регулярное выражение</td>
+                <td>Шаблон для проверки</td>
+            </tr>
+            <tr>
+                <td><code>maxlength</code> / <code>minlength</code></td>
+                <td>Число</td>
+                <td>Макс / мин длина текста</td>
+            </tr>
+            <tr>
+                <td><code>size</code></td>
+                <td>Число</td>
+                <td>Ширина поля в символах</td>
+            </tr>
+            <tr>
+                <td><code>checked</code></td>
+                <td>булев</td>
+                <td>Отмечен по умолчанию (для checkbox/radio)</td>
+            </tr>
+            <tr>
+                <td><code>multiple</code></td>
+                <td>булев</td>
+                <td>Несколько значений (email, file)</td>
+            </tr>
+            <tr>
+                <td><code>accept</code></td>
+                <td>MIME-типы</td>
+                <td>Для type="file" — какие файлы принимать</td>
+            </tr>
+            <tr>
+                <td><code>list</code></td>
+                <td>id &lt;datalist&gt;</td>
+                <td>Список подсказок</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>8. Разница: disabled vs readonly</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th><code>disabled</code></th>
+                <th><code>readonly</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Можно изменить</td>
+                <td>Нет</td>
+                <td>Нет</td>
+            </tr>
+            <tr>
+                <td>Отправляется на сервер</td>
+                <td><strong>Нет</strong></td>
+                <td><strong>Да</strong></td>
+            </tr>
+            <tr>
+                <td>Клик по полю</td>
+                <td>Не фокусируется</td>
+                <td>Фокусируется, можно копировать</td>
+            </tr>
+            <tr>
+                <td>Стилизация</td>
+                <td>Серый, недоступный</td>
+                <td>Обычный вид</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;!-- Отправляется, но нельзя изменить --&gt;
+&lt;input type="text" name="username" value="ivan" readonly&gt;
+
+&lt;!-- НЕ отправляется, полностью отключено --&gt;
+&lt;input type="text" name="hidden-field" value="secret" disabled&gt;</code></pre>
+
+    <h2>9. Связка label + input</h2>
+
+    <p>
+        Два способа связать <code>&lt;label&gt;</code> с полем:
+    </p>
+
+    <pre><code>&lt;!-- Способ 1: id + for --&gt;
+&lt;label for="email-field"&gt;Email:&lt;/label&gt;
+&lt;input type="email" id="email-field" name="email"&gt;
+
+&lt;!-- Способ 2: обёртка --&gt;
+&lt;label&gt;
+    Email:
+    &lt;input type="email" name="email"&gt;
+&lt;/label&gt;</code></pre>
+
+    <p>
+        <strong>Зачем это нужно:</strong> клик по label фокусирует поле. Удобно для чекбоксов
+        (легче попасть). И для screen reader'ов — читается связка «Email: поле ввода».
+    </p>
+
+    <h2>10. Полная шпаргалка по типам</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тип</th>
+                <th>Для чего</th>
+                <th>Особенности</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><code>text</code></td><td>Обычный текст</td><td>Универсальный</td></tr>
+            <tr><td><code>password</code></td><td>Пароль</td><td>Символы скрыты</td></tr>
+            <tr><td><code>email</code></td><td>Email</td><td>Проверка формата</td></tr>
+            <tr><td><code>tel</code></td><td>Телефон</td><td>Цифровая клавиатура</td></tr>
+            <tr><td><code>url</code></td><td>Адрес сайта</td><td>Проверка формата</td></tr>
+            <tr><td><code>search</code></td><td>Поиск</td><td>Крестик очистки</td></tr>
+            <tr><td><code>number</code></td><td>Число</td><td>Стрелки, min/max/step</td></tr>
+            <tr><td><code>range</code></td><td>Ползунок</td><td>Значение из диапазона</td></tr>
+            <tr><td><code>date</code></td><td>Дата</td><td>Календарь</td></tr>
+            <tr><td><code>time</code></td><td>Время</td><td>Часы и минуты</td></tr>
+            <tr><td><code>datetime-local</code></td><td>Дата + время</td><td>Без часового пояса</td></tr>
+            <tr><td><code>month</code></td><td>Месяц</td><td>Год + месяц</td></tr>
+            <tr><td><code>week</code></td><td>Неделя</td><td>Год + неделя</td></tr>
+            <tr><td><code>checkbox</code></td><td>Флажок</td><td>Много из многих</td></tr>
+            <tr><td><code>radio</code></td><td>Радиокнопка</td><td>Один из многих</td></tr>
+            <tr><td><code>file</code></td><td>Файл</td><td>Требует multipart/form-data</td></tr>
+            <tr><td><code>color</code></td><td>Цвет</td><td>Палитра</td></tr>
+            <tr><td><code>hidden</code></td><td>Скрытое поле</td><td>Не видно, но отправляется</td></tr>
+            <tr><td><code>submit</code></td><td>Отправить форму</td><td>Кнопка</td></tr>
+            <tr><td><code>reset</code></td><td>Сброс формы</td><td>Возврат к значениям по умолчанию</td></tr>
+            <tr><td><code>button</code></td><td>Просто кнопка</td><td>Для JavaScript</td></tr>
+            <tr><td><code>image</code></td><td>Кнопка-картинка</td><td>Отправляет координаты клика</td></tr>
+        </tbody>
+    </table>
+
+    <h2>11. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Забыть <code>name</code></td>
+                <td>Поле не отправится</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>type="text"</code> для email/телефона/даты</td>
+                <td>Теряется валидация и удобная клавиатура на мобильных</td>
+            </tr>
+            <tr>
+                <td>Разные <code>name</code> у radio одной группы</td>
+                <td>Они не будут связаны, можно выбрать несколько</td>
+            </tr>
+            <tr>
+                <td><code>type="file"</code> без <code>enctype</code></td>
+                <td>Файл не отправится</td>
+            </tr>
+            <tr>
+                <td><code>disabled</code> вместо <code>readonly</code></td>
+                <td>Поле не отправится на сервер</td>
+            </tr>
+            <tr>
+                <td>Отсутствие <code>label</code></td>
+                <td>Плохо для a11y и кликов</td>
+            </tr>
+            <tr>
+                <td>Хранить пароли в <code>type="hidden"</code></td>
+                <td>Пользователь увидит через DevTools</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>placeholder</code> вместо <code>label</code></td>
+                <td>Подсказка исчезает при вводе, плохо для a11y</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>12. Полный пример формы</h2>
+
+    <pre><code>&lt;form action="/register" method="post" enctype="multipart/form-data"&gt;
+    &lt;fieldset&gt;
+        &lt;legend&gt;Регистрация&lt;/legend&gt;
+
+        &lt;label for="f-name"&gt;Имя:&lt;/label&gt;
+        &lt;input type="text" id="f-name" name="name" required placeholder="Иван"&gt;
+
+        &lt;label for="f-email"&gt;Email:&lt;/label&gt;
+        &lt;input type="email" id="f-email" name="email" required&gt;
+
+        &lt;label for="f-pwd"&gt;Пароль:&lt;/label&gt;
+        &lt;input type="password" id="f-pwd" name="password" minlength="8" required&gt;
+
+        &lt;label for="f-birth"&gt;Дата рождения:&lt;/label&gt;
+        &lt;input type="date" id="f-birth" name="birthday"&gt;
+
+        &lt;label for="f-avatar"&gt;Аватар:&lt;/label&gt;
+        &lt;input type="file" id="f-avatar" name="avatar" accept="image/*"&gt;
+
+        &lt;label for="f-color"&gt;Любимый цвет:&lt;/label&gt;
+        &lt;input type="color" id="f-color" name="color" value="#b5651d"&gt;
+
+        &lt;fieldset&gt;
+            &lt;legend&gt;Пол:&lt;/legend&gt;
+            &lt;label&gt;&lt;input type="radio" name="gender" value="m"&gt; Мужской&lt;/label&gt;
+            &lt;label&gt;&lt;input type="radio" name="gender" value="f"&gt; Женский&lt;/label&gt;
+        &lt;/fieldset&gt;
+
+        &lt;label&gt;
+            &lt;input type="checkbox" name="agree" required&gt;
+            Я согласен с условиями
+        &lt;/label&gt;
+
+        &lt;button type="submit"&gt;Зарегистрироваться&lt;/button&gt;
+    &lt;/fieldset&gt;
+&lt;/form&gt;</code></pre>
+
+    <h2>13. Живая демонстрация: все типы</h2>
+
+    <div class="demo">
+        <div class="demo-label">Все типы полей на одной странице:</div>
+        <form>
+            <label>text: <input type="text" placeholder="Иван"></label>
+            <label>password: <input type="password" placeholder="••••••"></label>
+            <label>email: <input type="email" placeholder="user@example.com"></label>
+            <label>tel: <input type="tel" placeholder="+7 900 123-45-67"></label>
+            <label>url: <input type="url" placeholder="https://example.com"></label>
+            <label>search: <input type="search" placeholder="Поиск..."></label>
+            <label>number: <input type="number" value="5" min="1" max="10"></label>
+            <label>range: <input type="range" value="50"></label>
+            <label>date: <input type="date"></label>
+            <label>time: <input type="time"></label>
+            <label>datetime-local: <input type="datetime-local"></label>
+            <label>month: <input type="month"></label>
+            <label>week: <input type="week"></label>
+            <label>color: <input type="color" value="#b5651d"></label>
+            <label>file: <input type="file"></label>
+
+            <label class="inline-label"><input type="checkbox" checked> Чекбокс</label>
+            <label class="inline-label"><input type="radio" name="demo-radio" checked> Радио 1</label>
+            <label class="inline-label"><input type="radio" name="demo-radio"> Радио 2</label>
+        </form>
+    </div>
+
+    <h2>14. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Форма регистрации»</strong></p>
+        <p>Создай файл <code>18-practice.html</code>. Сделай форму с полями:</p>
+        <ul>
+            <li><code>text</code> — имя</li>
+            <li><code>email</code> — email</li>
+            <li><code>password</code> — пароль</li>
+            <li><code>date</code> — дата рождения</li>
+            <li><code>tel</code> — телефон</li>
+            <li><code>url</code> — сайт</li>
+            <li><code>file</code> — аватар</li>
+            <li><code>color</code> — любимый цвет</li>
+        </ul>
+
+        <p><strong>Задание 2. «Радио-группа»</strong></p>
+        <ul>
+            <li>Сделай выбор пола через <code>type="radio"</code>.</li>
+            <li>Три варианта: Мужской, Женский, Другой.</li>
+            <li>Проверь: можно выбрать только один.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Чекбоксы»</strong></p>
+        <ul>
+            <li>Список интересов: Спорт, Музыка, Кино, Книги, Игры.</li>
+            <li>Каждый — отдельный <code>type="checkbox"</code>.</li>
+            <li>Проверь: можно выбрать несколько.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Все типы»</strong></p>
+        <ul>

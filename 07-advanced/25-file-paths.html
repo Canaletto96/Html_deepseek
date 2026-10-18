@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 25 по HTML: пути к файлам — относительные и абсолютные, ../, ./, /, как правильно ссылаться на файлы.">
+    <title>Урок 25. Пути к файлам</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        .tree {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        .tree .folder { color: #1565c0; font-weight: bold; }
+        .tree .file { color: #2e7d32; }
+        .tree .current { background: #fff3e0; padding: 0 4px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 25. Пути к файлам</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: понять, как правильно указывать путь к файлу  -->
+    <!-- в src, href и других атрибутах.                           -->
+    <!-- ========================================================= -->
+
+    <h2>1. Зачем нужны пути</h2>
+
+    <p>
+        Когда ты пишешь <code>&lt;img src="cat.jpg"&gt;</code> или
+        <code>&lt;a href="about.html"&gt;</code>, браузер должен <strong>найти файл</strong>.
+        Путь — это «адрес», по которому браузер ищет файл.
+    </p>
+
+    <p>Есть два основных типа путей:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тип</th>
+                <th>Пример</th>
+                <th>Когда использовать</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Относительный</strong></td>
+                <td><code>cat.jpg</code>, <code>../images/cat.jpg</code></td>
+                <td>Свои файлы на сайте</td>
+            </tr>
+            <tr>
+                <td><strong>Абсолютный</strong></td>
+                <td><code>https://example.com/cat.jpg</code></td>
+                <td>Чужие файлы (внешние)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>2. Структура папок — пример</h2>
+
+    <p>Представь такой проект:</p>
+
+    <div class="tree"><span class="folder">my-site/</span>
+├── <span class="file">index.html</span>          <span class="current">← мы здесь</span>
+├── <span class="file">about.html</span>
+├── <span class="folder">pages/</span>
+│   ├── <span class="file">blog.html</span>
+│   └── <span class="file">article.html</span>
+└── <span class="folder">images/</span>
+    ├── <span class="file">logo.png</span>
+    └── <span class="file">cat.jpg</span></div>
+
+    <p>
+        Текущий файл — <code>index.html</code> в корне. От него и строятся
+        <strong>относительные</strong> пути.
+    </p>
+
+    <h2>3. Относительные пути</h2>
+
+    <p>
+        <strong>Относительный путь</strong> — адрес файла <em>относительно</em>
+        текущего документа. Не содержит домена и протокола.
+    </p>
+
+    <h3>Файл в той же папке</h3>
+
+    <p>Просто имя файла:</p>
+
+    <pre><code>&lt;!-- Из index.html ссылаемся на about.html --&gt;
+&lt;a href="about.html"&gt;О нас&lt;/a&gt;</code></pre>
+
+    <h3>Файл во вложенной папке</h3>
+
+    <p>Указываем папку и файл через <code>/</code>:</p>
+
+    <pre><code>&lt;!-- Из index.html в pages/blog.html --&gt;
+&lt;a href="pages/blog.html"&gt;Блог&lt;/a&gt;
+
+&lt;!-- Из index.html в images/logo.png --&gt;
+&lt;img src="images/logo.png" alt="Логотип"&gt;</code></pre>
+
+    <h3>Файл на уровень выше (две точки)</h3>
+
+    <p>
+        Если текущий файл находится во вложенной папке, а нужный — «снаружи»,
+        используем <code>../</code> (одна папка вверх):
+    </p>
+
+    <pre><code>&lt;!-- Из pages/blog.html в index.html --&gt;
+&lt;a href="../index.html"&gt;На главную&lt;/a&gt;
+
+&lt;!-- Из pages/blog.html в images/logo.png --&gt;
+&lt;img src="../images/logo.png" alt="Логотип"&gt;</code></pre>
+
+    <h3>Два уровня выше</h3>
+
+    <pre><code>&lt;!-- Из pages/sub/page.html на два уровня вверх --&gt;
+&lt;a href="../../index.html"&gt;На главную&lt;/a&gt;</code></pre>
+
+    <h2>4. Специальные обозначения</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Символ</th>
+                <th>Значение</th>
+                <th>Пример</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>./</code> или ничего</td>
+                <td>Текущая папка</td>
+                <td><code>./about.html</code> = <code>about.html</code></td>
+            </tr>
+            <tr>
+                <td><code>../</code></td>
+                <td>Одна папка выше</td>
+                <td><code>../index.html</code></td>
+            </tr>
+            <tr>
+                <td><code>../../</code></td>
+                <td>Две папки выше</td>
+                <td><code>../../index.html</code></td>
+            </tr>
+            <tr>
+                <td><code>/</code> (в начале)</td>
+                <td>Корень сайта</td>
+                <td><code>/images/logo.png</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong><code>./</code> и ничего</strong> — работают одинаково. <code>./about.html</code>
+        и <code>about.html</code> — одно и то же. <code>./</code> явно показывает «в текущей папке»,
+        но обычно его опускают.
+    </div>
+
+    <h2>5. Абсолютные пути</h2>
+
+    <p>
+        <strong>Абсолютный путь</strong> — полный адрес файла. Начинается с протокола
+        (<code>https://</code>) и содержит домен.
+    </p>
+
+    <pre><code>&lt;img src="https://example.com/images/cat.jpg" alt="Кот"&gt;
+&lt;a href="https://developer.mozilla.org"&gt;MDN&lt;/a&gt;</code></pre>
+
+    <div class="note">
+        <strong>Когда использовать абсолютные пути:</strong>
+        <ul>
+            <li>Ссылки на <strong>внешние</strong> сайты.</li>
+            <li>Картинки с чужих серверов (с разрешения!).</li>
+            <li>Подключение внешних библиотек (CDN).</li>
+        </ul>
+    </div>
+
+    <h2>6. Путь от корня сайта</h2>
+
+    <p>
+        Особый случай — путь, начинающийся с <code>/</code>. Он означает «от корня
+        сайта», а не от текущей папки.
+    </p>
+
+    <pre><code>&lt;!-- Найдёт файл в корне сайта, независимо от того, где мы --&gt;
+&lt;img src="/images/logo.png" alt="Логотип"&gt;
+&lt;a href="/about.html"&gt;О нас&lt;/a&gt;</code></pre>
+
+    <h3>В чём разница</h3>
+
+    <p>Смотрим на <code>pages/blog.html</code>:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Путь</th>
+                <th>Куда указывает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>images/logo.png</code></td>
+                <td><code>pages/images/logo.png</code> (относительно текущего)</td>
+            </tr>
+            <tr>
+                <td><code>../images/logo.png</code></td>
+                <td><code>images/logo.png</code> (на уровень выше)</td>
+            </tr>
+            <tr>
+                <td><code>/images/logo.png</code></td>
+                <td><code>images/logo.png</code> (от корня сайта)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Когда использовать путь от корня:</strong>
+        <ul>
+            <li>Когда файлы подключаются с сервера (не локально).</li>
+            <li>Когда страница может быть в любой папке — путь от корня всегда один и тот же.</li>
+            <li>Пример: <code>&lt;link rel="stylesheet" href="/css/style.css"&gt;</code> — работает
+                с любой страницы.</li>
+        </ul>
+    </div>
+
+    <div class="warn">
+        <strong>Важно:</strong> путь от корня <strong>не работает локально</strong> при
+        открытии файла через <code>file://</code>. Он работает только на сервере. Если
+        ты открываешь HTML двойным кликом — <code>/images/logo.png</code> не найдётся.
+    </div>
+
+    <h2>7. Полный пример: как связать всё</h2>
+
+    <p>Структура:</p>
+
+    <div class="tree"><span class="folder">my-site/</span>
+├── <span class="file">index.html</span>
+├── <span class="file">about.html</span>
+├── <span class="folder">pages/</span>
+│   ├── <span class="file">blog.html</span>       <span class="current">← мы здесь</span>
+│   └── <span class="folder">articles/</span>
+│       └── <span class="file">post.html</span>
+├── <span class="folder">images/</span>
+│   └── <span class="file">logo.png</span>
+└── <span class="folder">css/</span>
+    └── <span class="file">style.css</span></div>
+
+    <h3>Из pages/blog.html</h3>
+
+    <pre><code>&lt;!-- Ссылка на главную (../ = подняться в my-site/) --&gt;
+&lt;a href="../index.html"&gt;Главная&lt;/a&gt;
+
+&lt;!-- Ссылка на about.html (тоже через ../) --&gt;
+&lt;a href="../about.html"&gt;О нас&lt;/a&gt;
+
+&lt;!-- Ссылка на статью в подпапке (articles/) --&gt;
+&lt;a href="articles/post.html"&gt;Статья&lt;/a&gt;
+
+&lt;!-- Логотип из images/ (вверх и вниз) --&gt;
+&lt;img src="../images/logo.png" alt="Логотип"&gt;
+
+&lt;!-- CSS из css/ --&gt;
+&lt;link rel="stylesheet" href="../css/style.css"&gt;</code></pre>
+
+    <h3>Из pages/articles/post.html</h3>
+
+    <pre><code>&lt;!-- Ссылка на главную (два уровня вверх) --&gt;
+&lt;a href="../../index.html"&gt;Главная&lt;/a&gt;
+
+&lt;!-- Ссылка на блог (на уровень вверх) --&gt;
+&lt;a href="../blog.html"&gt;Блог&lt;/a&gt;
+
+&lt;!-- Логотип (два уровня вверх и в images/) --&gt;
+&lt;img src="../../images/logo.png" alt="Логотип"&gt;</code></pre>
+
+    <h2>8. Как проверить путь</h2>
+
+    <p>Если файл не загружается:</p>
+
+    <ol>
+        <li>Открой DevTools (<code>F12</code>) → вкладка <strong>Network</strong>.</li>
+        <li>Обнови страницу.</li>
+        <li>Найди красные строки (ошибки 404).</li>
+        <li>Посмотри, какой URL браузер пытался загрузить.</li>
+        <li>Сравни с реальным путём к файлу.</li>
+    </ol>
+
+    <h2>9. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему не работает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>src="images\logo.png"</code></td>
+                <td>Обратный слэш — Windows-стиль, в HTML нужен <code>/</code></td>
+            </tr>
+            <tr>
+                <td><code>href="example.com"</code></td>
+                <td>Без протокола — браузер ищет файл <code>example.com</code> в текущей папке</td>
+            </tr>
+            <tr>
+                <td><code>href="page html.html"</code></td>
+                <td>Пробел в имени — используй <code>page-html.html</code> или <code>page_html.html</code></td>
+            </tr>
+            <tr>
+                <td>Забыть <code>../</code></td>
+                <td>Браузер ищет файл в текущей папке, а он на уровень выше</td>
+            </tr>
+            <tr>
+                <td><code>src="/images/logo.png"</code> локально</td>
+                <td>Путь от корня работает только на сервере</td>
+            </tr>
+            <tr>
+                <td>Русские буквы в имени файла</td>
+                <td>Может сломаться на сервере — используй латиницу</td>
+            </tr>
+            <tr>
+                <td>Прописные буквы: <code>Logo.PNG</code> vs <code>logo.png</code></td>
+                <td>На Linux-серверах имена чувствительны к регистру</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>10. Правила хороших имён файлов</h2>
+
+    <ul>
+        <li><strong>Только латиница</strong> — <code>logo.png</code>, а не <code>логотип.png</code>.</li>
+        <li><strong>Только строчные буквы</strong> — <code>image.jpg</code>, а не <code>Image.JPG</code>.</li>
+        <li><strong>Без пробелов</strong> — <code>cat-photo.jpg</code>, а не <code>cat photo.jpg</code>.</li>
+        <li><strong>Без спецсимволов</strong> — кроме <code>-</code>, <code>_</code>, <code>.</code>.</li>
+        <li><strong>Короткие и осмысленные</strong> — <code>logo.png</code>, а не <code>CartInkaLogotip20260115final.png</code>.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Почему:</strong> на сервере (Linux) имена чувствительны к регистру.
+        <code>Logo.PNG</code> и <code>logo.png</code> — <strong>разные файлы</strong>. Если
+        у тебя на Windows всё работает, на хостинге может сломаться.
+    </div>
+
+    <h2>11. Три способа проверить путь</h2>
+
+    <h3>Способ 1: вручную</h3>
+
+    <p>Прочитай путь и мысленно пройди по нему от текущего файла:</p>
+
+    <ul>
+        <li><code>../</code> — выйди на уровень выше</li>
+        <li><code>./</code> — останься на месте</li>
+        <li><code>folder/</code> — зайди в папку</li>
+        <li><code>file.ext</code> — файл</li>
+    </ul>
+
+    <h3>Способ 2: через DevTools</h3>
+
+    <p>
+        Открой <code>F12</code> → Network. Если файл не загрузился — увидишь 404.
+        Наведи на строку — увидишь полный URL, который браузер запрашивал.
+    </p>
+
+    <h3>Способ 3: через исходник</h3>
+
+    <p>
+        В браузере нажми <code>Ctrl+U</code> (исходный код). Найди свой <code>&lt;img&gt;</code>
+        или <code>&lt;a&gt;</code>. Браузер показывает исходный путь — сравни с реальным.
+    </p>
+
+    <h2>12. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Создай структуру»</strong></p>
+        <p>Создай файл <code>25-practice.html</code> и такую структуру:</p>
+        <div class="tree"><span class="folder">project/</span>
+├── <span class="file">index.html</span>          ← этот файл
+├── <span class="file">about.html</span>
+├── <span class="folder">pages/</span>
+│   └── <span class="file">blog.html</span>
+├── <span class="folder">images/</span>
+│   └── <span class="file">logo.png</span>       ← любая картинка
+└── <span class="folder">css/</span>
+    └── <span class="file">style.css</span></div>
+
+        <p><strong>Задание 2. «Свяжи файлы»</strong></p>
+        <p>Из <code>index.html</code> сделай ссылки:</p>
+        <ul>
+            <li>На <code>about.html</code>.</li>
+            <li>На <code>pages/blog.html</code>.</li>
+            <li>На картинку <code>images/logo.png</code> (через <code>&lt;img&gt;</code>).</li>
+            <li>Подключи <code>css/style.css</code> через <code>&lt;link&gt;</code>.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Из blog.html»</strong></p>
+        <p>Открой <code>pages/blog.html</code> и сделай ссылки:</p>
+        <ul>
+            <li>На главную (<code>../index.html</code>).</li>
+            <li>На about (<code>../about.html</code>).</li>
+            <li>На картинку (<code>../images/logo.png</code>).</li>
+        </ul>
+
+        <p><strong>Задание 4. «Проверь Network»</strong></p>
+        <ul>
+            <li>Открой <code>F12</code> → Network.</li>
+            <li>Обнови страницу.</li>
+            <li>Найди все загруженные файлы. Если что-то 404 — исправь путь.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Напиши <code>src="images\logo.png"</code> (с обратным слэшем) — увидишь 404.</li>
+            <li>Напиши <code>href="example.com"</code> без протокола — увидишь, что браузер ищет файл в текущей папке.</li>
+            <li>Напиши <code>src="/images/logo.png"</code> локально — не найдётся (работает только на сервере).</li>
+        </ul>
+
+        <p><strong>Задание 6. «Три уровня»</strong></p>
+        <ul>
+            <li>Добавь <code>pages/sub/page.html</code>.</li>
+            <li>Из него сделай ссылку на главную (<code>../../index.html</code>).</li>
+            <li>Проверь, что переход работает.</li>
+        </ul>
+    </div>
+
+    <h2>13. Что запомнить из урока</h2>
+
+    <ul>
+        <li><strong>Относительный путь</strong> — от текущего файла: <code>file.html</code>, <code>folder/file.html</code>.</li>
+        <li><strong><code>../</code></strong> — на уровень выше. <strong><code>../../</code></strong> — на два.</li>
+        <li><strong><code>/</code> в начале</strong> — от корня сайта (работает только на сервере!).</li>
+        <li><strong>Абсолютный путь</strong> — полный адрес с протоколом и доменом, для внешних ссылок.</li>
+        <li><strong>Разделитель — только <code>/</code></strong>, не <code>\</code>.</li>
+        <li><strong>Имена файлов:</strong> латиница, строчные, без пробелов и спецсимволов.</li>
+        <li><strong>Проверяй через DevTools</strong> → Network, если что-то не грузится.</li>
+        <li>Относительные пути — для <strong>своих</strong> файлов, абсолютные — для <strong>внешних</strong>.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 25 · Следующий урок: <em>Валидация HTML, инструменты разработчика в браузере</em>
+    </p>
+
+</body>
+</html>

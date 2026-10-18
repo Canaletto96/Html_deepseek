@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 7 по HTML: теги форматирования текста — strong, em, b, i, u, mark, small, del, ins, sub, sup.">
+    <title>Урок 7. Форматирование текста</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 7. Форматирование текста</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: освоить теги для выделения текста и понять    -->
+    <!-- главное отличие: СМЫСЛ vs ВНЕШНИЙ ВИД.                    -->
+    <!-- ========================================================= -->
+
+    <h2>1. Главная идея урока</h2>
+
+    <p>
+        Почти каждый тег форматирования существует <strong>в двух вариантах</strong>:
+    </p>
+
+    <ul>
+        <li><strong>Смысловой</strong> (semantic) — говорит «это важно», «это акцент», «это удалено».</li>
+        <li><strong>Визуальный</strong> (presentational) — говорит «сделай жирным», «сделай курсивом».</li>
+    </ul>
+
+    <p>
+        Внешне они могут выглядеть <em>одинаково</em>, но смысл у них разный. Поисковики
+        и screen reader'ы реагируют только на смысловые теги.
+    </p>
+
+    <div class="note">
+        <strong>Правило современного HTML:</strong> используй <strong>смысловые</strong> теги,
+        когда есть смысл («важно», «акцент», «удалено»). Визуальные — только если смысла нет,
+        а нужно просто «сделать курсивом». Но лучше для этого использовать CSS.
+    </div>
+
+    <h2>2. Теги «важности»: &lt;strong&gt; и &lt;b&gt;</h2>
+
+    <p>Оба делают текст жирным, но по-разному.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Смысл</th>
+                <th>Как читает screen reader</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;strong&gt;</code></td>
+                <td>Важность, серьёзность</td>
+                <td>С изменением интонации («важно!»)</td>
+            </tr>
+            <tr>
+                <td><code>&lt;b&gt;</code></td>
+                <td>Просто «выделить жирным»</td>
+                <td>Обычно, без акцента</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;p&gt;Это &lt;strong&gt;важное&lt;/strong&gt; предупреждение.&lt;/p&gt;
+&lt;p&gt;А это просто &lt;b&gt;жирное&lt;/b&gt; слово.&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (выглядит одинаково, смысл разный):</div>
+        <p>Это <strong>важное</strong> предупреждение.</p>
+        <p>А это просто <b>жирное</b> слово.</p>
+    </div>
+
+    <div class="note">
+        <strong>Совет:</strong> используй <code>&lt;strong&gt;</code>, если текст
+        действительно важен. <code>&lt;b&gt;</code> — редко, только для «стилистического»
+        выделения без смысла (например, название бренда в тексте).
+    </div>
+
+    <h2>3. Теги акцента: &lt;em&gt; и &lt;i&gt;</h2>
+
+    <p>Оба делают текст курсивом, но с разным смыслом.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Смысл</th>
+                <th>Пример</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;em&gt;</code></td>
+                <td>Смысловой акцент (изменение интонации)</td>
+                <td>«Я <em>не</em> говорил этого»</td>
+            </tr>
+            <tr>
+                <td><code>&lt;i&gt;</code></td>
+                <td>Курсив без акцента: термины, названия, иностранные слова</td>
+                <td>«<i>Homo sapiens</i>», «<i>Titanic</i>»</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;p&gt;Я &lt;em&gt;не&lt;/em&gt; хотел тебя обидеть.&lt;/p&gt;
+&lt;p&gt;Латинское название льва — &lt;i&gt;Panthera leo&lt;/i&gt;.&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p>Я <em>не</em> хотел тебя обидеть.</p>
+        <p>Латинское название льва — <i>Panthera leo</i>.</p>
+    </div>
+
+    <h2>4. Тег &lt;u&gt; — подчёркивание</h2>
+
+    <p>
+        <code>&lt;u&gt;</code> (от англ. <em>underline</em>) — подчёркивает текст.
+        Изначально — смысловой тег: «это аннотация, имя собственное в китайском,
+        орфографическая ошибка».
+    </p>
+
+    <pre><code>&lt;p&gt;Обратите внимание на &lt;u&gt;это слово&lt;/u&gt;.&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p>Обратите внимание на <u>это слово</u>.</p>
+    </div>
+
+    <div class="warn">
+        <strong>Осторожно:</strong> на веб-страницах подчёркивание обычно означает
+        <strong>ссылку</strong>. Если ты подчёркиваешь обычный текст, пользователь
+        может попытаться по нему кликнуть. Используй <code>&lt;u&gt;</code> редко!
+    </div>
+
+    <h2>5. Тег &lt;mark&gt; — выделение маркером</h2>
+
+    <p>
+        <code>&lt;mark&gt;</code> выделяет текст как жёлтым маркером. Используется для
+        <strong>подсветки релевантных частей</strong> — например, результатов поиска.
+    </p>
+
+    <pre><code>&lt;p&gt;В результатах поиска слово &lt;mark&gt;HTML&lt;/mark&gt; подсвечено.&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p>В результатах поиска слово <mark>HTML</mark> подсвечено.</p>
+    </div>
+
+    <p>По умолчанию браузер красит фон в жёлтый. Цвет можно изменить через CSS:</p>
+
+    <pre><code>&lt;mark style="background: #b3e5fc; color: #01579b;"&gt;синее выделение&lt;/mark&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p><mark style="background: #b3e5fc; color: #01579b;">синее выделение</mark></p>
+    </div>
+
+    <h2>6. Тег &lt;small&gt; — мелкий текст</h2>
+
+    <p>
+        <code>&lt;small&gt;</code> делает текст меньше. По смыслу — это «сноски,
+        юридические примечания, копирайт».
+    </p>
+
+    <pre><code>&lt;p&gt;&lt;small&gt;© 2026 Все права защищены.&lt;/small&gt;&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p><small>© 2026 Все права защищены.</small></p>
+    </div>
+
+    <h2>7. Теги &lt;del&gt; и &lt;ins&gt; — удалено и вставлено</h2>
+
+    <p>
+        Пара тегов для показа <strong>правок в документе</strong>:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Смысл</th>
+                <th>Внешний вид по умолчанию</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;del&gt;</code></td>
+                <td>Удалённый текст</td>
+                <td>Зачёркнутый</td>
+            </tr>
+            <tr>
+                <td><code>&lt;ins&gt;</code></td>
+                <td>Вставленный текст</td>
+                <td>Подчёркнутый</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;p&gt;Цена: &lt;del&gt;1500&lt;/del&gt; &lt;ins&gt;1200&lt;/ins&gt; руб.&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p>Цена: <del>1500</del> <ins>1200</ins> руб.</p>
+    </div>
+
+    <p>
+        Часто для «зачёркнутого» текста без смысла правки используют <code>&lt;s&gt;</code>:
+    </p>
+
+    <pre><code>&lt;p&gt;Старая цена: &lt;s&gt;1500 руб.&lt;/s&gt;&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p>Старая цена: <s>1500 руб.</s></p>
+    </div>
+
+    <div class="note">
+        <strong>Разница:</strong> <code>&lt;del&gt;</code> — «это было в документе, но мы это удалили»
+        (в контексте правок). <code>&lt;s&gt;</code> — «это устарело / больше не актуально».
+    </div>
+
+    <h2>8. Теги &lt;sub&gt; и &lt;sup&gt; — нижний и верхний индекс</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Что делает</th>
+                <th>Пример</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;sub&gt;</code></td>
+                <td>Нижний индекс</td>
+                <td>H<sub>2</sub>O</td>
+            </tr>
+            <tr>
+                <td><code>&lt;sup&gt;</code></td>
+                <td>Верхний индекс</td>
+                <td>E = mc<sup>2</sup></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;p&gt;Формула воды: H&lt;sub&gt;2&lt;/sub&gt;O&lt;/p&gt;
+&lt;p&gt;Уравнение: E = mc&lt;sup&gt;2&lt;/sup&gt;&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p>Формула воды: H<sub>2</sub>O</p>
+        <p>Уравнение: E = mc<sup>2</sup></p>
+    </div>
+
+    <h2>9. Полная таблица тегов форматирования</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Вид по умолчанию</th>
+                <th>Смысл</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;strong&gt;</code></td>
+                <td>Жирный</td>
+                <td>Важность</td>
+            </tr>
+            <tr>
+                <td><code>&lt;b&gt;</code></td>
+                <td>Жирный</td>
+                <td>Просто выделение</td>
+            </tr>
+            <tr>
+                <td><code>&lt;em&gt;</code></td>
+                <td>Курсив</td>
+                <td>Смысловой акцент</td>
+            </tr>
+            <tr>
+                <td><code>&lt;i&gt;</code></td>
+                <td>Курсив</td>
+                <td>Термины, названия</td>
+            </tr>
+            <tr>
+                <td><code>&lt;u&gt;</code></td>
+                <td>Подчёркнутый</td>
+                <td>Аннотация, ошибка</td>
+            </tr>
+            <tr>
+                <td><code>&lt;mark&gt;</code></td>
+                <td>Жёлтый фон</td>
+                <td>Подсветка релевантного</td>
+            </tr>
+            <tr>
+                <td><code>&lt;small&gt;</code></td>
+                <td>Мелкий</td>
+                <td>Сноска, копирайт</td>
+            </tr>
+            <tr>
+                <td><code>&lt;del&gt;</code></td>
+                <td>Зачёркнутый</td>
+                <td>Удалённое</td>
+            </tr>
+            <tr>
+                <td><code>&lt;ins&gt;</code></td>
+                <td>Подчёркнутый</td>
+                <td>Вставленное</td>
+            </tr>
+            <tr>
+                <td><code>&lt;s&gt;</code></td>
+                <td>Зачёркнутый</td>
+                <td>Устаревшее</td>
+            </tr>
+            <tr>
+                <td><code>&lt;sub&gt;</code></td>
+                <td>Нижний индекс</td>
+                <td>Химия, математика</td>
+            </tr>
+            <tr>
+                <td><code>&lt;sup&gt;</code></td>
+                <td>Верхний индекс</td>
+                <td>Степени, сноски</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>10. Вложенность тегов форматирования</h2>
+
+    <p>Теги можно комбинировать. Главное — правильный порядок закрытия.</p>
+
+    <pre><code>&lt;p&gt;Это &lt;strong&gt;жирный &lt;em&gt;и курсивный&lt;/em&gt;&lt;/strong&gt; текст.&lt;/p&gt;
+&lt;p&gt;Это &lt;mark&gt;выделенный &lt;strong&gt;важный&lt;/strong&gt; фрагмент&lt;/mark&gt;.&lt;/p&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p>Это <strong>жирный <em>и курсивный</em></strong> текст.</p>
+        <p>Это <mark>выделенный <strong>важный</strong> фрагмент</mark>.</p>
+    </div>
+
+    <h2>11. Как браузер стилизует по умолчанию</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>CSS по умолчанию</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;strong&gt;</code>, <code>&lt;b&gt;</code></td>
+                <td><code>font-weight: bold</code></td>
+            </tr>
+            <tr>
+                <td><code>&lt;em&gt;</code>, <code>&lt;i&gt;</code></td>
+                <td><code>font-style: italic</code></td>
+            </tr>
+            <tr>
+                <td><code>&lt;u&gt;</code>, <code>&lt;ins&gt;</code></td>
+                <td><code>text-decoration: underline</code></td>
+            </tr>
+            <tr>
+                <td><code>&lt;del&gt;</code>, <code>&lt;s&gt;</code></td>
+                <td><code>text-decoration: line-through</code></td>
+            </tr>
+            <tr>
+                <td><code>&lt;mark&gt;</code></td>
+                <td><code>background: yellow; color: black</code></td>
+            </tr>
+            <tr>
+                <td><code>&lt;small&gt;</code></td>
+                <td><code>font-size: smaller</code></td>
+            </tr>
+            <tr>
+                <td><code>&lt;sub&gt;</code></td>
+                <td><code>vertical-align: sub; font-size: smaller</code></td>
+            </tr>
+            <tr>
+                <td><code>&lt;sup&gt;</code></td>
+                <td><code>vertical-align: super; font-size: smaller</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>12. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Использовать <code>&lt;b&gt;</code> вместо <code>&lt;strong&gt;</code></td>
+                <td>Теряется смысл «важности» для SEO и screen reader'ов</td>
+            </tr>
+            <tr>
+                <td>Подчёркивать текст через <code>&lt;u&gt;</code> без смысла</td>
+                <td>Пользователи думают, что это ссылка</td>
+            </tr>
+            <tr>
+                <td>Пересекать теги: <code>&lt;strong&gt;&lt;em&gt;...&lt;/strong&gt;&lt;/em&gt;</code></td>
+                <td>Невалидно, браузер может перестроить</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>&lt;mark&gt;</code> для декора</td>
+                <td>Это смысловая подсветка, а не «красивый фон»</td>
+            </tr>
+            <tr>
+                <td>Вкладывать блочные теги в форматирующие</td>
+                <td><code>&lt;strong&gt;&lt;div&gt;...&lt;/div&gt;&lt;/strong&gt;</code> — нельзя</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>13. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Текст с выделениями»</strong></p>
+        <p>Создай файл <code>07-practice.html</code>. Напиши 3–4 абзаца на любую тему, используя:</p>
+        <ul>
+            <li><code>&lt;strong&gt;</code> — минимум 2 раза</li>
+            <li><code>&lt;em&gt;</code> — минимум 2 раза</li>
+            <li><code>&lt;mark&gt;</code> — 1 раз</li>
+            <li><code>&lt;small&gt;</code> — 1 раз (копирайт внизу)</li>
+            <li><code>&lt;del&gt;</code> + <code>&lt;ins&gt;</code> — «старая цена → новая»</li>
+        </ul>
+
+        <p><strong>Задание 2. «Формулы»</strong></p>
+        <ul>
+            <li>Напиши формулу воды через <code>&lt;sub&gt;</code>: H<sub>2</sub>O</li>
+            <li>Напиши формулу Эйнштейна через <code>&lt;sup&gt;</code>: E = mc<sup>2</sup></li>
+            <li>Напиши квадратный корень: √x через <code>&lt;sup&gt;</code></li>
+        </ul>
+
+        <p><strong>Задание 3. «Сравни b/strong и i/em»</strong></p>
+        <ul>
+            <li>Сделай два параграфа: в одном <code>&lt;b&gt;</code> и <code>&lt;i&gt;</code>, в другом <code>&lt;strong&gt;</code> и <code>&lt;em&gt;</code>.</li>
+            <li>Открой DevTools (<code>F12</code>) → Elements → найди эти теги.</li>
+            <li>Убедись, что браузер показывает их по-разному (разные теги в DOM).</li>
+        </ul>
+
+        <p><strong>Задание 4. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Пересеки теги: <code>&lt;strong&gt;&lt;em&gt;текст&lt;/strong&gt;&lt;/em&gt;</code>. Посмотри, что сделает браузер.</li>
+            <li>Подчеркни текст через <code>&lt;u&gt;</code> и наведи — выглядит как ссылка? Подумай, стоит ли так делать.</li>
+            <li>Сделай <code>&lt;mark&gt;</code> с другим цветом через CSS: <code>style="background: #ffcdd2;"</code>.</li>
+        </ul>
+    </div>
+
+    <h2>14. Что запомнить из урока</h2>
+
+    <ul>
+        <li><strong>Смысл vs вид:</strong> <code>&lt;strong&gt;</code> (важно) vs <code>&lt;b&gt;</code> (просто жирный).</li>
+        <li><code>&lt;em&gt;</code> — акцент, <code>&lt;i&gt;</code> — курсив для терминов и названий.</li>
+        <li><code>&lt;mark&gt;</code> — подсветка релевантного (как в поиске).</li>
+        <li><code>&lt;small&gt;</code> — сноски и копирайт.</li>
+        <li><code>&lt;del&gt;</code> / <code>&lt;ins&gt;</code> — правки в документе (удалено / вставлено).</li>
+        <li><code>&lt;s&gt;</code> — устаревшее, неактуальное.</li>
+        <li><code>&lt;sub&gt;</code> / <code>&lt;sup&gt;</code> — химия и математика.</li>
+        <li><strong>Правило выбора:</strong> если есть смысл — используй смысловой тег. Если только вид — лучше CSS.</li>
+        <li>Теги форматирования — <strong>строчные</strong> (inline), их можно вкладывать друг в друга и в текст.</li>
+        <li>Теги можно пересекать? <strong>Нет.</strong> Закрывай в обратном порядке.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 7 · Следующий урок: <em>HTML-сущности — полный справочник</em>
+    </p>
+
+</body>
+</html>

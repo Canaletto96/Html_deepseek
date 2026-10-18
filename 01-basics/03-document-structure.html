@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 3. Структура HTML-документа</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        .tree {
+            font-family: Consolas, Monaco, monospace;
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 16px;
+            border-radius: 8px;
+            white-space: pre;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 3. Структура HTML-документа</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: понять, из чего состоит любой HTML-файл      -->
+    <!-- и зачем нужна каждая из 4-х обязательных частей.          -->
+    <!-- ========================================================= -->
+
+    <h2>1. Общая картина</h2>
+
+    <p>
+        Любой правильный HTML-документ имеет <strong>4 обязательных части</strong>:
+    </p>
+
+    <div class="tree">&lt;!DOCTYPE html&gt;   ← 1. Объявление типа документа
+&lt;html lang="ru"&gt;     ← 2. Корневой контейнер
+    &lt;head&gt;           ← 3. Служебная информация
+        ...
+    &lt;/head&gt;
+    &lt;body&gt;           ← 4. Видимое содержимое
+        ...
+    &lt;/body&gt;
+&lt;/html&gt;</div>
+
+    <p>
+        Запомни эту схему как <strong>скелет</strong>. Всё, что ты будешь писать в HTML,
+        живёт внутри одной из этих частей.
+    </p>
+
+    <h2>2. <code>&lt;!DOCTYPE html&gt;</code> — объявление типа</h2>
+
+    <p>
+        Это <strong>не тег</strong>. Это инструкция браузеру: «этот документ — HTML5».
+        Пишется <strong>самой первой строкой</strong>, до всего остального.
+    </p>
+
+    <pre><code>&lt;!DOCTYPE html&gt;</code></pre>
+
+    <h3>Зачем это нужно</h3>
+    <p>
+        В 90-е и 2000-е было несколько версий HTML (HTML 4.01, XHTML 1.0 и др.).
+        Браузеры, встретив старый документ, включают <strong>режим совместимости</strong>
+        (quirks mode) — там правила отображения немного другие.
+    </p>
+    <p>
+        Строка <code>&lt;!DOCTYPE html&gt;</code> говорит браузеру: «работай в современном
+        режиме (standards mode)». Без неё страница может выглядеть иначе.
+    </p>
+
+    <div class="note">
+        <strong>Раньше</strong> DOCTYPE выглядел как огромная портянка из URL-адресов
+        и версий. В HTML5 его сократили до одной строки. Запомни:
+        <code>&lt;!DOCTYPE html&gt;</code> — и всё.
+    </div>
+
+    <h3>Правила написания</h3>
+    <ul>
+        <li>Пишется <strong>один раз</strong>, в самом верху файла.</li>
+        <li>Регистр не важен: <code>&lt;!doctype html&gt;</code> тоже работает, но пишут капсом.</li>
+        <li>У него <strong>нет</strong> закрывающего тега.</li>
+        <li>Перед ним не должно быть ничего — ни пробелов, ни переносов строк, ни комментариев.</li>
+    </ul>
+
+    <div class="warn">
+        <strong>Ошибка новичка:</strong> ставить комментарии или пустые строки
+        <em>до</em> <code>&lt;!DOCTYPE html&gt;</code>. Некоторые браузеры из-за этого
+        переключаются в quirks mode и ломают вёрстку.
+    </div>
+
+    <h2>3. <code>&lt;html&gt;</code> — корневой элемент</h2>
+
+    <p>
+        Всё содержимое страницы заключено в <code>&lt;html&gt;</code>. Это «корень»
+        дерева. Внутри него — ровно <strong>два ребёнка</strong>: <code>&lt;head&gt;</code> и <code>&lt;body&gt;</code>.
+    </p>
+
+    <pre><code>&lt;html lang="ru"&gt;
+    &lt;head&gt;...&lt;/head&gt;
+    &lt;body&gt;...&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <h3>Атрибут <code>lang</code></h3>
+    <p>
+        Указывает <strong>язык содержимого</strong>. Значение — код языка по стандарту
+        ISO: <code>ru</code>, <code>en</code>, <code>de</code>, <code>fr</code> и т.д.
+    </p>
+    <p>Зачем это нужно:</p>
+    <ul>
+        <li><strong>Поисковики</strong> понимают, на каком языке сайт, и показывают его нужной аудитории.</li>
+        <li><strong>Screen reader'ы</strong> (программы для незрячих) читают текст правильным голосом и произношением.</li>
+        <li><strong>Браузер</strong> знает, как переносить слова, какие кавычки ставить, как проверять орфографию.</li>
+    </ul>
+
+    <pre><code>&lt;html lang="ru"&gt;   &lt;!-- русский --&gt;
+&lt;html lang="en"&gt;   &lt;!-- английский --&gt;
+&lt;html lang="uk"&gt;   &lt;!-- украинский --&gt;</code></pre>
+
+    <div class="note">
+        Если часть страницы на другом языке (например, цитата на английском),
+        можно повесить <code>lang</code> на конкретный тег:
+        <code>&lt;p lang="en"&gt;Hello!&lt;/p&gt;</code>. Браузер поймёт, что читать по-английски.
+    </div>
+
+    <h2>4. <code>&lt;head&gt;</code> — «мозг» документа</h2>
+
+    <p>
+        Внутри <code>&lt;head&gt;</code> лежит <strong>служебная информация</strong>.
+        Пользователь её <strong>не видит</strong> на странице, но она очень важна.
+    </p>
+
+    <p>Что там обычно находится:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Назначение</th>
+                <th>Обязательно?</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;meta charset&gt;</code></td>
+                <td>Кодировка документа</td>
+                <td>Да</td>
+            </tr>
+            <tr>
+                <td><code>&lt;meta name="viewport"&gt;</code></td>
+                <td>Адаптация под мобильные</td>
+                <td>Да (для современного сайта)</td>
+            </tr>
+            <tr>
+                <td><code>&lt;title&gt;</code></td>
+                <td>Заголовок вкладки</td>
+                <td>Да</td>
+            </tr>
+            <tr>
+                <td><code>&lt;meta name="description"&gt;</code></td>
+                <td>Описание для поисковиков</td>
+                <td>Желательно</td>
+            </tr>
+            <tr>
+                <td><code>&lt;link&gt;</code></td>
+                <td>Подключение CSS, favicon</td>
+                <td>По необходимости</td>
+            </tr>
+            <tr>
+                <td><code>&lt;style&gt;</code></td>
+                <td>CSS прямо в документе</td>
+                <td>Не рекомендуется</td>
+            </tr>
+            <tr>
+                <td><code>&lt;script&gt;</code></td>
+                <td>JavaScript</td>
+                <td>По необходимости</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3><code>&lt;meta charset="UTF-8"&gt;</code> — кодировка</h3>
+
+    <p>
+        Самая важная строка в <code>&lt;head&gt;</code>. Она говорит браузеру,
+        <strong>как читать байты</strong>, из которых состоит файл.
+    </p>
+
+    <p>
+        UTF-8 — современный стандарт, поддерживает <strong>все языки мира</strong>
+        (кириллицу, иероглифы, эмодзи). Всегда используй UTF-8.
+    </p>
+
+    <p>Что будет, если забыть про charset:</p>
+    <div class="demo">
+        <div class="demo-label">Без UTF-8:</div>
+        <p style="font-family: monospace;">Русский текст → Ð ÑƒÑÑÐºÐ¸Ð¹ Ñ‚ÐµÐºÑÑ‚</p>
+        <p style="font-family: monospace;">Привет, мир! → ÐŸÑ€Ð¸Ð²ÐµÑ‚, Ð¼Ð¸Ñ€!</p>
+    </div>
+    <p>Такие «крякозябры» называются <em>mojibake</em>. Значит, кодировка не совпала.</p>
+
+    <h3><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></h3>
+
+    <p>
+        Строка для <strong>мобильных устройств</strong>. Без неё смартфон
+        откроет страницу «как на компьютере» и уменьшит её — придётся вручную приближать.
+    </p>
+
+    <p>Разберём по частям:</p>
+    <ul>
+        <li><code>width=device-width</code> — ширина страницы = ширина экрана телефона.</li>
+        <li><code>initial-scale=1.0</code> — начальный масштаб 100% (без зума).</li>
+    </ul>
+
+    <div class="note">
+        <strong>Проверить:</strong> открой этот урок в браузере, нажми <code>F12</code>,
+        включи режим устройства (Ctrl+Shift+M) и выбери iPhone. Если бы viewport
+        не был указан, текст был бы микроскопическим.
+    </div>
+
+    <h3><code>&lt;title&gt;</code> — заголовок вкладки</h3>
+
+    <p>
+        Текст, который видно на <strong>вкладке браузера</strong>, в закладках
+        и в результатах поиска Google.
+    </p>
+
+    <pre><code>&lt;title&gt;Урок 3. Структура HTML-документа&lt;/title&gt;</code></pre>
+
+    <p>Правила хорошего заголовка:</p>
+    <ul>
+        <li>Уникальный для каждой страницы.</li>
+        <li>Короткий (до 60 символов), иначе обрежется в поисковике.</li>
+        <li>Описывает содержимое: «Купить кота — Магазин Мурлыка», а не просто «Главная».</li>
+    </ul>
+
+    <h3><code>&lt;meta name="description"&gt;</code></h3>
+
+    <p>
+        Краткое описание страницы. Используется поисковиками для сниппета
+        (короткого текста под ссылкой в результатах поиска).
+    </p>
+
+    <pre><code>&lt;meta name="description" content="Урок 3 про структуру HTML: DOCTYPE, html, head, body"&gt;</code></pre>
+
+    <h3><code>&lt;link&gt;</code> — подключение ресурсов</h3>
+
+    <p>
+        Чаще всего используется для подключения <strong>CSS-файла</strong> (стилей):
+    </p>
+
+    <pre><code>&lt;link rel="stylesheet" href="style.css"&gt;</code></pre>
+
+    <p>И для <strong>favicon</strong> (иконка вкладки):</p>
+
+    <pre><code>&lt;link rel="icon" href="favicon.ico"&gt;</code></pre>
+
+    <h2>5. <code>&lt;body&gt;</code> — «тело» документа</h2>
+
+    <p>
+        Здесь лежит <strong>всё, что видит пользователь</strong>: текст, картинки,
+        кнопки, формы, видео.
+    </p>
+
+    <pre><code>&lt;body&gt;
+    &lt;h1&gt;Добро пожаловать!&lt;/h1&gt;
+    &lt;p&gt;Это моя первая страница.&lt;/p&gt;
+    &lt;img src="cat.jpg" alt="Кот"&gt;
+&lt;/body&gt;</code></pre>
+
+    <p>
+        По правилам HTML внутри <code>&lt;body&gt;</code> может быть сколько угодно
+        элементов — ограничений нет.
+    </p>
+
+    <h2>6. Аналогия для запоминания</h2>
+
+    <div class="demo">
+        <div class="demo-label">Представь книгу:</div>
+        <ul>
+            <li><strong>Обложка / ISBN</strong> → <code>&lt;!DOCTYPE html&gt;</code> (метаданные о книге)</li>
+            <li><strong>Сама книга</strong> → <code>&lt;html&gt;</code> (весь том)</li>
+            <li><strong>Титульный лист, оглавление, аннотация</strong> → <code>&lt;head&gt;</code> (служебное)</li>
+            <li><strong>Главы, текст, картинки</strong> → <code>&lt;body&gt;</code> (то, что читают)</li>
+        </ul>
+    </div>
+
+    <div class="note">
+        Или так: <code>&lt;head&gt;</code> — это <strong>мозг</strong> (не видно, но управляет),
+        <code>&lt;body&gt;</code> — это <strong>тело</strong> (видно всем).
+    </div>
+
+    <h2>7. Что НЕЛЬЗЯ делать</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Писать текст вне <code>&lt;body&gt;</code></td>
+                <td>Пользователь его не увидит, браузер может сам «перекинуть» его в body, но валидность нарушена</td>
+            </tr>
+            <tr>
+                <td>Класть <code>&lt;title&gt;</code> в <code>&lt;body&gt;</code></td>
+                <td>Не сработает — браузер ищет его только в <code>&lt;head&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Несколько <code>&lt;head&gt;</code> или <code>&lt;body&gt;</code></td>
+                <td>По стандарту — ровно по одному</td>
+            </tr>
+            <tr>
+                <td>Забыть <code>&lt;!DOCTYPE html&gt;</code></td>
+                <td>Браузер переключится в quirks mode, возможны баги</td>
+            </tr>
+            <tr>
+                <td>Писать контент прямо в <code>&lt;html&gt;</code>, минуя body</td>
+                <td>Браузер сам обернёт в body, но лучше так не делать</td>
+            </tr>
+            <tr>
+                <td>Забыть <code>&lt;meta charset&gt;</code></td>
+                <td>Кириллица превратится в «крякозябры»</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>8. Проверь сам: что произойдёт без DOCTYPE?</h2>
+
+    <p>
+        Создай файл <code>test-no-doctype.html</code> с таким содержимым:
+    </p>
+
+    <pre><code>&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Без DOCTYPE&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;p&gt;Проверяем режим документа&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <p>Открой в браузере, нажми <code>F12</code> и введи в консоль:</p>
+
+    <pre><code>document.compatMode</code></pre>
+
+    <p>
+        Увидишь <code>"BackCompat"</code> — это quirks mode.<br>
+        А если добавить <code>&lt;!DOCTYPE html&gt;</code> — станет <code>"CSS1Compat"</code> (standards mode).
+    </p>
+
+    <div class="note">
+        <strong>Попробуй прямо сейчас</strong> — это лучший способ убедиться, что DOCTYPE
+        реально влияет на браузер.
+    </div>
+
+    <h2>9. Шаблон, который стоит выучить наизусть</h2>
+
+    <p>Открой VS Code, набери <code>!</code> и нажми <code>Tab</code> — Emmet развернёт готовый шаблон. Но ты должен понимать, что там написано:</p>
+
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Название страницы&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <p>
+        Это твой <strong>стартовый каркас</strong> для любой страницы. Через пару недель
+        ты будешь писать его на автомате.
+    </p>
+
+    <h2>10. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Собери каркас с нуля»</strong></p>
+        <p>Создай <code>03-practice.html</code>. Набери <strong>руками</strong> (без Emmet!) такой каркас:</p>
+        <ul>
+            <li><code>&lt;!DOCTYPE html&gt;</code></li>
+            <li><code>&lt;html lang="ru"&gt;</code></li>
+            <li>В <code>&lt;head&gt;</code>: charset UTF-8, viewport, title «Мой третий урок»</li>
+            <li>В <code>&lt;body&gt;</code>: заголовок h1 «Проверка структуры» и параграф</li>
+        </ul>
+
+        <p><strong>Задание 2. «Поиграй с meta»</strong></p>
+        <ul>
+            <li>Добавь <code>&lt;meta name="description" content="Это моя тренировочная страница"&gt;</code></li>
+            <li>Добавь <code>&lt;meta name="author" content="Твоё имя"&gt;</code></li>
+            <li>Открой исходник в браузере (<code>Ctrl+U</code>) — убедись, что мета-теги видны, а на странице их нет.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Убери <code>&lt;meta charset="UTF-8"&gt;</code> → посмотри, появятся ли крякозябры (может понадобиться <strong>переоткрыть</strong> файл).</li>
+            <li>Помести текст прямо в <code>&lt;html&gt;</code>, вне <code>&lt;body&gt;</code> → проверь через <code>F12</code>, куда браузер его «перекинул».</li>
+            <li>Помести <code>&lt;title&gt;</code> в <code>&lt;body&gt;</code> → убедись, что вкладка так и называется «по умолчанию».</li>
+        </ul>
+
+        <p><strong>Задание 4. «Проверка DOCTYPE»</strong></p>
+        <ul>
+            <li>Создай файл без <code>&lt;!DOCTYPE html&gt;</code>.</li>
+            <li>Открой консоль, введи <code>document.compatMode</code>.</li>
+            <li>Сравни с файлом, где DOCTYPE есть.</li>
+        </ul>
+    </div>
+
+    <h2>11. Что запомнить из урока</h2>
+
+    <ul>
+        <li><code>&lt;!DOCTYPE html&gt;</code> — первая строка, включает standards mode. Без него — quirks mode.</li>
+        <li><code>&lt;html lang="ru"&gt;</code> — корень всего. Атрибут <code>lang</code> помогает поисковикам и screen reader'ам.</li>
+        <li><code>&lt;head&gt;</code> — служебная информация: charset, viewport, title, description, link на CSS.</li>
+        <li><code>&lt;body&gt;</code> — видимое содержимое. Только здесь живёт то, что видит пользователь.</li>
+        <li>Порядок: DOCTYPE → html → (head, body). Оба внутри html — ровно по одному.</li>
+        <li>UTF-8 обязателен, иначе кириллица ломается.</li>
+        <li>Viewport обязателен для мобильных устройств.</li>
+        <li>Шаблон = Emmet + <code>!</code> + <code>Tab</code>, но понимание важнее скорости.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 3 · Следующий урок: <em>Метатеги — charset, viewport, title, description, Open Graph</em>
+    </p>
+
+</body>
+</html>

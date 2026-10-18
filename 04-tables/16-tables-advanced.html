@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 16 по HTML: продвинутые таблицы — thead, tbody, tfoot, colgroup, col, адаптивность, доступность.">
+    <title>Урок 16. Продвинутые таблицы</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+            overflow-x: auto;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        /* Стили для примеров */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        caption {
+            caption-side: top;
+            text-align: left;
+            font-style: italic;
+            color: #666;
+            padding: 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 16. Продвинутые таблицы</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: освоить структурные теги таблиц (thead, tbody, -->
+    <!-- tfoot, colgroup) и научиться делать таблицы доступными.    -->
+    <!-- ========================================================= -->
+
+    <h2>1. Зачем нужна структура</h2>
+
+    <p>
+        В прошлом уроке мы строили таблицы «в лоб»: <code>&lt;tr&gt;</code>,
+        <code>&lt;td&gt;</code>, <code>&lt;th&gt;</code>. Для маленьких таблиц
+        этого достаточно. Но для больших и семантически правильных нужна структура.
+    </p>
+
+    <p>В HTML таблицу можно разделить на три смысловые зоны:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Название</th>
+                <th>Что содержит</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;thead&gt;</code></td>
+                <td>table head</td>
+                <td>Шапку: заголовки столбцов</td>
+            </tr>
+            <tr>
+                <td><code>&lt;tbody&gt;</code></td>
+                <td>table body</td>
+                <td>Основные данные</td>
+            </tr>
+            <tr>
+                <td><code>&lt;tfoot&gt;</code></td>
+                <td>table foot</td>
+                <td>Подвал: итоги, суммы, примечания</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Зачем это нужно:</strong>
+        <ul>
+            <li>Screen reader'ы понимают, где шапка, а где данные.</li>
+            <li>CSS можно стилизовать каждую часть отдельно.</li>
+            <li>JavaScript удобно работать с отдельными зонами.</li>
+            <li>При печати <code>&lt;thead&gt;</code> повторяется на каждой странице.</li>
+        </ul>
+    </div>
+
+    <h2>2. Тег &lt;thead&gt; — шапка</h2>
+
+    <p>Содержит строки с <code>&lt;th&gt;</code> — заголовки столбцов.</p>
+
+    <pre><code>&lt;thead&gt;
+    &lt;tr&gt;
+        &lt;th scope="col"&gt;Товар&lt;/th&gt;
+        &lt;th scope="col"&gt;Цена&lt;/th&gt;
+        &lt;th scope="col"&gt;Количество&lt;/th&gt;
+    &lt;/tr&gt;
+&lt;/thead&gt;</code></pre>
+
+    <h2>3. Тег &lt;tbody&gt; — тело</h2>
+
+    <p>Основные данные таблицы — строки с <code>&lt;td&gt;</code>.</p>
+
+    <pre><code>&lt;tbody&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Кофе&lt;/td&gt;
+        &lt;td&gt;500 ₽&lt;/td&gt;
+        &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Чай&lt;/td&gt;
+        &lt;td&gt;300 ₽&lt;/td&gt;
+        &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/tbody&gt;</code></pre>
+
+    <div class="note">
+        В одной таблице может быть <strong>несколько</strong> <code>&lt;tbody&gt;</code> —
+        например, для группировки данных по категориям. Это валидно.
+    </div>
+
+    <h2>4. Тег &lt;tfoot&gt; — подвал</h2>
+
+    <p>Итоги, суммы, примечания. Часто содержит «Итого».</p>
+
+    <pre><code>&lt;tfoot&gt;
+    &lt;tr&gt;
+        &lt;td colspan="2"&gt;Итого:&lt;/td&gt;
+        &lt;td&gt;800 ₽&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/tfoot&gt;</code></pre>
+
+    <h2>5. Полный пример структурированной таблицы</h2>
+
+    <pre><code>&lt;table&gt;
+    &lt;caption&gt;Таблица 1. Заказ&lt;/caption&gt;
+
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope="col"&gt;Товар&lt;/th&gt;
+            &lt;th scope="col"&gt;Цена&lt;/th&gt;
+            &lt;th scope="col"&gt;Количество&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Кофе&lt;/td&gt;
+            &lt;td&gt;500 ₽&lt;/td&gt;
+            &lt;td&gt;2&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Чай&lt;/td&gt;
+            &lt;td&gt;300 ₽&lt;/td&gt;
+            &lt;td&gt;1&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="2"&gt;Итого:&lt;/td&gt;
+            &lt;td&gt;1300 ₽&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <table>
+            <caption>Таблица 1. Заказ</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Товар</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">Количество</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Кофе</td>
+                    <td>500 ₽</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Чай</td>
+                    <td>300 ₽</td>
+                    <td>1</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Итого:</td>
+                    <td>1300 ₽</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <h2>6. Порядок тегов</h2>
+
+    <p>
+        По стандарту порядок такой:
+        <code>&lt;caption&gt;</code> →
+        <code>&lt;colgroup&gt;</code> →
+        <code>&lt;thead&gt;</code> →
+        <code>&lt;tbody&gt;</code> →
+        <code>&lt;tfoot&gt;</code>.
+    </p>
+
+    <div class="note">
+        <strong>Интересный факт:</strong> в HTML5 <code>&lt;tfoot&gt;</code> может
+        стоять как <em>до</em>, так и <em>после</em> <code>&lt;tbody&gt;</code>.
+        Раньше по стандарту он должен был идти перед <code>&lt;tbody&gt;</code>.
+        Сейчас браузеры оба варианта принимают. Но <strong>пиши после</strong> —
+        так логичнее и понятнее.
+    </div>
+
+    <h2>7. Тег &lt;colgroup&gt; и &lt;col&gt; — группы столбцов</h2>
+
+    <p>
+        <code>&lt;colgroup&gt;</code> — контейнер для <code>&lt;col&gt;</code>.
+        Позволяет задать стили целым столбцам, не трогая каждую ячейку.
+    </p>
+
+    <pre><code>&lt;table&gt;
+    &lt;colgroup&gt;
+        &lt;col style="background: #fff8e1;"&gt;
+        &lt;col style="background: #e8f5e9;"&gt;
+        &lt;col span="2" style="background: #e3f2fd;"&gt;
+    &lt;/colgroup&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Столбец 1&lt;/th&gt;
+        &lt;th&gt;Столбец 2&lt;/th&gt;
+        &lt;th&gt;Столбец 3&lt;/th&gt;
+        &lt;th&gt;Столбец 4&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Данные 1&lt;/td&gt;
+        &lt;td&gt;Данные 2&lt;/td&gt;
+        &lt;td&gt;Данные 3&lt;/td&gt;
+        &lt;td&gt;Данные 4&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (столбцы с разными фонами):</div>
+        <table>
+            <colgroup>
+                <col style="background: #fff8e1;">
+                <col style="background: #e8f5e9;">
+                <col span="2" style="background: #e3f2fd;">
+            </colgroup>
+            <tr>
+                <th>Столбец 1</th>
+                <th>Столбец 2</th>
+                <th>Столбец 3</th>
+                <th>Столбец 4</th>
+            </tr>
+            <tr>
+                <td>Данные 1</td>
+                <td>Данные 2</td>
+                <td>Данные 3</td>
+                <td>Данные 4</td>
+            </tr>
+        </table>
+    </div>
+
+    <h3>Атрибут span у &lt;col&gt;</h3>
+
+    <p>
+        <code>&lt;col span="N"&gt;</code> — стиль применяется к N столбцам.
+        Например, <code>&lt;col span="2"&gt;</code> — к двум подряд идущим.
+    </p>
+
+    <h3>Атрибуты &lt;col&gt;</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>span</code></td>
+                <td>Число</td>
+                <td>Сколько столбцов охватывает</td>
+            </tr>
+            <tr>
+                <td><code>style</code></td>
+                <td>CSS</td>
+                <td>Стили для столбца</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="warn">
+        <strong>Что НЕ работает в col:</strong> через <code>&lt;col&gt;</code> можно
+        задать только <code>background</code>, <code>border</code>, <code>width</code>,
+        <code>visibility</code>. Нельзя задать <code>padding</code>, <code>font</code>,
+        <code>color</code> — для этого придётся использовать <code>&lt;td&gt;</code>
+        или <code>&lt;th&gt;</code>.
+    </div>
+
+    <h2>8. Зачем нужен colgroup на практике</h2>
+
+    <p>Пример: таблица с фиксированной шириной столбцов.</p>
+
+    <pre><code>&lt;table&gt;
+    &lt;colgroup&gt;
+        &lt;col style="width: 60%;"&gt;
+        &lt;col style="width: 20%;"&gt;
+        &lt;col style="width: 20%;"&gt;
+    &lt;/colgroup&gt;
+    &lt;!-- строки... --&gt;
+&lt;/table&gt;</code></pre>
+
+    <p>
+        Без colgroup пришлось бы задавать <code>style="width: 60%"</code> каждой
+        ячейке первого столбца. С colgroup — один раз.
+    </p>
+
+    <h2>9. Несколько &lt;tbody&gt; — группировка данных</h2>
+
+    <p>Можно разбить данные на группы с отдельными «подшапками»:</p>
+
+    <pre><code>&lt;table&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Категория&lt;/th&gt;
+            &lt;th&gt;Товар&lt;/th&gt;
+            &lt;th&gt;Цена&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;th colspan="3"&gt;Напитки&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;/td&gt;
+            &lt;td&gt;Кофе&lt;/td&gt;
+            &lt;td&gt;500 ₽&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;/td&gt;
+            &lt;td&gt;Чай&lt;/td&gt;
+            &lt;td&gt;300 ₽&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;th colspan="3"&gt;Еда&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;/td&gt;
+            &lt;td&gt;Бутерброд&lt;/td&gt;
+            &lt;td&gt;250 ₽&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Категория</th>
+                    <th>Товар</th>
+                    <th>Цена</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th colspan="3" style="background: #fff3e0; text-align: left;">Напитки</th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Кофе</td>
+                    <td>500 ₽</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Чай</td>
+                    <td>300 ₽</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <th colspan="3" style="background: #fff3e0; text-align: left;">Еда</th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Бутерброд</td>
+                    <td>250 ₽</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="note">
+        <strong>Совет:</strong> когда используешь <code>&lt;tbody&gt;</code> для группировки,
+        добавляй CSS-классы (<code>class="group-heading"</code>) — так проще стилизовать.
+    </div>
+
+    <h2>10. Стилизация через CSS</h2>
+
+    <pre><code>thead {
+    background: #333;
+    color: #fff;
+}
+
+tfoot {
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+tbody tr:hover {
+    background: #fff8e1;
+}</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (стилизованная таблица):</div>
+        <table>
+            <caption>Заказ</caption>
+            <thead style="background: #333; color: #fff;">
+                <tr>
+                    <th scope="col" style="background: #333; color: #fff;">Товар</th>
+                    <th scope="col" style="background: #333; color: #fff;">Цена</th>
+                    <th scope="col" style="background: #333; color: #fff;">Кол-во</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #f9f9f9;">
+                    <td>Кофе</td>
+                    <td>500 ₽</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Чай</td>
+                    <td>300 ₽</td>
+                    <td>1</td>
+                </tr>
+                <tr style="background: #f9f9f9;">
+                    <td>Какао</td>
+                    <td>400 ₽</td>
+                    <td>1</td>
+                </tr>
+            </tbody>
+            <tfoot style="background: #f5f5f5; font-weight: bold;">
+                <tr>
+                    <td colspan="2">Итого:</td>
+                    <td>1700 ₽</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <h2>11. Sticky-заголовок</h2>
+
+    <p>
+        Для длинных таблиц удобно «приклеить» шапку, чтобы она оставалась видимой
+        при прокрутке:
+    </p>
+
+    <pre><code>thead th {
+    position: sticky;
+    top: 0;
+    background: #333;
+    color: #fff;
+    z-index: 1;
+}</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Прокрути таблицу вниз (шапка останется видимой):</div>
+        <div style="max-height: 200px; overflow-y: auto;">
+            <table>
+                <thead style="background: #333; color: #fff; position: sticky; top: 0;">
+                    <tr>
+                        <th style="background: #333; color: #fff; position: sticky; top: 0;">Товар</th>
+                        <th style="background: #333; color: #fff; position: sticky; top: 0;">Цена</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Кофе</td><td>500 ₽</td></tr>
+                    <tr><td>Чай</td><td>300 ₽</td></tr>
+                    <tr><td>Какао</td><td>400 ₽</td></tr>
+                    <tr><td>Сок</td><td>200 ₽</td></tr>
+                    <tr><td>Вода</td><td>100 ₽</td></tr>
+                    <tr><td>Молоко</td><td>150 ₽</td></tr>
+                    <tr><td>Кефир</td><td>180 ₽</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h2>12. Адаптивные таблицы для мобильных</h2>
+
+    <p>
+        Таблицы на мобильных — боль. Самый простой способ — горизонтальная прокрутка:
+    </p>
+
+    <pre><code>&lt;div style="overflow-x: auto;"&gt;
+    &lt;table&gt;...&lt;/table&gt;
+&lt;/div&gt;</code></pre>
+
+    <p>
+        Ещё вариант — «карточки»: на мобильных каждая строка выглядит как блок.
+        Но это уже CSS-приём, а не HTML.
+    </p>
+
+    <h2>13. Доступность (a11y) таблиц</h2>
+
+    <p>Правила для семантически правильной таблицы:</p>
+
+    <ol>
+        <li><strong><code>&lt;caption&gt;</code></strong> — всегда, если таблица смысловая.</li>
+        <li><strong><code>&lt;th&gt;</code></strong> — для всех заголовков (не «жирный td»).</li>
+        <li><strong><code>scope="col"</code></strong> или <strong><code>scope="row"</code></strong> — уточнить направление.</li>
+        <li><strong><code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, <code>&lt;tfoot&gt;</code></strong> — структура.</li>
+        <li><strong>Пустые ячейки</strong> — вставляй <code>&amp;nbsp;</code>, а не оставляй пустыми.</li>
+    </ol>
+
+    <pre><code>&lt;table&gt;
+    &lt;caption&gt;Таблица 1. Сравнение тарифов&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope="col"&gt;Тариф&lt;/th&gt;
+            &lt;th scope="col"&gt;Цена&lt;/th&gt;
+            &lt;th scope="col"&gt;Место&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;th scope="row"&gt;Базовый&lt;/th&gt;
+            &lt;td&gt;500 ₽&lt;/td&gt;
+            &lt;td&gt;1 ГБ&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;th scope="row"&gt;Стандарт&lt;/th&gt;
+            &lt;td&gt;900 ₽&lt;/td&gt;
+            &lt;td&gt;5 ГБ&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+
+    <h2>14. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Использовать <code>&lt;td&gt;</code> вместо <code>&lt;th&gt;</code> для заголовков</td>
+                <td>Screen reader не понимает структуру</td>
+            </tr>
+            <tr>
+                <td>Забыть <code>scope</code></td>
+                <td>Заголовки «висят в воздухе»</td>
+            </tr>
+            <tr>
+                <td>Не использовать <code>&lt;thead&gt;</code> и <code>&lt;tbody&gt;</code></td>
+                <td>Теряется семантика, сложнее стилизовать</td>
+            </tr>
+            <tr>
+                <td>Вкладывать <code>&lt;tfoot&gt;</code> между <code>&lt;tbody&gt;</code></td>
+                <td>Невалидно: только до или после <code>&lt;tbody&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Несколько <code>&lt;caption&gt;</code></td>
+                <td>Разрешён только один</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>&lt;col&gt;</code> для padding или font</td>
+                <td>Работает только для фона, рамки, ширины</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>15. Полный шаблон семантически правильной таблицы</h2>
+
+    <pre><code>&lt;table&gt;
+    &lt;caption&gt;Таблица 1. Название таблицы&lt;/caption&gt;
+
+    &lt;colgroup&gt;
+        &lt;col style="width: 40%;"&gt;
+        &lt;col style="width: 30%;"&gt;
+        &lt;col style="width: 30%;"&gt;
+    &lt;/colgroup&gt;
+
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope="col"&gt;Столбец 1&lt;/th&gt;
+            &lt;th scope="col"&gt;Столбец 2&lt;/th&gt;
+            &lt;th scope="col"&gt;Столбец 3&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;th scope="row"&gt;Строка 1&lt;/th&gt;
+            &lt;td&gt;Данные&lt;/td&gt;
+            &lt;td&gt;Данные&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;th scope="row"&gt;Строка 2&lt;/th&gt;
+            &lt;td&gt;Данные&lt;/td&gt;
+            &lt;td&gt;Данные&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="2"&gt;Итого:&lt;/td&gt;
+            &lt;td&gt;Сумма&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;</code></pre>
+
+    <h2>16. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Структурированная таблица»</strong></p>
+        <p>Создай файл <code>16-practice.html</code>. Сделай таблицу «Тарифы мобильной связи»:</p>
+        <ul>
+            <li><code>&lt;caption&gt;</code> — «Таблица 1. Сравнение тарифов».</li>
+            <li><code>&lt;thead&gt;</code> с заголовками: Тариф, Цена, Интернет, Минуты.</li>
+            <li><code>&lt;tbody&gt;</code> с 3 тарифами.</li>
+            <li><code>&lt;tfoot&gt;</code> с итоговой строкой «Самый дорогой: ...».</li>
+        </ul>
+
+        <p><strong>Задание 2. «Colgroup»</strong></p>
+        <ul>
+            <li>Добавь <code>&lt;colgroup&gt;</code> к таблице из задания 1.</li>
+            <li>Первому столбцу задай ширину 30%, остальным — по 23%.</li>
+            <li>Второму столбцу задай фон <code>#fff8e1</code>.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Несколько tbody»</strong></p>
+        <ul>
+            <li>Сделай таблицу «Меню ресторана».</li>
+            <li>В первом <code>&lt;tbody&gt;</code> — супы (с подзаголовком через <code>&lt;th colspan="3"&gt;</code>).</li>
+            <li>Во втором — десерты.</li>
+            <li>В третьем — напитки.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Доступность»</strong></p>
+        <ul>
+            <li>Открой <a href="https://validator.w3.org">validator.w3.org</a>, загрузи свой файл.</li>
+            <li>Проверь: нет ли ошибок с <code>scope</code>, <code>caption</code>, порядком тегов.</li>
+            <li>Проверь таблицу через расширение **Wave** (Chrome/Firefox) — оно проверяет доступность.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Sticky-заголовок»</strong></p>
+        <ul>
+            <li>Сделай таблицу с 20 строками.</li>
+            <li>Оберни её в <code>&lt;div style="max-height: 300px; overflow-y: auto;"&gt;</code>.</li>
+            <li>Добавь CSS <code>position: sticky; top: 0;</code> для <code>thead th</code>.</li>
+            <li>Прокрути — шапка должна оставаться на месте.</li>
+        </ul>
+
+        <p><strong>Задание 6. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Помести <code>&lt;tfoot&gt;</code> между двумя <code>&lt;tbody&gt;</code> — проверь валидатором.</li>
+            <li>Убери <code>scope</code> у <code>&lt;th&gt;</code> — попробуй прочитать таблицу через screen reader, увидишь разницу.</li>
+            <li>Попробуй задать через <code>&lt;col&gt;</code> свойство <code>padding: 20px;</code> — убедись, что не работает.</li>
+        </ul>
+    </div>
+
+    <h2>17. Что запомнить из урока</h2>
+
+    <ul>
+        <li><strong>Три структурных тега:</strong> <code>&lt;thead&gt;</code> (шапка), <code>&lt;tbody&gt;</code> (данные), <code>&lt;tfoot&gt;</code> (итоги).</li>
+        <li><strong>Порядок:</strong> <code>caption</code> → <code>colgroup</code> → <code>thead</code> → <code>tbody</code> → <code>tfoot</code>.</li>
+        <li>Можно использовать <strong>несколько</strong> <code>&lt;tbody&gt;</code> для группировки данных.</li>
+        <li><code>&lt;colgroup&gt;</code> + <code>&lt;col&gt;</code> — для стилизации столбцов (только фон, рамки, ширина).</li>
+        <li><code>&lt;col span="N"&gt;</code> — охватить N столбцов одной настройкой.</li>
+        <li><strong>Sticky-заголовок:</strong> <code>position: sticky; top: 0;</code> на <code>thead th</code>.</li>
+        <li><strong>Для доступности:</strong> caption + th + scope = обязательный минимум.</li>
+        <li><strong>Адаптивность:</strong> <code>overflow-x: auto</code> для горизонтальной прокрутки.</li>
+        <li

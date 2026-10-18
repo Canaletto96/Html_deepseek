@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 27 по HTML: details, summary, dialog, template, slot — интерактивные элементы без JavaScript.">
+    <title>Урок 27. Details, dialog, template, slot</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            background: #fff;
+        }
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #b5651d;
+        }
+        details[open] summary {
+            margin-bottom: 12px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        dialog {
+            border: 2px solid #b5651d;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 400px;
+        }
+        dialog::backdrop {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .demo-btn {
+            background: #b5651d;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 8px 4px 0 0;
+        }
+        .demo-btn:hover {
+            background: #8b4a15;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 27. Details, dialog, template, slot</h1>
+
+    <h2>1. Что за теги</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Для чего</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;details&gt;</code> + <code>&lt;summary&gt;</code></td>
+                <td>Раскрывающийся блок (аккордеон) без JavaScript</td>
+            </tr>
+            <tr>
+                <td><code>&lt;dialog&gt;</code></td>
+                <td>Модальное окно (popup) без JavaScript-библиотек</td>
+            </tr>
+            <tr>
+                <td><code>&lt;template&gt;</code></td>
+                <td>Шаблон HTML, который не отображается, но может клонироваться через JS</td>
+            </tr>
+            <tr>
+                <td><code>&lt;slot&gt;</code></td>
+                <td>Место для вставки контента (для Web Components)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>2. &lt;details&gt; и &lt;summary&gt; — аккордеон</h2>
+
+    <p>
+        Раскрывающийся блок без единой строчки JavaScript. Пользователь кликает
+        на заголовок — контент появляется.
+    </p>
+
+    <pre><code>&lt;details&gt;
+    &lt;summary&gt;Что такое HTML?&lt;/summary&gt;
+    &lt;p&gt;HTML — это язык разметки для создания страниц.&lt;/p&gt;
+&lt;/details&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (кликни по заголовку):</div>
+        <details>
+            <summary>Что такое HTML?</summary>
+            <p>HTML — это язык разметки для создания страниц. Он описывает структуру, а не внешний вид.</p>
+        </details>
+        <details>
+            <summary>Что такое CSS?</summary>
+            <p>CSS — это язык стилей. Он отвечает за оформление: цвета, шрифты, отступы.</p>
+        </details>
+        <details>
+            <summary>Что такое JavaScript?</summary>
+            <p>JavaScript — это язык программирования. Он добавляет интерактивность: анимации, формы, игры.</p>
+        </details>
+    </div>
+
+    <h3>Структура</h3>
+
+    <ul>
+        <li><code>&lt;details&gt;</code> — контейнер раскрывающегося блока.</li>
+        <li><code>&lt;summary&gt;</code> — заголовок (по нему кликают). <strong>Первый</strong> элемент внутри.</li>
+        <li>Всё остальное содержимое внутри <code>&lt;details&gt;</code> — скрытый контент.</li>
+    </ul>
+
+    <h3>Атрибуты</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Что делает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>open</code></td>
+                <td>булев</td>
+                <td>Раскрыт по умолчанию</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;!-- Открыт по умолчанию --&gt;
+&lt;details open&gt;
+    &lt;summary&gt;Важная информация&lt;/summary&gt;
+    &lt;p&gt;Этот текст виден сразу.&lt;/p&gt;
+&lt;/details&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Открыт по умолчанию:</div>
+        <details open>
+            <summary>Открыт сразу</summary>
+            <p>Этот контент виден без клика.</p>
+        </details>
+    </div>
+
+    <h3>Где использовать</h3>
+
+    <ul>
+        <li><strong>FAQ</strong> — вопросы-ответы.</li>
+        <li><strong>Спойлеры</strong> — «показать решение».</li>
+        <li><strong>Оглавление</strong> — скрытые разделы.</li>
+        <li><strong>Длинные описания</strong> — «читать далее».</li>
+        <li><strong>Настройки</strong> — «расширенные опции».</li>
+    </ul>
+
+    <div class="note">
+        <strong>Важно:</strong> <code>&lt;details&gt;</code> работает <strong>без JavaScript</strong>.
+        Это встроенная функция браузера. Никакие библиотеки не нужны.
+    </div>
+
+    <h2>3. &lt;dialog&gt; — модальное окно</h2>
+
+    <p>
+        Встроенный в браузер popup. Раньше для модальных окон нужны были
+        библиотеки (Bootstrap, jQuery UI). Теперь — нативно.
+    </p>
+
+    <pre><code>&lt;dialog id="myDialog"&gt;
+    &lt;h2&gt;Заголовок окна&lt;/h2&gt;
+    &lt;p&gt;Содержимое модального окна.&lt;/p&gt;
+    &lt;button id="closeBtn"&gt;Закрыть&lt;/button&gt;
+&lt;/dialog&gt;
+
+&lt;button id="openBtn"&gt;Открыть окно&lt;/button&gt;
+
+&lt;script&gt;
+    const dialogEl = document.getElementById('myDialog');
+    document.getElementById('openBtn').onclick = () =&gt; dialogEl.showModal();
+    document.getElementById('closeBtn').onclick = () =&gt; dialogEl.close();
+&lt;/script&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (нажми кнопку):</div>
+        <button class="demo-btn" id="demo-open">Открыть модальное окно</button>
+
+        <dialog id="demo-dialog">
+            <h3 style="margin-top: 0;">Привет!</h3>
+            <p>Это нативное модальное окно на теге <code>&lt;dialog&gt;</code>.</p>
+            <p>Оно перекрывает страницу полупрозрачным фоном и закрывается по Escape.</p>
+            <button class="demo-btn" id="demo-close">Закрыть</button>
+        </dialog>
+
+        <script>
+            const dialogEl = document.getElementById('demo-dialog');
+            document.getElementById('demo-open').onclick = function() {
+                dialogEl.showModal();
+            };
+            document.getElementById('demo-close').onclick = function() {
+                dialogEl.close();
+            };
+        </script>
+    </div>
+
+    <h3>Методы dialog (JavaScript)</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Метод</th>
+                <th>Что делает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>showModal()</code></td>
+                <td>Открывает как модальное (с backdrop, блокирует страницу)</td>
+            </tr>
+            <tr>
+                <td><code>show()</code></td>
+                <td>Открывает как немодальное (без backdrop)</td>
+            </tr>
+            <tr>
+                <td><code>close()</code></td>
+                <td>Закрывает окно</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Особенности &lt;dialog&gt;</h3>
+
+    <ul>
+        <li><strong>Backdrop</strong> — полупрозрачный фон создаётся автоматически.</li>
+        <li><strong>Escape</strong> — закрывает окно по умолчанию.</li>
+        <li><strong>Фокус</strong> — автоматически переходит в окно.</li>
+        <li><strong>Форма</strong> — внутри можно использовать <code>&lt;form method="dialog"&gt;</code> — кнопка закроет окно.</li>
+    </ul>
+
+    <h3>Стилизация backdrop</h3>
+
+    <pre><code>dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}</code></pre>
+
+    <h2>4. &lt;template&gt; — шаблон для клонирования</h2>
+
+    <p>
+        <code>&lt;template&gt;</code> хранит HTML-код, который <strong>не отображается</strong>
+        на странице, но может быть использован через JavaScript для создания
+        копий.
+    </p>
+
+    <pre><code>&lt;template id="card-template"&gt;
+    &lt;div class="card"&gt;
+        &lt;h3&gt;Название&lt;/h3&gt;
+        &lt;p&gt;Описание&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;div id="container"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+    const template = document.getElementById('card-template');
+    const clone = template.content.cloneNode(true);
+    document.getElementById('container').appendChild(clone);
+&lt;/script&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (шаблон не виден, но при клике клонируется):</div>
+
+        <template id="demo-template">
+            <div style="border: 1px solid #b5651d; border-radius: 6px; padding: 12px; margin: 8px 0; background: #fff8e1;">
+                <strong>Новая карточка</strong>
+                <p style="margin: 4px 0 0 0;">Создана из шаблона через клонирование.</p>
+            </div>
+        </template>
+
+        <div id="demo-container"></div>
+
+        <button class="demo-btn" id="demo-add">Добавить карточку</button>
+
+        <script>
+            document.getElementById('demo-add').onclick = function() {
+                const template = document.getElementById('demo-template');
+                const clone = template.content.cloneNode(true);
+                document.getElementById('demo-container').appendChild(clone);
+            };
+        </script>
+    </div>
+
+    <h3>Зачем нужен template</h3>
+
+    <ul>
+        <li><strong>Повторяющиеся блоки</strong> — карточки товаров, посты, комментарии.</li>
+        <li><strong>Динамический контент</strong> — список загружается с сервера, HTML — из шаблона.</li>
+        <li><strong>Web Components</strong> — основа для создания своих компонентов.</li>
+    </ul>
+
+    <h3>Ключевые особенности</h3>
+
+    <ul>
+        <li>Содержимое <strong>не отображается</strong> и не загружается (картинки внутри не тянутся).</li>
+        <li>Не участвует в <strong>DOM</strong> — нужно клонировать через JS.</li>
+        <li>Доступ через <code>template.content</code>.</li>
+        <li>Можно клонировать бесконечно через <code>cloneNode(true)</code>.</li>
+    </ul>
+
+    <h2>5. &lt;slot&gt; — место для контента</h2>
+
+    <p>
+        <code>&lt;slot&gt;</code> используется в <strong>Web Components</strong> —
+        технологии для создания своих HTML-компонентов.
+    </p>
+
+    <p>Это «дырка» в шаблоне компонента, куда вставляется содержимое:</p>
+
+    <pre><code>&lt;!-- Определяем компонент --&gt;
+&lt;template id="my-card"&gt;
+    &lt;div class="card"&gt;
+        &lt;h3&gt;&lt;slot name="title"&gt;Заголовок по умолчанию&lt;/slot&gt;&lt;/h3&gt;
+        &lt;div&gt;&lt;slot&gt;Текст по умолчанию&lt;/slot&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/template&gt;</code></pre>
+
+    <div class="note">
+        <strong>Сейчас можно пропустить.</strong> Знай, что <code>&lt;slot&gt;</code>
+        существует и используется в компонентном подходе. Подробности — в курсе
+        по современному JavaScript или Web Components.
+    </div>
+
+    <h2>6. Сводная таблица</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Что делает</th>
+                <th>Нужен JS?</th>
+                <th>Где использовать</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;details&gt;</code></td>
+                <td>Раскрывающийся блок</td>
+                <td>❌ Нет</td>
+                <td>FAQ, спойлеры</td>
+            </tr>
+            <tr>
+                <td><code>&lt;summary&gt;</code></td>
+                <td>Заголовок для details</td>
+                <td>❌ Нет</td>
+                <td>Внутри details</td>
+            </tr>
+            <tr>
+                <td><code>&lt;dialog&gt;</code></td>
+                <td>Модальное окно</td>
+                <td>✅ Для открытия</td>
+                <td>Popups, подтверждения</td>
+            </tr>
+            <tr>
+                <td><code>&lt;template&gt;</code></td>
+                <td>Шаблон HTML</td>
+                <td>✅ Для клонирования</td>
+                <td>Динамические списки</td>
+            </tr>
+            <tr>
+                <td><code>&lt;slot&gt;</code></td>
+                <td>Место для контента</td>
+                <td>✅ (Web Components)</td>
+                <td>Компоненты</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>7. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «FAQ»</strong></p>
+        <p>Создай файл <code>27-practice.html</code>. Сделай блок FAQ из 5 вопросов:</p>
+        <ul>
+            <li>Каждый вопрос — <code>&lt;details&gt;</code> + <code>&lt;summary&gt;</code>.</li>
+            <li>Внутри — ответ.</li>
+            <li>Первый вопрос — <code>&lt;details open&gt;</code>.</li>
+            <li>Стилизуй через CSS.</li>
+        </ul>
+
+        <p><strong>Задание 2. «Спойлер»</strong></p>
+        <ul>
+            <li>Сделай страницу с решением задачи.</li>
+            <li>Перед решением — <code>&lt;details&gt;</code> «Показать решение».</li>
+            <li>Внутри — блок <code>&lt;pre&gt;&lt;code&gt;</code> с кодом.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Модальное окно»</strong></p>
+        <ul>
+            <li>Сделай кнопку «Показать условия».</li>
+            <li>При клике открывается <code>&lt;dialog&gt;</code> с текстом условий.</li>
+            <li>Внутри окна — кнопка «Закрыть».</li>
+            <li>Проверь: окно закрывается по Escape.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Template»</strong></p>
+        <ul>
+            <li>Сделай <code>&lt;template&gt;</code> с карточкой товара.</li>
+            <li>Кнопка «Добавить товар» — клонирует шаблон.</li>
+            <li>Проверь: каждая кнопка добавляет новую карточку.</li>
+        </ul>
+    </div>
+
+    <h2>8. Что запомнить из урока</h2>
+
+    <ul>
+        <li><strong><code>&lt;details&gt;</code> + <code>&lt;summary&gt;</code></strong> — раскрывающийся блок <strong>без JS</strong>.</li>
+        <li><code>&lt;summary&gt;</code> — <strong>первый</strong> элемент внутри <code>&lt;details&gt;</code>.</li>
+        <li><code>&lt;details open&gt;</code> — раскрыт по умолчанию.</li>
+        <li>Псевдокласс <code>[open]</code> — стилизация открытого состояния.</li>
+        <li><strong><code>&lt;dialog&gt;</code></strong> — встроенное модальное окно.</li>
+        <li>Открывается через JS: <code>showModal()</code>. Закрывается: <code>close()</code> или Escape.</li>
+        <li>Стилизация фона — <code>::backdrop</code>.</li>
+        <li><strong><code>&lt;template&gt;</code></strong> — HTML-шаблон, невидимый на странице. Клонируется через JS.</li>
+        <li><strong><code>&lt;slot&gt;</code></strong> — для Web Components. Пока можно пропустить.</li>
+        <li>Большинство из этого — <strong>работает нативно</strong>, без сторонних библиотек.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 27 · Следующий урок: <em>Доступность (a11y): ARIA, alt, роли, клавиатурная навигация</em>
+    </p>
+
+</body>
+</html>

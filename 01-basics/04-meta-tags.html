@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 4 по HTML: метатеги charset, viewport, title, description, Open Graph и другие.">
+    <meta name="author" content="Твой курс HTML">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#b5651d">
+    <title>Урок 4. Метатеги — всё о &lt;meta&gt;</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 4. Метатеги</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: научиться "настраивать" документ для браузера, -->
+    <!-- поисковиков и соцсетей через тег <meta> и родственные ему. -->
+    <!-- ========================================================= -->
+
+    <h2>1. Что такое метатеги и зачем они нужны</h2>
+
+    <p>
+        <strong>Метатеги</strong> — это теги в <code>&lt;head&gt;</code>, которые
+        <em>описывают сам документ</em>. Пользователь их не видит на странице,
+        но их читают:
+    </p>
+
+    <ul>
+        <li><strong>Браузер</strong> — чтобы правильно отобразить текст и подогнать под экран.</li>
+        <li><strong>Поисковики</strong> (Google, Яндекс) — чтобы понять, о чём страница и показать её в выдаче.</li>
+        <li><strong>Социальные сети</strong> — чтобы построить красивую карточку при шаринге ссылки.</li>
+        <li><strong>Программы для незрячих</strong> — чтобы правильно произносить текст.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Аналогия.</strong> Если HTML-документ — это книга, то метатеги — это
+        её <em>аннотация, ISBN, информация об авторе и издательстве</em> на титульном листе.
+        Читатель книгу читает, а метаданные нужны библиотеке и магазину.
+    </div>
+
+    <h2>2. Тег &lt;meta&gt; — основной инструмент</h2>
+
+    <p>
+        Почти вся служебная информация задаётся через <code>&lt;meta&gt;</code>.
+        Это <strong>одиночный тег</strong> (нет закрывающего) с обязательной парой
+        атрибутов. Работает по одной из четырёх схем:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Схема</th>
+                <th>Пример</th>
+                <th>Назначение</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>charset</code></td>
+                <td><code>&lt;meta charset="UTF-8"&gt;</code></td>
+                <td>Кодировка</td>
+            </tr>
+            <tr>
+                <td><code>name</code> + <code>content</code></td>
+                <td><code>&lt;meta name="description" content="..."&gt;</code></td>
+                <td>Именованные метаданные</td>
+            </tr>
+            <tr>
+                <td><code>http-equiv</code> + <code>content</code></td>
+                <td><code>&lt;meta http-equiv="refresh" content="30"&gt;</code></td>
+                <td>Эмуляция HTTP-заголовков</td>
+            </tr>
+            <tr>
+                <td><code>property</code> + <code>content</code></td>
+                <td><code>&lt;meta property="og:title" content="..."&gt;</code></td>
+                <td>Open Graph (соцсети)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Разберём каждую схему по порядку.</p>
+
+    <h2>3. Charset — кодировка</h2>
+
+    <p>Говорит браузеру, как читать байты файла. Самая важная строка в <code>&lt;head&gt;</code>.</p>
+
+    <pre><code>&lt;meta charset="UTF-8"&gt;</code></pre>
+
+    <p><strong>Значения:</strong></p>
+    <ul>
+        <li><code>UTF-8</code> — современный стандарт, поддерживает все языки мира. <strong>Всегда используй его.</strong></li>
+        <li><code>windows-1251</code> — старая кириллическая кодировка.</li>
+        <li><code>ISO-8859-1</code> — старая западноевропейская.</li>
+    </ul>
+
+    <p>Что будет, если забыть charset:</p>
+    <div class="demo">
+        <div class="demo-label">Без UTF-8 русский текст выглядит так:</div>
+        <p style="font-family: monospace;">ÐŸÑ€Ð¸Ð²ÐµÑ‚, Ð¼Ð¸Ñ€! ÐÑ‚Ð¾ ÐºÑ€ÑÐºÐ¾Ð·ÑÐ±Ñ€Ñ‹.</p>
+    </div>
+
+    <div class="warn">
+        <strong>Правило:</strong> <code>&lt;meta charset="UTF-8"&gt;</code> должно стоять
+        <strong>в первых 1024 байтах</strong> документа. Практически — <em>первым тегом</em> в <code>&lt;head&gt;</code>.
+        Иначе браузер может не успеть применить кодировку и покажет «крякозябры».
+    </div>
+
+    <h2>4. Viewport — адаптация под мобильные</h2>
+
+    <p>
+        Без этого тега смартфон откроет страницу так, будто у него экран шириной
+        как у монитора (обычно 980px), а потом просто уменьшит всё. Текст станет
+        микроскопическим, придётся зумить пальцами.
+    </p>
+
+    <pre><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></pre>
+
+    <p><strong>Расшифровка значений внутри <code>content</code>:</strong></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Значение</th>
+                <th>Что делает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>width=device-width</code></td>
+                <td>Ширина вьюпорта = ширина экрана устройства</td>
+            </tr>
+            <tr>
+                <td><code>initial-scale=1.0</code></td>
+                <td>Начальный масштаб 100%, без зума</td>
+            </tr>
+            <tr>
+                <td><code>maximum-scale=5.0</code></td>
+                <td>Максимальный зум (редко нужно)</td>
+            </tr>
+            <tr>
+                <td><code>user-scalable=no</code></td>
+                <td>Запрет зума <strong>(плохо для доступности)</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Минимальный набор</strong> — <code>width=device-width, initial-scale=1.0</code>.
+        Этого достаточно в 99% случаев. Не запрещай зум через <code>user-scalable=no</code> —
+        это ломает доступность для людей с плохим зрением.
+    </div>
+
+    <h3>Проверь сам</h3>
+    <p>Открой эту страницу в браузере и нажми <code>F12</code> → <code>Ctrl+Shift+M</code> (режим устройства). Выбери iPhone. Попробуй представить, как выглядел бы сайт без этой строки.</p>
+
+    <h2>5. Description — описание для поисковиков</h2>
+
+    <p>
+        Краткое описание страницы. Google и Яндекс <em>могут</em> показать его
+        в сниппете — коротком тексте под ссылкой в результатах поиска.
+    </p>
+
+    <pre><code>&lt;meta name="description" content="Уроки HTML для начинающих: структура, теги, атрибуты, метаданные."&gt;</code></pre>
+
+    <p><strong>Правила хорошего description:</strong></p>
+    <ul>
+        <li>Длина — <strong>120–160 символов</strong>. Длиннее — обрежется.</li>
+        <li>Уникальный для каждой страницы.</li>
+        <li>Описывает <em>пользу</em> страницы, а не просто «это главная».</li>
+        <li>Без «воды» вроде «добро пожаловать на наш сайт».</li>
+    </ul>
+
+    <div class="note">
+        <strong>Важно:</strong> Google <em>не гарантирует</em>, что покажет твой description.
+        Часто он сам составляет сниппет из текста на странице. Но если description хороший —
+        шанс, что покажут именно его, выше.
+    </div>
+
+    <h2>6. Title — заголовок вкладки</h2>
+
+    <p>
+        Не <code>&lt;meta&gt;</code>, а <strong>отдельный тег</strong>, но по смыслу —
+        важнейший «метатег». Показывается на вкладке, в закладках и в результатах поиска
+        (как жирная синяя ссылка).
+    </p>
+
+    <pre><code>&lt;title&gt;Урок 4. Метатеги — всё о &amp;lt;meta&amp;gt;&lt;/title&gt;</code></pre>
+
+    <p><strong>Правила:</strong></p>
+    <ul>
+        <li>Длина — до <strong>60 символов</strong>.</li>
+        <li>Уникальный для каждой страницы.</li>
+        <li>Начинай с важного: «Урок 4. Метатеги», а не «Мой блог — Урок 4».</li>
+        <li>Бренд — в конец: «Как варить кофе — Блог Ивана».</li>
+    </ul>
+
+    <div class="note">
+        Обрати внимание на <code>&amp;lt;meta&amp;gt;</code> в примере выше — это
+        <strong>HTML-сущность</strong>. Угловые скобки внутри <code>&lt;title&gt;</code>
+        нужно экранировать, иначе браузер подумает, что это настоящий тег.
+    </div>
+
+    <h2>7. robots — инструкции для поисковиков</h2>
+
+    <p>Говорит поисковым роботам, что делать со страницей.</p>
+
+    <pre><code>&lt;meta name="robots" content="index, follow"&gt;</code></pre>
+
+    <p><strong>Значения (через запятую):</strong></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Значение</th>
+                <th>Что значит</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>index</code></td>
+                <td>Разрешить индексировать страницу (по умолчанию)</td>
+            </tr>
+            <tr>
+                <td><code>noindex</code></td>
+                <td>Не индексировать страницу</td>
+            </tr>
+            <tr>
+                <td><code>follow</code></td>
+                <td>Переходить по ссылкам на странице (по умолчанию)</td>
+            </tr>
+            <tr>
+                <td><code>nofollow</code></td>
+                <td>Не переходить по ссылкам</td>
+            </tr>
+            <tr>
+                <td><code>noarchive</code></td>
+                <td>Не показывать копию в кэше</td>
+            </tr>
+            <tr>
+                <td><code>nosnippet</code></td>
+                <td>Не показывать сниппет в результатах</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Пример: страница, которую не нужно индексировать —</p>
+
+    <pre><code>&lt;meta name="robots" content="noindex, nofollow"&gt;</code></pre>
+
+    <h2>8. Open Graph — красивые превью в соцсетях</h2>
+
+    <p>
+        Когда ты кидаешь ссылку в Telegram, WhatsApp или Facebook, мессенджер строит
+        «карточку» с картинкой, заголовком и описанием. Данные для неё берутся
+        из <strong>Open Graph</strong> (OG).
+    </p>
+
+    <p>OG-теги используют атрибут <code>property</code> (не <code>name</code>):</p>
+
+    <pre><code>&lt;meta property="og:title" content="Урок 4. Метатеги"&gt;
+&lt;meta property="og:description" content="Учимся настраивать документ для поиска и соцсетей."&gt;
+&lt;meta property="og:image" content="https://example.com/preview.jpg"&gt;
+&lt;meta property="og:url" content="https://example.com/lesson-4"&gt;
+&lt;meta property="og:type" content="article"&gt;</code></pre>
+
+    <p><strong>Основные OG-теги:</strong></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Свойство</th>
+                <th>Что задаёт</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>og:title</code></td>
+                <td>Заголовок карточки</td>
+            </tr>
+            <tr>
+                <td><code>og:description</code></td>
+                <td>Описание карточки</td>
+            </tr>
+            <tr>
+                <td><code>og:image</code></td>
+                <td>Картинка-превью (рекомендуется 1200×630 px)</td>
+            </tr>
+            <tr>
+                <td><code>og:url</code></td>
+                <td>Канонический URL страницы</td>
+            </tr>
+            <tr>
+                <td><code>og:type</code></td>
+                <td><code>website</code>, <code>article</code>, <code>video.movie</code> и др.</td>
+            </tr>
+            <tr>
+                <td><code>og:site_name</code></td>
+                <td>Название сайта</td>
+            </tr>
+            <tr>
+                <td><code>og:locale</code></td>
+                <td>Язык: <code>ru_RU</code>, <code>en_US</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Отдельно для Twitter</strong> есть свои теги с префиксом <code>twitter:</code>:
+        <code>twitter:card</code>, <code>twitter:title</code>, <code>twitter:image</code>.
+        Часто Twitter автоматически подхватывает OG-теги, но для точного контроля добавляют и их.
+    </div>
+
+    <h2>9. http-equiv — эмуляция HTTP-заголовков</h2>
+
+    <p>
+        Позволяет задать поведение, которое обычно приходит от сервера, прямо в HTML.
+        Сегодня почти не используется, кроме пары случаев.
+    </p>
+
+    <pre><code>&lt;!-- Автообновление страницы через 30 секунд --&gt;
+&lt;meta http-equiv="refresh" content="30"&gt;
+
+&lt;!-- Редирект через 5 секунд --&gt;
+&lt;meta http-equiv="refresh" content="5; url=https://example.com"&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Осторожно с refresh!</strong> Автоматический редирект через <code>http-equiv="refresh"</code> —
+        плохая практика: ломает кнопку «Назад», путает пользователей и поисковики.
+        Для редиректов используй <strong>серверные</strong> заголовки (301/302), а не HTML.
+    </div>
+
+    <h2>10. Другие полезные метатеги</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Назначение</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;meta name="author" content="..."&gt;</code></td>
+                <td>Автор документа</td>
+            </tr>
+            <tr>
+                <td><code>&lt;meta name="keywords" content="html, css"&gt;</code></td>
+                <td>Ключевые слова (поисковики игнорируют)</td>
+            </tr>
+            <tr>
+                <td><code>&lt;meta name="theme-color" content="#b5651d"&gt;</code></td>
+                <td>Цвет адресной строки на мобильных</td>
+            </tr>
+            <tr>
+                <td><code>&lt;meta name="google-site-verification" content="..."&gt;</code></td>
+                <td>Подтверждение прав в Google Search Console</td>
+            </tr>
+            <tr>
+                <td><code>&lt;meta name="format-detection" content="telephone=no"&gt;</code></td>
+                <td>Отключить автоссылки на телефоны (iOS)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>11. Полный шаблон современного &lt;head&gt;</h2>
+
+    <p>Вот <strong>рекомендуемый набор</strong> метатегов для типовой страницы:</p>
+
+    <pre><code>&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+
+    &lt;title&gt;Название страницы — Название сайта&lt;/title&gt;
+    &lt;meta name="description" content="Краткое описание страницы, 120-160 символов"&gt;
+    &lt;meta name="author" content="Имя автора"&gt;
+
+    &lt;!-- Open Graph для соцсетей --&gt;
+    &lt;meta property="og:title" content="Название страницы"&gt;
+    &lt;meta property="og:description" content="Описание"&gt;
+    &lt;meta property="og:image" content="https://example.com/preview.jpg"&gt;
+    &lt;meta property="og:url" content="https://example.com/page"&gt;
+    &lt;meta property="og:type" content="website"&gt;
+
+    &lt;!-- Подключение стилей и иконки --&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+    &lt;link rel="icon" href="favicon.ico"&gt;
+&lt;/head&gt;</code></pre>
+
+    <p>Это — <strong>золотой минимум</strong>. Всегда начинай с этого шаблона.</p>
+
+    <h2>12. Как проверить свои метатеги</h2>
+
+    <ul>
+        <li><strong>Исходный код в браузере</strong> — <code>Ctrl+U</code>, найди <code>&lt;head&gt;</code> и проверь.</li>
+        <li><strong>Панель разработчика</strong> — <code>F12</code> → Elements → разверни <code>&lt;head&gt;</code>.</li>
+        <li><strong>Проверка OG</strong> — сервисы вроде opengraph.xyz или developers.facebook.com/tools/debug покажут, как выглядит превью.</li>
+        <li><strong>Валидатор HTML</strong> — validator.w3.org проверит, нет ли ошибок в разметке.</li>
+    </ul>
+
+    <h2>13. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Полный head с нуля»</strong></p>
+        <p>Создай файл <code>04-practice.html</code>. Собери <code>&lt;head&gt;</code> по образцу из раздела 11, но со своими данными:</p>
+        <ul>
+            <li><code>charset</code> и <code>viewport</code> — как в шаблоне.</li>
+            <li><code>title</code> — «Моя страница о котах».</li>
+            <li><code>description</code> — 120–150 символов о том, что на странице.</li>
+            <li><code>author</code> — твоё имя.</li>
+            <li><code>og:title</code>, <code>og:description</code>, <code>og:type="website"</code>.</li>
+            <li>В <code>body</code> — <code>&lt;h1&gt;</code> и пару абзацев.</li>
+        </ul>
+
+        <p><strong>Задание 2. «Проверка в браузере»</strong></p>
+        <ul>
+            <li>Открой <code>04-practice.html</code> в браузере.</li>
+            <li>Нажми <code>Ctrl+U</code> — найди свои метатеги в исходнике.</li>
+            <li>Нажми <code>F12</code> → вкладка Elements — посмотри, как браузер видит <code>&lt;head&gt;</code>.</li>
+            <li>Посмотри на вкладку браузера — там должен быть твой <code>title</code>.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Убери <code>&lt;meta charset="UTF-8"&gt;</code>, сохрани файл в кодировке <code>windows-1251</code> (в VS Code — «Reopen with Encoding» → «Save with Encoding»), открой в браузере. Что случилось?</li>
+            <li>Поменяй <code>title</code> на что-то короткое и длинное — посмотри, как это обрезается на вкладке.</li>
+            <li>Добавь <code>&lt;meta http-equiv="refresh" content="5"&gt;</code> — страница будет обновляться каждые 5 секунд. Убедись, потом удали.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Open Graph»</strong></p>
+        <ul>
+            <li>Открой сайт <code>opengraph.xyz</code>.</li>
+            <li>Введи URL любой известной страницы (например, <code>https://developer.mozilla.org/ru/</code>).</li>
+            <li>Посмотри, какие OG-теги использует MDN. Сравни со своим файлом.</li>
+        </ul>
+    </div>
+
+    <h2>14. Что запомнить из урока</h2>
+
+    <ul>
+        <li><code>&lt;meta charset="UTF-8"&gt;</code> — обязательно, первым в <code>&lt;head&gt;</code>.</li>
+        <li><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code> — обязательно для мобильных.</li>
+        <li><code>&lt;title&gt;</code> — уникальный, до 60 символов, на каждой странице.</li>
+        <li><code>&lt;meta name="description"&gt;</code> — 120–160 символов, уникальный.</li>
+        <li><code>&lt;meta name="robots"&gt;</code> — управляет индексацией (index/noindex, follow/nofollow).</li>
+        <li>Open Graph (<code>og:*</code>) — для красивых превью в соцсетях.</li>
+        <li><code>http-equiv="refresh"</code> — плохая практика для редиректов, используй серверные заголовки.</li>
+        <li>У схем <code>&lt;meta&gt;</code> четыре вида: <code>charset</code>, <code>name</code>, <code>http-equiv</code>, <code>property</code>.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 4 · Следующий урок: <em>Заголовки &lt;h1&gt;–&lt;h6&gt;</em>
+    </p>
+
+</body>
+</html>

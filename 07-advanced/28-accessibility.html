@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 28 по HTML: доступность (a11y) — ARIA, alt, роли, клавиатурная навигация, скринридеры.">
+    <title>Урок 28. Доступность (a11y)</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        kbd {
+            background: #333;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 0.85em;
+            box-shadow: 0 2px 0 #000;
+        }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        button:focus, a:focus, input:focus {
+            outline: 3px solid #b5651d;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 28. Доступность (a11y)</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: понять, что такое доступность, зачем она      -->
+    <!-- нужна и как сделать сайт удобным для ВСЕХ пользователей.  -->
+    <!-- ========================================================= -->
+
+    <h2>1. Что такое доступность (a11y)</h2>
+
+    <p>
+        <strong>Доступность</strong> (accessibility, сокращённо <strong>a11y</strong> —
+        потому что между a и y 11 букв) — это практика создания сайтов, которые
+        могут использовать <strong>все люди</strong>, включая:
+    </p>
+
+    <ul>
+        <li><strong>Незрячих</strong> — используют screen reader'ы (программы, читающие текст вслух).</li>
+        <li><strong>Слабовидящих</strong> — увеличивают шрифт, используют контрастные темы.</li>
+        <li><strong>Глухих</strong> — читают субтитры вместо аудио.</li>
+        <li><strong>С моторными нарушениями</strong> — не могут пользоваться мышью, только клавиатурой.</li>
+        <li><strong>С когнитивными особенностями</strong> — нужен простой язык, понятная структура.</li>
+    </ul>
+
+    <p>
+        Доступность — это не «для галочки». Это <strong>юридическое требование</strong>
+        во многих странах (в США — ADA, в Европе — European Accessibility Act).
+        И это <strong>просто хорошо</strong> для всех.
+    </p>
+
+    <div class="note">
+        <strong>Интересный факт:</strong> доступные сайты лучше для всех.
+        Субтитры помогают в шумном месте. Клавиатурная навигация — быстрее мыши.
+        Высокий контраст — легче читать на солнце.
+    </div>
+
+    <h2>2. Screen reader — как «видит» незрячий</h2>
+
+    <p>
+        <strong>Screen reader</strong> — программа, которая читает содержимое
+        экрана вслух. Популярные:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Программа</th>
+                <th>Платформа</th>
+                <th>Цена</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>NVDA</td>
+                <td>Windows</td>
+                <td>Бесплатно</td>
+            </tr>
+            <tr>
+                <td>JAWS</td>
+                <td>Windows</td>
+                <td>Платно</td>
+            </tr>
+            <tr>
+                <td>VoiceOver</td>
+                <td>macOS, iOS</td>
+                <td>Встроен</td>
+            </tr>
+            <tr>
+                <td>TalkBack</td>
+                <td>Android</td>
+                <td>Встроен</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        Screen reader читает <strong>не HTML-код</strong>, а <strong>дерево доступности</strong>
+        (accessibility tree) — модель, которую браузер строит из HTML.
+    </p>
+
+    <h3>Как screen reader «видит» страницу</h3>
+
+    <ul>
+        <li><strong>Заголовки</strong> — «Заголовок 1: Мой блог».</li>
+        <li><strong>Ссылки</strong> — «Ссылка: Главная».</li>
+        <li><strong>Кнопки</strong> — «Кнопка: Отправить».</li>
+        <li><strong>Картинки</strong> — читает <code>alt</code>.</li>
+        <li><strong>Поля</strong> — «Поле ввода: Email».</li>
+        <li><strong>Landmark'и</strong> — «Навигация», «Основное содержимое».</li>
+    </ul>
+
+    <p>
+        Если разметка семантическая — screen reader понимает всё. Если «дивовый суп» —
+        он читает «текст, текст, текст» без структуры.
+    </p>
+
+    <h2>3. Главное правило доступности</h2>
+
+    <div class="note">
+        <strong>Используй правильные HTML-теги.</strong><br>
+        <strong>80% доступности</strong> — это семантическая разметка.
+        <code>&lt;button&gt;</code> вместо <code>&lt;div onclick&gt;</code>.
+        <code>&lt;nav&gt;</code> вместо <code>&lt;div class="nav"&gt;</code>.
+        <code>&lt;label&gt;</code> для полей. <code>&lt;alt&gt;</code> для картинок.
+    </div>
+
+    <p>ARIA нужен только <strong>когда HTML-тегов недостаточно</strong>. Это не замена семантике, а дополнение.</p>
+
+    <h2>4. alt — текст для картинок</h2>
+
+    <p>
+        Уже проходили в уроке 11, но повторим — это <strong>критично</strong>
+        для доступности.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Картинка</th>
+                <th>Что в alt</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Смысловая (фото, схема)</td>
+                <td>Описание содержания: «Кот спит на подоконнике»</td>
+            </tr>
+            <tr>
+                <td>Декоративная (фон, линия)</td>
+                <td><code>alt=""</code> (пусто — screen reader пропустит)</td>
+            </tr>
+            <tr>
+                <td>Картинка-ссылка</td>
+                <td>Куда ведёт: «Перейти на главную»</td>
+            </tr>
+            <tr>
+                <td>Кнопка-иконка</td>
+                <td>Действие: «Отправить форму», «Открыть меню»</td>
+            </tr>
+            <tr>
+                <td>Логотип</td>
+                <td>«Логотип компании Мурлыка»</td>
+            </tr>
+            <tr>
+                <td>Сложный график</td>
+                <td>Кратко + <code>aria-describedby</code> с полным описанием</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="warn">
+        <strong>Плохо:</strong>
+        <ul>
+            <li><code>alt="картинка"</code> — не описывает</li>
+            <li><code>alt="img123.jpg"</code> — имя файла бесполезно</li>
+            <li>Отсутствие alt — screen reader прочитает URL</li>
+            <li>Длинная простыня — alt должен быть кратким</li>
+        </ul>
+    </div>
+
+    <h2>5. Семантические теги и landmark'и</h2>
+
+    <p>
+        Семантические теги (урок 22) создают <strong>landmark'и</strong> — «ориентиры»,
+        по которым screen reader позволяет прыгать.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Как читает screen reader</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;header&gt;</code></td>
+                <td>«Баннер»</td>
+            </tr>
+            <tr>
+                <td><code>&lt;nav&gt;</code></td>
+                <td>«Навигация»</td>
+            </tr>
+            <tr>
+                <td><code>&lt;main&gt;</code></td>
+                <td>«Основное содержимое»</td>
+            </tr>
+            <tr>
+                <td><code>&lt;aside&gt;</code></td>
+                <td>«Дополнительно»</td>
+            </tr>
+            <tr>
+                <td><code>&lt;footer&gt;</code></td>
+                <td>«Содержимое подвала»</td>
+            </tr>
+            <tr>
+                <td><code>&lt;section&gt;</code> с заголовком</td>
+                <td>«Регион, [заголовок]»</td>
+            </tr>
+            <tr>
+                <td><code>&lt;form&gt;</code></td>
+                <td>«Форма»</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        Пользователь NVDA нажимает <kbd>D</kbd> и перескакивает между landmark'ами.
+        Это позволяет пропустить меню и попасть сразу в контент.
+    </p>
+
+    <h2>6. Клавиатурная навигация</h2>
+
+    <p>
+        <strong>Многие пользователи не могут работать с мышью.</strong> Они используют
+        только клавиатуру.
+    </p>
+
+    <h3>Основные клавиши</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Клавиша</th>
+                <th>Что делает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><kbd>Tab</kbd></td>
+                <td>Следующий фокусируемый элемент</td>
+            </tr>
+            <tr>
+                <td><kbd>Shift</kbd>+<kbd>Tab</kbd></td>
+                <td>Предыдущий элемент</td>
+            </tr>
+            <tr>
+                <td><kbd>Enter</kbd></td>
+                <td>Активировать кнопку / перейти по ссылке</td>
+            </tr>
+            <tr>
+                <td><kbd>Space</kbd></td>
+                <td>Нажать кнопку, поставить чекбокс</td>
+            </tr>
+            <tr>
+                <td><kbd>Стрелки</kbd></td>
+                <td>Навигация в radio, select</td>
+            </tr>
+            <tr>
+                <td><kbd>Escape</kbd></td>
+                <td>Закрыть dialog, выйти из меню</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Что фокусируется автоматически</h3>
+
+    <ul>
+        <li><code>&lt;a href&gt;</code> — ссылки.</li>
+        <li><code>&lt;button&gt;</code> — кнопки.</li>
+        <li><code>&lt;input&gt;</code> — поля ввода.</li>
+        <li><code>&lt;select&gt;</code>, <code>&lt;textarea&gt;</code>.</li>
+        <li><code>&lt;summary&gt;</code> — заголовки details.</li>
+    </ul>
+
+    <h3>Что НЕ фокусируется</h3>
+
+    <ul>
+        <li><code>&lt;div&gt;</code>, <code>&lt;span&gt;</code> — по умолчанию нет.</li>
+        <li>Ссылки без <code>href</code>.</li>
+        <li>Элементы с <code>disabled</code>.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Проверь сам:</strong> нажми <kbd>Tab</kbd> на этой странице. Ты увидишь,
+        как фокус переходит между ссылками и кнопками. Обрати внимание на
+        коричневую рамку вокруг активного элемента — это <code>:focus</code> стиль.
+    </div>
+
+    <h3>Правило видимого фокуса</h3>
+
+    <div class="warn">
+        <strong>Никогда не убирай <code>outline</code> без замены!</strong>
+        <pre style="margin: 8px 0;"><code>/* ПЛОХО */
+a:focus { outline: none; }</code></pre>
+        Пользователь с клавиатурой не увидит, где находится. Если хочешь
+        изменить стиль фокуса — замени его на свой:
+        <pre style="margin: 8px 0;"><code>a:focus { outline: 3px solid orange; }</code></pre>
+    </div>
+
+    <h2>7. ARIA — что это и зачем</h2>
+
+    <p>
+        <strong>ARIA</strong> (Accessible Rich Internet Applications) — набор атрибутов,
+        которые добавляют семантику туда, где HTML-тегов не хватает.
+    </p>
+
+    <p>Три типа ARIA-атрибутов:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тип</th>
+                <th>Пример</th>
+                <th>Что делает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Роли</strong> (role)</td>
+                <td><code>role="button"</code></td>
+                <td>Говорит «это кнопка»</td>
+            </tr>
+            <tr>
+                <td><strong>Свойства</strong> (aria-*)</td>
+                <td><code>aria-label="Закрыть"</code></td>
+                <td>Добавляет описание</td>
+            </tr>
+            <tr>
+                <td><strong>Состояния</strong> (aria-*)</td>
+                <td><code>aria-expanded="true"</code></td>
+                <td>Показывает состояние</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>8. Главное правило ARIA</h2>
+
+    <div class="warn">
+        <strong>«No ARIA is better than bad ARIA»</strong><br>
+        Лучше <strong>без</strong> ARIA, чем с <strong>плохим</strong> ARIA.
+        <br><br>
+        <strong>Сначала — семантический тег.</strong> Если его нет — ARIA.
+        Если не уверен — не используй.
+    </div>
+
+    <h3>Плохой ARIA</h3>
+
+    <pre><code>&lt;!-- ПЛОХО: div с role="button" не работает с клавиатуры --&gt;
+&lt;div role="button" onclick="submit()"&gt;Отправить&lt;/div&gt;</code></pre>
+
+    <p>
+        Такой «div-кнопка» не фокусируется по <kbd>Tab</kbd>, не нажимается
+        <kbd>Enter</kbd>/<kbd>Space</kbd>. Пользователь с клавиатурой не сможет
+        на неё нажать.
+    </p>
+
+    <h3>Хорошо — использовать button</h3>
+
+    <pre><code>&lt;!-- ХОРОШО: настоящая кнопка --&gt;
+&lt;button onclick="submit()"&gt;Отправить&lt;/button&gt;</code></pre>
+
+    <p>
+        Работает из коробки: фокус, Enter, Space, доступность для screen reader'ов.
+        <strong>ARIA не нужна.</strong>
+    </p>
+
+    <h2>9. Основные ARIA-атрибуты</h2>
+
+    <h3>aria-label — текстовое описание</h3>
+
+    <p>
+        Для элементов без видимого текста. Например, кнопка-иконка:
+    </p>
+
+    <pre><code>&lt;button aria-label="Открыть меню"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Пример: кнопки-иконки с aria-label:</div>
+        <button aria-label="Открыть меню" style="font-size: 20px; padding: 8px 12px; cursor: pointer;">☰</button>
+        <button aria-label="Закрыть" style="font-size: 20px; padding: 8px 12px; cursor: pointer;">✕</button>
+        <button aria-label="Сохранить" style="font-size: 20px; padding: 8px 12px; cursor: pointer;">💾</button>
+        <p style="font-size: 14px; color: #666; margin-top: 8px;">
+            Screen reader прочитает: «Кнопка: Открыть меню», «Кнопка: Закрыть», «Кнопка: Сохранить».
+        </p>
+    </div>
+
+    <div class="note">
+        <strong>Правило:</strong> <code>aria-label</code> перекрывает видимый текст.
+        Не используй, если есть видимый текст — только для иконок.
+    </div>
+
+    <h3>aria-labelledby — ссылка на элемент</h3>
+
+    <p>
+        Когда описание берётся из другого элемента (по <code>id</code>):
+    </p>
+
+    <pre><code>&lt;h2 id="form-title"&gt;Регистрация&lt;/h2&gt;
+&lt;form aria-labelledby="form-title"&gt;
+    ...
+&lt;/form&gt;</code></pre>
+
+    <p>Screen reader прочитает: «Регистрация — форма».</p>
+
+    <h3>aria-describedby — подробное описание</h3>
+
+    <p>
+        Для дополнительной информации (подсказки, формат):
+    </p>
+
+    <pre><code>&lt;label for="phone"&gt;Телефон:&lt;/label&gt;
+&lt;input type="tel" id="phone" aria-describedby="phone-hint"&gt;
+&lt;p id="phone-hint"&gt;Формат: +7XXXXXXXXXX&lt;/p&gt;</code></pre>
+
+    <h3>aria-hidden — скрыть от screen reader</h3>
+
+    <p>
+        Скрывает от screen reader'а, но <strong>оставляет видимым</strong>:
+    </p>
+
+    <pre><code>&lt;button&gt;
+    &lt;span aria-hidden="true"&gt;✓&lt;/span&gt;
+    Сохранить
+&lt;/button&gt;</code></pre>
+
+    <p>
+        Screen reader прочитает только «Сохранить», а галочка будет только
+        визуальным украшением.
+    </p>
+
+    <div class="warn">
+        <strong>Не используй <code>aria-hidden="true"</code> на фокусируемых элементах!</strong>
+        Если что-то доступно с клавиатуры, но скрыто от screen reader'а — это путает пользователя.
+    </div>
+
+    <h3>aria-expanded — раскрыт ли элемент</h3>
+
+    <p>
+        Для кнопок, которые раскрывают/скрывают контент:
+    </p>
+
+    <pre><code>&lt;button aria-expanded="false" aria-controls="menu"&gt;Меню&lt;/button&gt;
+&lt;ul id="menu" hidden&gt;...&lt;/ul&gt;</code></pre>
+
+    <p>Когда меню открыто, JS меняет <code>aria-expanded="true"</code>. Screen reader прочитает: «Раскрыто».</p>
+
+    <h3>aria-live — объявления</h3>
+
+    <p>
+        Для динамического контента, который нужно объявить screen reader'у:
+    </p>
+
+    <pre><code>&lt;div aria-live="polite"&gt;Сообщение об успехе&lt;/div&gt;</code></pre>
+
+    <p>
+        <code>polite</code> — объявить, когда пользователь закончит текущее действие.<br>
+        <code>assertive</code> — объявить немедленно (для важного).<br>
+        <code>off</code> — не объявлять.
+    </p>
+
+    <h2>10. Формы и доступность</h2>
+
+    <p>Все поля должны иметь <code>&lt;label&gt;</code>:</p>
+
+    <pre><code>&lt;!-- ПРАВИЛЬНО: label связан через for + id --&gt;
+&lt;label for="email"&gt;Email:&lt;/label&gt;
+&lt;input type="email" id="email" name="email"&gt;
+
+&lt;!-- ПРАВИЛЬНО: обёртка --&gt;
+&lt;label&gt;
+    Email:
+    &lt;input type="email" name="email"&gt;
+&lt;/label&gt;
+
+&lt;!-- ПЛОХО: placeholder вместо label --&gt;
+&lt;input type="email" placeholder="Email"&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Placeholder — НЕ замена label!</strong>
+        <ul>
+            <li>Placeholder исчезает при вводе — пользователь забывает, что вводил.</li>
+            <li>Плохо читается (серый, мелкий).</li>
+            <li>Не работает у screen reader'ов как описание поля.</li>
+            <li>Не все screen reader'ы его читают.</li>
+        </ul>
+    </div>
+
+    <p>Ещё важно для форм:</p>
+    <ul>
+        <li><code>required</code> — обязательные поля.</li>
+        <li><code>aria-invalid="true"</code> — невалидное поле.</li>
+        <li><code>aria-describedby</code> — подсказка с форматом.</li>
+        <li>Группировка radio — через <code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code>.</li>
+    </ul>
+
+    <h2>11. Контрастность</h2>
+
+    <p>
+        Текст должен быть <strong>читаемым</strong>. Минимум:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Текст</th>
+                <th>Минимальный контраст</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Обычный</td>
+                <td>4.5 : 1</td>
+            </tr>
+            <tr>
+                <td>Крупный (от 18pt / 14pt bold)</td>
+                <td>3 : 1</td>
+            </tr>
+            <tr>
+                <td>Кнопки, иконки</td>
+                <td>3 : 1</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        Проверить контраст можно:
+    </p>
+    <ul>
+        <li><a href="https://webaim.org/resources/contrastchecker/" target="_blank">WebAIM Contrast Checker</a> — вводишь два цвета, получаешь результат.</li>
+        <li><strong>DevTools</strong>: правый клик на элементе → Inspect → в стилях видишь цвет; наведи — покажет контраст.</li>
+        <li>Lighthouse: в отчёте отдельный раздел про контраст.</li>
+    </ul>
+
+    <div class="demo">
+        <div class="demo-label">Пример контраста (плохой и хороший):</div>
+        <p style="color: #ccc; background: #fff; padding: 8px;">Плохой контраст — почти не видно (3.5% серый на белом).</p>
+        <p style="color: #222; background: #fff; padding: 8px;">Хороший контраст — легко читается.</p>
+        <p style="color: #fff; background: #1565c0; padding: 8px;">Белый на синем — хороший контраст.</p>
+    </div>
+
+    <h2>12. Чек-лист базовой доступности</h2>
+
+    <div class="task">
+        <p>Проверь любую свою страницу:</p>
+
+        <h4>Семантика</h4>
+        <ul>
+            <li>☐ Один <code>&lt;h1&gt;</code> на страницу.</li>
+            <li>☐ Заголовки в правильной иерархии (h1 → h2 → h3).</li>
+            <li>☐ Все смысловые блоки — семантические теги (header, nav, main, article, footer).</li>
+            <li>☐ У каждого <code>&lt;form&gt;</code> есть <code>&lt;label&gt;</code> для полей.</li>
+            <li>☐ Radio-группы обёрнуты в <code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code>.</li>
+        </ul>
+
+        <h4>Медиа</h4>
+        <ul>
+            <li>☐ У всех <code>&lt;img&gt;</code> есть <code>alt</code>.</li>
+            <li>☐ Декоративные картинки имеют <code>alt=""</code>.</li>
+            <li>☐ У видео есть субтитры (<code>&lt;track&gt;</code>).</li>
+            <li>☐ У аудио есть транскрипт (текстовая расшифровка).</li>
+        </ul>
+
+        <h4>Клавиатура</h4>
+        <ul>
+            <li>☐ Всё работает с клавиатуры (<kbd>Tab</kbd>, <kbd>Enter</kbd>, <kbd>Space</kbd>).</li>
+            <li>☐ Виден фокус (<code>:focus</code> стиль).</li>
+            <li>☐ Нет «ловушек фокуса» (когда нельзя выйти из элемента).</li>
+        </ul>
+
+        <h4>Текст</h4>
+        <ul>
+            <li>☐ Контраст текста ≥ 4.5:1.</li>
+            <li>☐ Крупный текст ≥ 3:1.</li>
+            <li>☐ Шрифт не меньше 16px (для основного текста).</li>
+            <li>☐ Текст не только цветом (не «красное — ошибка», а «красное + текст «Ошибка»»).</li>
+        </ul>
+
+        <h4>ARIA (только где нужно)</h4>
+        <ul>
+            <li>☐ Кнопки-иконки имеют <code>aria-label</code>.</li>
+            <li>☐ Динамические сообщения — <code>aria-live</code>.</li>
+            <li>☐ Раскрывающиеся меню — <code>aria-expanded</code>.</li>
+        </ul>
+    </div>
+
+    <h2>13. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Проверь свою страницу»</strong></p>
+        <ul>
+            <li>Возьми любой свой HTML-файл из предыдущих уроков.</li>
+            <li>Пройди по чек-листу из раздела 12.</li>
+            <li>Найди проблемы, исправь.</li>
+        </ul>
+
+        <p><strong>Задание 2. «Screen reader»</strong></p>
+        <ul>
+            <li>Установи NVDA (Windows) или включи VoiceOver (Mac: <kbd>Cmd</kbd>+<kbd>F5</kbd>).</li>
+            <li>Открой любой свой урок.</li>
+            <li>Попробуй навигировать: по заголовкам (<kbd>H</kbd>), по landmark'ам (<kbd>D</kbd>), по ссылкам (<kbd>K</kbd>).</li>
+            <li>Ты услышишь, как screen reader читает страницу — это очень познавательно.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Кнопки-иконки»</strong></p>
+        <ul>
+            <li>Сделай 3 кнопки с эмодзи: ☰ ✕ 💾.</li>
+            <li>Добавь каждой <code>aria-label</code> с описанием действия.</li>
+            <li>Проверь через screen reader (или через инструменты браузера).</li>
+        </ul>
+
+        <p><strong>Задание 4. «Клавиатурная навигация»</strong></p>
+        <ul>
+            <li>Открой свою страницу.</li>
+            <li>Нажми <kbd>Tab</kbd> — пройди по всем ссылкам и кнопкам.</li>
+            <li>Проверь: виден ли фокус (рамка вокруг элемента).</li>
+            <li>Если нет — добавь CSS: <code>:focus { outline: 3px solid #b5651d; }</code>.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Lighthouse Accessibility»</strong></p>
+        <ul>
+            <li>Открой свою страницу в Chrome.</li>
+            <li><kbd>F12</kbd> → Lighthouse → только Accessibility.</li>
+            <li>Получи оценку. Прочитай рекомендации.</li>
+            <li>Исправь проблемы, проверь снова.</li>
+        </ul>
+
+        <p><strong>Задание 6. «Контраст»</strong></p>
+        <ul>
+            <li>Открой <a href="https://webaim.org/resources/contrastchecker/" target="_blank">WebAIM Contrast Checker</a>.</li>
+            <li>Введи цвет своего текста и фона.</li>
+            <li>Если контраст &lt; 4.5:1 — замени цвета.</li>
+            <li>Проверь на своей странице.</li>
+        </ul>
+    </div>
+
+    <h2>14. Что запомнить из урока</h2>
+
+    <ul>
+        <li><strong>Доступность (a11y)</strong> — это не «для галочки». Это нужно <strong>всем</strong> людям.</li>
+        <li><strong>80% доступности</strong> — это семантическая разметка. Используй правильные теги.</li>
+        <li><strong>alt</strong> обязателен для всех картинок. Для декоративных — <code>alt=""</code>.</li>
+        <li><strong>Семантические теги</strong> создают landmark'и, по которым screen reader позволяет прыгать.</li>
+        <li><strong>Клавиатурная навигация</strong> — <kbd>Tab</kbd>, <kbd>Enter</kbd>, <kbd>Space</kbd>, <kbd>Escape</kbd>. Всё должно работать без мыши.</li>
+        <li><strong>Видимый фокус</strong> — <code>:focus</code> стиль обязателен. Не убирай <code>outline</code> без замены.</li>
+        <li><strong>ARIA</strong> — дополнение, а не замена HTML. «No ARIA is better than bad ARIA».</li>
+        <li><strong><code>aria-label</code></strong> — для кнопок-иконок без видимого текста.</li>
+        <li><strong><code>aria-labelledby</code></strong> — ссылка на элемент с описанием.</li>
+        <li><strong><code>aria-describedby</code></strong> — подробное описание (подсказки к полям).</li>
+        <li><strong><code>aria-hidden="true"</code></strong> — скрыть от screen reader'а, но оставить видимым.</li>
+        <li><strong><code>aria-expanded</code></strong> — для раскрывающихся элементов (меню, аккордеоны).</li>
+        <li><strong><code>aria-live</code></strong> — для динамических сообщений.</li>
+        <li><strong>Placeholder — не замена label!</strong> Все поля формы должны иметь <code>&lt;label&gt;</code>.</li>
+        <li><strong>Контраст:</strong> обычный текст ≥ 4.5:1, крупный ≥ 3:1.</li>
+        <li><strong>Не только цветом:</strong> ошибки должны быть видны и текстом, не только красным цветом.</li>
+        <li><strong>Чек-лист из 20+ пунктов</strong> — пройди его для каждой страницы.</li>
+        <li><strong>Screen reader</strong> — установи NVDA или VoiceOver и послушай свою страницу. Это лучший способ найти проблемы.</li>
+    </ul>
+
+    <h2>15. Инструменты для проверки доступности</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Инструмент</th>
+                <th>Что делает</th>
+                <th>Где взять</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>WAVE</strong></td>
+                <td>Расширение для браузера — подсвечивает проблемы a11y</td>
+                <td>wave.webaim.org (расширение)</td>
+            </tr>
+            <tr>
+                <td><strong>Lighthouse</strong></td>
+                <td>Аудит доступности (встроен в Chrome)</td>
+                <td>F12 → Lighthouse → Accessibility</td>
+            </tr>
+            <tr>
+                <td><strong>axe DevTools</strong></td>
+                <td>Профессиональный сканер a11y</td>
+                <td>Расширение для Chrome/Firefox</td>
+            </tr>
+            <tr>
+                <td><strong>NVDA</strong></td>
+                <td>Screen reader для Windows</td>
+                <td>nvaccess.org (бесплатно)</td>
+            </tr>
+            <tr>
+                <td><strong>VoiceOver</strong></td>
+                <td>Screen reader для Mac/iOS</td>
+                <td>Встроен: Cmd+F5</td>
+            </tr>
+            <tr>
+                <td><strong>WebAIM Contrast Checker</strong></td>
+                <td>Проверка контраста</td>
+                <td>webaim.org/resources/contrastchecker</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>16. Полный шаблон доступной страницы</h2>
+
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Моя страница&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;!-- Skip link для клавиатурных пользователей --&gt;
+    &lt;a href="#main" class="skip-link"&gt;Перейти к содержимому&lt;/a&gt;
+
+    &lt;header&gt;
+        &lt;h1&gt;Название сайта&lt;/h1&gt;
+        &lt;nav aria-label="Основная навигация"&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href="/"&gt;Главная&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="/about"&gt;О нас&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main id="main"&gt;
+
+        &lt;article&gt;
+            &lt;header&gt;
+                &lt;h2&gt;Заголовок статьи&lt;/h2&gt;
+                &lt;time datetime="2026-01-15"&gt;15 января 2026&lt;/time&gt;
+            &lt;/header&gt;
+
+            &lt;img src="photo.jpg" alt="Описание содержания" width="800" height="600"&gt;
+
+            &lt;p&gt;Текст статьи...&lt;/p&gt;
+
+            &lt;form&gt;
+                &lt;label for="email"&gt;Email:&lt;/label&gt;
+                &lt;input type="email" id="email" name="email" required
+                       aria-describedby="email-hint"&gt;
+                &lt;p id="email-hint"&gt;Мы не передаём email третьим лицам.&lt;/p&gt;
+
+                &lt;button type="submit"&gt;Подписаться&lt;/button&gt;
+            &lt;/form&gt;
+        &lt;/article&gt;
+
+        &lt;aside aria-label="Дополнительная информация"&gt;
+            &lt;h2&gt;Читайте также&lt;/h2&gt;
+            &lt;!-- ... --&gt;
+        &lt;/aside&gt;
+
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+        &lt;p&gt;&amp;copy; 2026 Мой сайт&lt;/p&gt;
+    &lt;/footer&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <h2>17. Skip link — «перейти к содержимому»</h2>
+
+    <p>
+        Один из самых важных приёмов доступности. Пользователь с клавиатуры
+        открывает страницу и первым делом нажимает <kbd>Tab</kbd>. У него появляется
+        ссылка «Перейти к содержимому», которая позволяет <strong>пропустить меню</strong>
+        и сразу попасть в контент.
+    </p>
+
+    <pre><code>&lt;!-- В самом начале body --&gt;
+&lt;a href="#main" class="skip-link"&gt;Перейти к содержимому&lt;/a&gt;
+
+&lt;!-- CSS --&gt;
+&lt;style&gt;
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #000;
+    color: #fff;
+    padding: 8px;
+    z-index: 100;
+}
+.skip-link:focus {
+    top: 0;
+}
+&lt;/style&gt;</code></pre>
+
+    <p>
+        Ссылка скрыта визуально, но появляется при фокусе (когда пользователь
+        нажал <kbd>Tab</kbd>). Это экономит кучу времени.
+    </p>
+
+    <div class="note">
+        <strong>Проверь сам:</strong> нажми <kbd>Tab</kbd> на этой странице.
+        Первым элементом должна быть ссылка «Перейти к содержимому».
+    </div>
+
+    <h2>18. Частые ошибки доступности</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Кнопка через <code>&lt;div onclick&gt;</code></td>
+                <td>Не фокусируется, не работает с клавиатуры</td>
+            </tr>
+            <tr>
+                <td><code>&lt;img&gt;</code> без <code>alt</code></td>
+                <td>Screen reader читает URL или пропускает</td>
+            </tr>
+            <tr>
+                <td><code>alt="картинка"</code></td>
+                <td>Бесполезно для незрячих</td>
+            </tr>
+            <tr>
+                <td>Placeholder вместо label</td>
+                <td>Исчезает при вводе, плохо читается</td>
+            </tr>
+            <tr>
+                <td><code>outline: none</code> без замены</td>
+                <td>Пользователь не видит фокус</td>
+            </tr>
+            <tr>
+                <td>Низкий контраст текста</td>
+                <td>Не читается слабовидящими</td>
+            </tr>
+            <tr>
+                <td>Информация только цветом</td>
+                <td>Дальтоники не поймут</td>
+            </tr>
+            <tr>
+                <td>Автозапуск видео со звуком</td>
+                <td>Мешает, особенно screen reader'ам</td>
+            </tr>
+            <tr>
+                <td>Пустые ссылки <code>&lt;a&gt;&lt;/a&gt;</code></td>
+                <td>Screen reader не знает, куда ведёт</td>
+            </tr>
+            <tr>
+                <td>Нет <code>&lt;html lang&gt;</code></td>
+                <td>Screen reader читает неправильным голосом</td>
+            </tr>
+            <tr>
+                <td>Структура через <code>&lt;div&gt;</code> вместо семантики</td>
+                <td>Нет landmark'ов для навигации</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>19. Что запомнить из урока</h2>
+
+    <ul>
+        <li><strong>a11y</strong> — доступность для всех. Это не «для галочки», а необходимость.</li>
+        <li><strong>80% доступности — семантика.</strong> Правильные теги решают большую часть проблем.</li>
+        <li><strong>alt</strong> обязателен для всех картинок. Декоративные — <code>alt=""</code>.</li>
+        <li><strong>Все поля формы — с <code>&lt;label&gt;</code>.</strong> Placeholder — не замена.</li>
+        <li><strong>Клавиатура:</strong> всё должно работать через <kbd>Tab</kbd>, <kbd>Enter</kbd>, <kbd>Space</kbd>.</li>
+        <li><strong>Видимый фокус:</strong> никогда не убирай <code>outline</code> без замены.</li>
+        <li><strong>ARIA — только когда HTML не хватает.</strong> Не заменяй семантику ARIA.</li>
+        <li><strong><code>aria-label</code></strong> — для иконок-кнопок. <strong><code>aria-describedby</code></strong> — для подсказок.</li>
+        <li><strong>Контраст ≥ 4.5:1</strong> для обычного текста, ≥ 3:1 для крупного.</li>
+        <li><strong>Skip link</strong> — «перейти к содержимому» для клавиатурных пользователей.</li>
+        <li><strong>Инструменты:</strong> WAVE, Lighthouse, axe, NVDA, VoiceOver, Contrast Checker.</li>
+        <li><strong>Проверяй с screen reader'ом</strong> — это лучший способ найти проблемы.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 28 · Следующий урок: <em>SEO-основы в HTML</em>
+    </p>
+
+</body>
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 23 по HTML: div и span — универсальные контейнеры, разница между блочными и строчными элементами.">
+    <title>Урок 23. &lt;div&gt; и &lt;span&gt;</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        .demo-div {
+            background: #e3f2fd;
+            border: 2px solid #1565c0;
+            padding: 10px;
+            margin: 8px 0;
+        }
+        .demo-span {
+            background: #fff3e0;
+            border: 2px solid #e65100;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 23. &lt;div&gt; и &lt;span&gt;</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: понять разницу между блочными и строчными     -->
+    <!-- элементами и научиться использовать div и span правильно.  -->
+    <!-- ========================================================= -->
+
+    <h2>1. Что такое &lt;div&gt; и &lt;span&gt;</h2>
+
+    <p>
+        Это <strong>универсальные контейнеры</strong> без смысла. Они не говорят,
+        что внутри — просто «коробка». Нужны для:
+    </p>
+
+    <ul>
+        <li>Группировки элементов для CSS-стилизации.</li>
+        <li>Группировки для JavaScript (найти, изменить).</li>
+        <li>Обёртки, когда семантический тег не подходит.</li>
+    </ul>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Тип</th>
+                <th>Занимает</th>
+                <th>Где использовать</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;div&gt;</code></td>
+                <td>Блочный</td>
+                <td>Всю ширину</td>
+                <td>Группировка крупных блоков</td>
+            </tr>
+            <tr>
+                <td><code>&lt;span&gt;</code></td>
+                <td>Строчный</td>
+                <td>Только по содержимому</td>
+                <td>Выделение части текста</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>2. Блочные vs строчные элементы</h2>
+
+    <p>Это <strong>фундаментальное</strong> различие в HTML. Запомни его.</p>
+
+    <h3>Блочные (block)</h3>
+
+    <ul>
+        <li>Занимают <strong>всю ширину</strong> родителя.</li>
+        <li>Начинаются с новой строки.</li>
+        <li>Можно задать <code>width</code>, <code>height</code>, <code>margin</code>, <code>padding</code> со всех сторон.</li>
+        <li>Примеры: <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;h1&gt;</code>, <code>&lt;ul&gt;</code>, <code>&lt;section&gt;</code>.</li>
+    </ul>
+
+    <div class="demo">
+        <div class="demo-label">Два блока div — каждый на новой строке, во всю ширину:</div>
+        <div class="demo-div">Первый блок div</div>
+        <div class="demo-div">Второй блок div</div>
+    </div>
+
+    <h3>Строчные (inline)</h3>
+
+    <ul>
+        <li>Занимают <strong>только ширину содержимого</strong>.</li>
+        <li>Идут <strong>в строке</strong> с другим текстом.</li>
+        <li><code>width</code> и <code>height</code> <strong>не работают</strong>.</li>
+        <li>Вертикальные <code>margin</code> и <code>padding</code> работают частично (визуально не сдвигают строки).</li>
+        <li>Примеры: <code>&lt;span&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;code&gt;</code>.</li>
+    </ul>
+
+    <div class="demo">
+        <div class="demo-label">Строчные span — идут в строке:</div>
+        <p>Обычный текст, <span class="demo-span">выделенный span</span>, снова обычный, <span class="demo-span">ещё span</span> и конец строки.</p>
+    </div>
+
+    <h2>3. Живое сравнение</h2>
+
+    <div class="demo">
+        <div class="demo-label">div vs span — рамки одинаковой толщины:</div>
+        <p>Текст до, <span class="demo-span">span</span>, текст после. Span занимает только ширину слова.</p>
+        <div class="demo-div">div — занимает всю ширину, начинается с новой строки</div>
+        <p>А между ними ещё текст.</p>
+    </div>
+
+    <h2>4. Тег &lt;div&gt; — блочный контейнер</h2>
+
+    <p>
+        Основной инструмент для построения макета. Используется, когда нужен
+        <strong>крупный блок</strong> без семантики.
+    </p>
+
+    <pre><code>&lt;div class="card"&gt;
+    &lt;h2&gt;Заголовок карточки&lt;/h2&gt;
+    &lt;p&gt;Описание...&lt;/p&gt;
+    &lt;button&gt;Кнопка&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Где использовать &lt;div&gt;</h3>
+
+    <ul>
+        <li><strong>Обёртка для сетки:</strong> <code>&lt;div class="grid"&gt;</code> с дочерними <code>&lt;div class="grid-item"&gt;</code>.</li>
+        <li><strong>Карточка товара:</strong> если нет семантического тега для карточки.</li>
+        <li><strong>Контейнер с CSS:</strong> например, центрирование контента.</li>
+        <li><strong>Обёртка для позиционирования:</strong> <code>position: relative</code>.</li>
+    </ul>
+
+    <h3>Где НЕ использовать &lt;div&gt;</h3>
+
+    <div class="warn">
+        <ul>
+            <li><strong>Шапка</strong> → <code>&lt;header&gt;</code></li>
+            <li><strong>Меню</strong> → <code>&lt;nav&gt;</code></li>
+            <li><strong>Основной контент</strong> → <code>&lt;main&gt;</code></li>
+            <li><strong>Статья</strong> → <code>&lt;article&gt;</code></li>
+            <li><strong>Раздел с заголовком</strong> → <code>&lt;section&gt;</code></li>
+            <li><strong>Боковая панель</strong> → <code>&lt;aside&gt;</code></li>
+            <li><strong>Подвал</strong> → <code>&lt;footer&gt;</code></li>
+        </ul>
+        Если есть <strong>семантический тег</strong> — используй его, а не <code>&lt;div&gt;</code>.
+    </div>
+
+    <h2>5. Тег &lt;span&gt; — строчный контейнер</h2>
+
+    <p>
+        Используется для <strong>выделения части текста</strong> без разрыва строки.
+        Например, чтобы покрасить одно слово или изменить шрифт.
+    </p>
+
+    <pre><code>&lt;p&gt;Цена: &lt;span class="price"&gt;500 ₽&lt;/span&gt; за штуку&lt;/p&gt;</code></pre>
+
+    <pre><code>.price {
+    color: green;
+    font-weight: bold;
+    font-size: 1.2em;
+}</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <p>Цена: <span style="color: green; font-weight: bold; font-size: 1.2em;">500 ₽</span> за штуку</p>
+    </div>
+
+    <h3>Где использовать &lt;span&gt;</h3>
+
+    <ul>
+        <li>Выделить одно слово или фразу в тексте.</li>
+        <li>Изменить цвет, шрифт части текста.</li>
+        <li>Обернуть текст для JavaScript-манипуляции.</li>
+        <li>Иконки внутри текста (например, валюты).</li>
+    </ul>
+
+    <div class="note">
+        <strong>Правило:</strong> если нужен смысл («важно», «акцент», «удалено») —
+        используй семантический тег (<code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>,
+        <code>&lt;mark&gt;</code>, <code>&lt;del&gt;</code>). <code>&lt;span&gt;</code> — только
+        когда нужна <strong>стилизация</strong> без смысла.
+    </div>
+
+    <h2>6. Когда div, когда section, когда article</h2>
+
+    <p>Это частый вопрос. Таблица-помощник:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Что за блок</th>
+                <th>Тег</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Шапка сайта/статьи</td>
+                <td><code>&lt;header&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Основное меню</td>
+                <td><code>&lt;nav&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Главное содержимое страницы</td>
+                <td><code>&lt;main&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Тематический раздел с заголовком</td>
+                <td><code>&lt;section&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Самодостаточная единица (пост, товар, новость)</td>
+                <td><code>&lt;article&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Боковая панель</td>
+                <td><code>&lt;aside&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Подвал</td>
+                <td><code>&lt;footer&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Картинка с подписью</td>
+                <td><code>&lt;figure&gt;</code></td>
+            </tr>
+            <tr>
+                <td><strong>Просто обёртка для CSS</strong></td>
+                <td><code>&lt;div&gt;</code></td>
+            </tr>
+            <tr>
+                <td><strong>Просто часть текста для стилизации</strong></td>
+                <td><code>&lt;span&gt;</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>7. Пример: «дивовый суп» vs семантика</h2>
+
+    <h3>Плохо: всё через div</h3>
+
+    <pre><code>&lt;div class="header"&gt;
+    &lt;div class="logo"&gt;Мой блог&lt;/div&gt;
+    &lt;div class="nav"&gt;
+        &lt;div class="nav-item"&gt;&lt;a href="/"&gt;Главная&lt;/a&gt;&lt;/div&gt;
+        &lt;div class="nav-item"&gt;&lt;a href="/blog"&gt;Блог&lt;/a&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="content"&gt;
+    &lt;div class="article"&gt;
+        &lt;div class="article-title"&gt;Как варить кофе&lt;/div&gt;
+        &lt;div class="article-body"&gt;Текст...&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="footer"&gt;&amp;copy; 2026&lt;/div&gt;</code></pre>
+
+    <p><strong>Проблемы:</strong></p>
+    <ul>
+        <li>Непонятно, где шапка, а где контент.</li>
+        <li>Screen reader не различает регионы.</li>
+        <li>Поисковик не понимает структуру.</li>
+    </ul>
+
+    <h3>Хорошо: семантика + div для мелочей</h3>
+
+    <pre><code>&lt;header&gt;
+    &lt;h1&gt;Мой блог&lt;/h1&gt;
+    &lt;nav&gt;
+        &lt;a href="/"&gt;Главная&lt;/a&gt;
+        &lt;a href="/blog"&gt;Блог&lt;/a&gt;
+    &lt;/nav&gt;
+&lt;/header&gt;
+&lt;main&gt;
+    &lt;article&gt;
+        &lt;h2&gt;Как варить кофе&lt;/h2&gt;
+        &lt;p&gt;Текст...&lt;/p&gt;
+    &lt;/article&gt;
+&lt;/main&gt;
+&lt;footer&gt;
+    &amp;copy; 2026
+&lt;/footer&gt;</code></pre>
+
+    <p>
+        <strong>Обрати внимание:</strong> даже в «хорошем» примере могут быть
+        <code>&lt;div&gt;</code> — например, для карточки товара в сетке, обёртки
+        для CSS. Это нормально. Главное — <strong>смысловые блоки</strong> сделаны
+        семантически.
+    </p>
+
+    <h2>8. Группировка для CSS</h2>
+
+    <p>Классический пример: обёртка для сетки.</p>
+
+    <pre><code>&lt;div class="grid"&gt;
+    &lt;div class="card"&gt;Карточка 1&lt;/div&gt;
+    &lt;div class="card"&gt;Карточка 2&lt;/div&gt;
+    &lt;div class="card"&gt;Карточка 3&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <pre><code>.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 16px;
+}</code></pre>
+
+    <p>
+        Здесь <code>&lt;div&gt;</code> — правильный выбор. Карточки — просто
+        визуальные блоки без семантического значения. Это <strong>не</strong> статья
+        и <strong>не</strong> раздел.
+    </p>
+
+    <h2>9. Группировка для JavaScript</h2>
+
+    <p>
+        <code>&lt;span id="count"&gt;0&lt;/span&gt;</code> — счётчик, который
+        обновляется через JS. Без <code>&lt;span&gt;</code> не обойтись — нужен
+        строчный контейнер вокруг числа.
+    </p>
+
+    <pre><code>&lt;p&gt;Корзина: &lt;span id="cart-count"&gt;0&lt;/span&gt; товаров&lt;/p&gt;
+
+&lt;script&gt;
+    document.getElementById('cart-count').textContent = 5;
+&lt;/script&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Демонстрация (counter через JS):</div>
+        <p>Корзина: <span id="cart-count">0</span> товаров.
+            <button onclick="document.getElementById('cart-count').textContent = parseInt(document.getElementById('cart-count').textContent) + 1" style="padding: 4px 10px; font-size: 14px;">+1</button>
+        </p>
+    </div>
+
+    <h2>10. Вложенность div и span</h2>
+
+    <p>
+        <code>&lt;div&gt;</code> может содержать <code>&lt;span&gt;</code>,
+        но не наоборот. <strong>Строчный элемент не может содержать блочный.</strong>
+    </p>
+
+    <pre><code>&lt;!-- ПРАВИЛЬНО --&gt;
+&lt;div&gt;
+    &lt;p&gt;Текст с &lt;span&gt;выделением&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- НЕПРАВИЛЬНО: span не может содержать div --&gt;
+&lt;span&gt;
+    &lt;div&gt;блок&lt;/div&gt;
+&lt;/span&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Почему нельзя:</strong> браузер «вытолкнет» <code>&lt;div&gt;</code>
+        из <code>&lt;span&gt;</code>, потому что блочный элемент не может быть
+        внутри строчного. Это сломает твою структуру.
+    </div>
+
+    <h2>11. div и span в контексте других элементов</h2>
+
+    <p>Что можно класть внутри:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Внутрь чего</th>
+                <th>Можно класть</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;div&gt;</code></td>
+                <td>Всё что угодно (блочное и строчное)</td>
+            </tr>
+            <tr>
+                <td><code>&lt;span&gt;</code></td>
+                <td>Только строчное (текст, <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;a&gt;</code>, другой <code>&lt;span&gt;</code>)</td>
+            </tr>
+            <tr>
+                <td><code>&lt;p&gt;</code></td>
+                <td>Только строчное (то же, что и span)</td>
+            </tr>
+            <tr>
+                <td><code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code></td>
+                <td>Только строчное</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>12. Стилизация div и span</h2>
+
+    <p>
+        Блочные и строчные элементы по-разному принимают CSS:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Свойство</th>
+                <th><code>&lt;div&gt;</code></th>
+                <th><code>&lt;span&gt;</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>width</code>, <code>height</code></td>
+                <td>✅ Работает</td>
+                <td>❌ Не работает</td>
+            </tr>
+            <tr>
+                <td><code>margin</code> (все стороны)</td>
+                <td>✅ Работает</td>
+                <td>⚠️ Только по горизонтали</td>
+            </tr>
+            <tr>
+                <td><code>padding</code></td>
+                <td>✅ Работает</td>
+                <td>⚠️ Работает, но не сдвигает строки</td>
+            </tr>
+            <tr>
+                <td><code>border</code></td>
+                <td>✅ Работает</td>
+                <td>✅ Работает</td>
+            </tr>
+            <tr>
+                <td><code>background</code></td>
+                <td>✅ Работает</td>
+                <td>✅ Работает</td>
+            </tr>
+            <tr>
+                <td><code>text-align</code></td>
+                <td>✅ Работает</td>
+                <td>❌ Не работает</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Можно изменить поведение:</strong> CSS-свойство <code>display</code>
+        позволяет сделать <code>&lt;div&gt;</code> строчным (<code>display: inline</code>)
+        или <code>&lt;span&gt;</code> блочным (<code>display: block</code>). Но
+        семантически это не меняет смысла — это просто визуальный трюк.
+    </div>
+
+    <h2>13. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Использовать <code>&lt;div&gt;</code> вместо семантических тегов</td>
+                <td>«Дивовый суп» — плохо для a11y и SEO</td>
+            </tr>
+            <tr>
+                <td>Вкладывать <code>&lt;div&gt;</code> в <code>&lt;span&gt;</code></td>
+                <td>Невалидно, браузер вытолкнет</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>&lt;span&gt;</code> для блочных элементов</td>
+                <td>То же самое</td>
+            </tr>
+            <tr>
+                <td>Пытаться задать <code>width</code> у <code>&lt;span&gt;</code></td>
+                <td>Не работает без <code>display: inline-block</code></td>
+            </tr>
+            <tr>
+                <td>Забыть <code>class</code> у <code>&lt;div&gt;</code></td>
+                <td>Бесполезная обёртка — нечем стилизовать</td>
+            </tr>
+            <tr>
+                <td>Оборачивать каждое слово в <code>&lt;span&gt;</code></td>
+                <td>Мусор в коде, лучше <code>&lt;strong&gt;</code>/<code>&lt;em&gt;</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>14. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Карточки товаров»</strong></p>
+        <p>Создай файл <code>23-practice.html</code>. Сделай 3 карточки товаров через <code>&lt;div&gt;</code>:</p>
+        <ul>
+            <li>Общий контейнер <code>&lt;div class="grid"&gt;</code>.</li>
+            <li>Каждая карточка — <code>&lt;div class="card"&gt;</code> с заголовком, ценой и кнопкой.</li>
+            <li>CSS: сетка 3 колонки, отступы, рамки.</li>
+        </ul>
+
+        <p><strong>Задание 2. «Выделение в тексте»</strong></p>
+        <ul>
+            <li>Напиши абзац текста о чём угодно.</li>
+            <li>Выдели <code>&lt;span&gt;</code> три разных слова: одно — зелёным, другое — красным, третье — жирным.</li>
+            <li>Используй <code>class</code> и CSS, а не инлайн-стили.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Счётчик на JS»</strong></p>
+        <ul>
+            <li>Сделай кнопку и текст «Кликов: <code>&lt;span id="count"&gt;0&lt;/span&gt;</code>».</li>
+            <li>При клике на кнопку число увеличивается на 1 (через JavaScript).</li>
+            <li>Проверь, что счётчик работает.</li>
+        </ul>
+
+        <p><strong>Задание 4. «div или section?»</strong></p>
+        <ul>
+            <li>Возьми 5 блоков на странице: шапка, меню, статья, «читайте также», подвал.</li>
+            <li>Определи, какой семантический тег подходит для каждого.</li>
+            <li>Сделай страницу с правильными тегами. <code>&lt;div&gt;</code> — только для обёрток.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Вложи <code>&lt;div&gt;</code> в <code>&lt;span&gt;</code>. Открой DevTools — увидишь, как браузер перестроил DOM.</li>
+            <li>Попробуй задать <code>width: 200px</code> у <code>&lt;span&gt;</code> — увидишь, что не работает.</li>
+            <li>Добавь <code>display: inline-block</code> к <code>&lt;span&gt;</code> — теперь <code>width</code> заработает.</li>
+        </ul>
+    </div>
+
+    <h2>15. Что запомнить из урока</h2>
+
+    <ul>
+        <li><strong><code>&lt;div&gt;</code></strong> — блочный контейнер без смысла.</li>
+        <li><strong><code>&lt;span&gt;</code></strong> — строчный контейнер без смысла.</li>
+        <li><strong>Блочные</strong> — вся ширина, новая строка. <strong>Строчные</strong> — по содержимому, в строке.</li>
+        <li><strong><code>&lt;div&gt;</code></strong> — для обёрток, сеток, карточек.</li>
+        <li><strong><code>&lt;span&gt;</code></strong> — для выделения части текста.</li>
+        <li><strong>Если есть семантический тег</strong> — используй его, а не <code>&lt;div&gt;</code>.</li>
+        <li><code>&lt;div&gt;</code> может содержать всё, <code>&lt;span&gt;</code> — только строчное.</li>
+        <li>У <code>&lt;span&gt;</code> не работает <code>width</code>, <code>height</code>, <code>text-align</code> без <code>display: inline-block</code>.</li>
+        <li><strong>Семантика ≠ замена div на section везде.</strong> Для чисто декоративных обёрток — <code>&lt;div&gt;</code>.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 23 · Следующий урок: <em>Глобальные атрибуты: id, class, style, title, data-*, hidden</em>
+    </p>
+
+</body>
+</html>

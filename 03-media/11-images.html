@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 11 по HTML: тег img — src, alt, width, height, srcset, loading, атрибуты и правила использования.">
+    <title>Урок 11. Изображения &lt;img&gt;</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 11. Изображения &lt;img&gt;</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: освоить тег img и его атрибуты.               -->
+    <!-- ========================================================= -->
+
+    <h2>1. Что такое &lt;img&gt;</h2>
+
+    <p>
+        <code>&lt;img&gt;</code> (от англ. <em>image</em>) — <strong>одиночный</strong>
+        тег для вставки изображения. У него нет закрывающей части, потому что внутри
+        ничего не может быть.
+    </p>
+
+    <pre><code>&lt;img src="cat.jpg" alt="Рыжий кот"&gt;</code></pre>
+
+    <p>Минимум для работы — два атрибута: <code>src</code> (что показать) и <code>alt</code> (что это).</p>
+
+    <h2>2. Атрибут src — источник изображения</h2>
+
+    <p>
+        <code>src</code> (source) — путь к файлу изображения. Может быть:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тип пути</th>
+                <th>Пример</th>
+                <th>Когда использовать</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Относительный</td>
+                <td><code>cat.jpg</code>, <code>../images/cat.jpg</code></td>
+                <td>Свои картинки на сайте</td>
+            </tr>
+            <tr>
+                <td>Абсолютный от корня</td>
+                <td><code>/images/cat.jpg</code></td>
+                <td>На сервере с известной структурой</td>
+            </tr>
+            <tr>
+                <td>Полный URL</td>
+                <td><code>https://example.com/cat.jpg</code></td>
+                <td>Чужие картинки (с разрешения!)</td>
+            </tr>
+            <tr>
+                <td>Data URI</td>
+                <td><code>data:image/png;base64,...</code></td>
+                <td>Маленькие иконки прямо в коде</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;img src="cat.jpg" alt="Рыжий кот"&gt;
+&lt;img src="../images/cat.jpg" alt="Рыжий кот"&gt;
+&lt;img src="/images/cat.jpg" alt="Рыжий кот"&gt;
+&lt;img src="https://example.com/cat.jpg" alt="Рыжий кот"&gt;</code></pre>
+
+    <h2>3. Атрибут alt — альтернативный текст</h2>
+
+    <p>
+        <strong>Обязательный атрибут.</strong> Показывается, если картинка не загрузилась.
+        Читается screen reader'ами. Индексируется поисковиками.
+    </p>
+
+    <pre><code>&lt;img src="cat.jpg" alt="Рыжий кот спит на подоконнике"&gt;</code></pre>
+
+    <h3>Что будет без alt</h3>
+
+    <div class="demo">
+        <div class="demo-label">Картинка не загрузилась, alt нет:</div>
+        <img src="несуществующий-файл.jpg">
+    </div>
+
+    <div class="demo">
+        <div class="demo-label">Картинка не загрузилась, alt есть:</div>
+        <img src="несуществующий-файл.jpg" alt="Рыжий кот спит на подоконнике">
+    </div>
+
+    <h3>Правила хорошего alt</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ситуация</th>
+                <th>Что писать в alt</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Смысловая картинка (фото, схема)</td>
+                <td>Описание содержания: «Кот спит на подоконнике»</td>
+            </tr>
+            <tr>
+                <td>Декоративная картинка (фон, разделитель)</td>
+                <td><code>alt=""</code> (пусто — screen reader пропустит)</td>
+            </tr>
+            <tr>
+                <td>Картинка-ссылка</td>
+                <td>Куда ведёт: «Перейти на главную»</td>
+            </tr>
+            <tr>
+                <td>Кнопка-иконка</td>
+                <td>Действие: «Отправить форму», «Открыть меню»</td>
+            </tr>
+            <tr>
+                <td>Логотип в шапке</td>
+                <td>«Логотип компании Мурлыка»</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="warn">
+        <strong>Плохой alt:</strong>
+        <ul>
+            <li><code>alt="картинка"</code> — не описывает содержание</li>
+            <li><code>alt="img123.jpg"</code> — имя файла бесполезно</li>
+            <li>Отсутствие <code>alt</code> — screen reader прочитает URL</li>
+            <li>Длинная простыня — alt должен быть кратким</li>
+        </ul>
+    </div>
+
+    <h2>4. Атрибуты width и height</h2>
+
+    <p>Задают размеры изображения в пикселях (без единиц измерения).</p>
+
+    <pre><code>&lt;img src="cat.jpg" alt="Кот" width="400" height="300"&gt;</code></pre>
+
+    <h3>Зачем указывать размеры</h3>
+
+    <div class="note">
+        <strong>Главная причина — избежать «прыжков» страницы.</strong> Пока картинка
+        грузится, браузер не знает её размеры. Если <code>width</code> и <code>height</code>
+        не указаны, при загрузке контент резко сдвинется вниз — это называется
+        <em>layout shift</em> (CLS). Плохо для UX и SEO.
+    </div>
+
+    <h3>Как правильно</h3>
+
+    <ul>
+        <li>Указывай <strong>реальные</strong> размеры картинки (её исходные).</li>
+        <li>Для уменьшения на странице — используй CSS (<code>max-width: 100%</code>), а не атрибуты.</li>
+        <li>Не искажай пропорции: либо указывай оба атрибута, либо не указывай совсем.</li>
+    </ul>
+
+    <pre><code>&lt;!-- ХОРОШО: реальные размеры + CSS для адаптивности --&gt;
+&lt;img src="cat.jpg" alt="Кот" width="800" height="600" style="max-width: 100%; height: auto;"&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Не указывай только один из размеров</strong> — браузер не сможет рассчитать
+        пропорции и сдвинет контент. Указывай оба или ни одного.
+    </div>
+
+    <h2>5. Форматы изображений</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Формат</th>
+                <th>Расширение</th>
+                <th>Особенности</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>JPEG</strong></td>
+                <td><code>.jpg</code>, <code>.jpeg</code></td>
+                <td>Фото, сжатие с потерей качества, без прозрачности</td>
+            </tr>
+            <tr>
+                <td><strong>PNG</strong></td>
+                <td><code>.png</code></td>
+                <td>Логотипы, иконки, прозрачность, сжатие без потерь</td>
+            </tr>
+            <tr>
+                <td><strong>GIF</strong></td>
+                <td><code>.gif</code></td>
+                <td>Анимация, ограничение 256 цветов (устарел)</td>
+            </tr>
+            <tr>
+                <td><strong>SVG</strong></td>
+                <td><code>.svg</code></td>
+                <td>Векторные иконки, масштабируются без потерь</td>
+            </tr>
+            <tr>
+                <td><strong>WebP</strong></td>
+                <td><code>.webp</code></td>
+                <td>Современный: меньше размер, поддержка прозрачности и анимации</td>
+            </tr>
+            <tr>
+                <td><strong>AVIF</strong></td>
+                <td><code>.avif</code></td>
+                <td>Новейший: ещё лучше сжатие, но не везде поддерживается</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>6. srcset и sizes — адаптивные изображения</h2>
+
+    <p>
+        Для разных экранов (мобильный, планшет, retina) можно указать несколько версий
+        одной картинки. Браузер сам выберет подходящую.
+    </p>
+
+    <pre><code>&lt;img src="cat-800.jpg"
+     srcset="cat-400.jpg 400w,
+             cat-800.jpg 800w,
+             cat-1600.jpg 1600w"
+     sizes="(max-width: 600px) 100vw, 800px"
+     alt="Кот"&gt;</code></pre>
+
+    <p><strong>Как это работает:</strong></p>
+    <ul>
+        <li><code>srcset</code> — список версий с указанием ширины (<code>400w</code> = 400px ширины).</li>
+        <li><code>sizes</code> — какую ширину занимает картинка на разных экранах.</li>
+        <li>Браузер сам подберёт оптимальный вариант.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Для новичков:</strong> пока можно не использовать <code>srcset</code> —
+        достаточно <code>width</code>, <code>height</code> и CSS <code>max-width: 100%</code>.
+        Но знать про него полезно.
+    </div>
+
+    <h2>7. Атрибут loading — ленивая загрузка</h2>
+
+    <p>
+        <code>loading</code> управляет моментом загрузки изображения:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Значение</th>
+                <th>Что делает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>eager</code> (по умолчанию)</td>
+                <td>Загрузить сразу</td>
+            </tr>
+            <tr>
+                <td><code>lazy</code></td>
+                <td>Загрузить, когда пользователь приблизится к картинке</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;!-- Первый экран — загружать сразу --&gt;
+&lt;img src="hero.jpg" alt="Главный баннер" loading="eager"&gt;
+
+&lt;!-- Ниже — ленивая загрузка --&gt;
+&lt;img src="photo1.jpg" alt="Фото 1" loading="lazy"&gt;
+&lt;img src="photo2.jpg" alt="Фото 2" loading="lazy"&gt;</code></pre>
+
+    <div class="note">
+        <strong>Правило:</strong> <code>loading="lazy"</code> — для картинок ниже первого
+        экрана. Для главных баннеров и логотипов — оставляй по умолчанию (<code>eager</code>),
+        иначе первый экран будет пустым.
+    </div>
+
+    <h2>8. Полный список атрибутов &lt;img&gt;</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Обязательный?</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>src</code></td>
+                <td>Да</td>
+                <td>URL / путь</td>
+                <td>Источник изображения</td>
+            </tr>
+            <tr>
+                <td><code>alt</code></td>
+                <td>Да (по правилам)</td>
+                <td>Текст или <code>""</code></td>
+                <td>Альтернативный текст</td>
+            </tr>
+            <tr>
+                <td><code>width</code></td>
+                <td>Нет</td>
+                <td>Число (px)</td>
+                <td>Ширина</td>
+            </tr>
+            <tr>
+                <td><code>height</code></td>
+                <td>Нет</td>
+                <td>Число (px)</td>
+                <td>Высота</td>
+            </tr>
+            <tr>
+                <td><code>srcset</code></td>
+                <td>Нет</td>
+                <td>Список URL с дескрипторами</td>
+                <td>Адаптивные версии</td>
+            </tr>
+            <tr>
+                <td><code>sizes</code></td>
+                <td>Нет</td>
+                <td>Медиа-запросы</td>
+                <td>Размеры для srcset</td>
+            </tr>
+            <tr>
+                <td><code>loading</code></td>
+                <td>Нет</td>
+                <td><code>eager</code>, <code>lazy</code></td>
+                <td>Момент загрузки</td>
+            </tr>
+            <tr>
+                <td><code>decoding</code></td>
+                <td>Нет</td>
+                <td><code>sync</code>, <code>async</code>, <code>auto</code></td>
+                <td>Как декодировать</td>
+            </tr>
+            <tr>
+                <td><code>crossorigin</code></td>
+                <td>Нет</td>
+                <td><code>anonymous</code>, <code>use-credentials</code></td>
+                <td>Настройки CORS</td>
+            </tr>
+            <tr>
+                <td><code>usemap</code></td>
+                <td>Нет</td>
+                <td>#имя</td>
+                <td>Карта изображения</td>
+            </tr>
+            <tr>
+                <td><code>ismap</code></td>
+                <td>Нет</td>
+                <td>булев</td>
+                <td>Серверная карта</td>
+            </tr>
+            <tr>
+                <td><code>referrerpolicy</code></td>
+                <td>Нет</td>
+                <td><code>no-referrer</code>, <code>origin</code> и др.</td>
+                <td>Что передавать в referer</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>9. Изображение как ссылка</h2>
+
+    <p>Картинку можно обернуть в <code>&lt;a&gt;</code>, чтобы она стала кликабельной:</p>
+
+    <pre><code>&lt;a href="https://example.com"&gt;
+    &lt;img src="logo.png" alt="Перейти на главную" width="120"&gt;
+&lt;/a&gt;</code></pre>
+
+    <div class="note">
+        <strong>Важно:</strong> в <code>alt</code> картинки-ссылки пиши <strong>куда ведёт</strong>,
+        а не что изображено. Screen reader читает именно alt.
+    </div>
+
+    <h2>10. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Забыть <code>alt</code></td>
+                <td>Ломает доступность, screen reader читает URL</td>
+            </tr>
+            <tr>
+                <td><code>alt="картинка"</code>, <code>alt="img.jpg"</code></td>
+                <td>Бесполезно для незрячих</td>
+            </tr>
+            <tr>
+                <td>Указывать только <code>width</code> или только <code>height</code></td>
+                <td>Прыжки контента при загрузке, искажение пропорций</td>
+            </tr>
+            <tr>
+                <td>Растягивать картинку меньше её реального размера через атрибуты</td>
+                <td>Плохое качество. Лучше сделать уменьшенную версию или использовать CSS</td>
+            </tr>
+            <tr>
+                <td>Вставлять чужие картинки без разрешения</td>
+                <td>Нарушение авторских прав</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>&lt;img&gt;</code> вместо фона</td>
+                <td>Для декоративных фонов — CSS <code>background-image</code></td>
+            </tr>
+            <tr>
+                <td>Огромные картинки в оригинальном размере</td>
+                <td>Долгая загрузка. Сжимай через TinyPNG, Squoosh</td>
+            </tr>
+            <tr>
+                <td><code>&lt;img&gt;&lt;/img&gt;</code></td>
+                <td>Нельзя: <code>&lt;img&gt;</code> одиночный тег</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>11. Готовые шаблоны</h2>
+
+    <h3>Обычная картинка в статье</h3>
+
+    <pre><code>&lt;img src="cat.jpg" alt="Рыжий кот спит на подоконнике" width="800" height="600"&gt;</code></pre>
+
+    <h3>Адаптивная картинка</h3>
+
+    <pre><code>&lt;img src="cat.jpg" alt="Рыжий кот" width="800" height="600"
+     style="max-width: 100%; height: auto;"&gt;</code></pre>
+
+    <h3>Картинка-ссылка</h3>
+
+    <pre><code>&lt;a href="/"&gt;
+    &lt;img src="logo.png" alt="На главную" width="120" height="40"&gt;
+&lt;/a&gt;</code></pre>
+
+    <h3>С ленивой загрузкой</h3>
+
+    <pre><code>&lt;img src="photo.jpg" alt="Пейзаж" width="800" height="600" loading="lazy"&gt;</code></pre>
+
+    <h3>Декоративная картинка (не важна)</h3>
+
+    <pre><code>&lt;img src="decorative-line.png" alt=""&gt;</code></pre>
+
+    <h2>12. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Пять изображений»</strong></p>
+        <p>Создай файл <code>11-practice.html</code> и папку <code>images/</code> рядом с ним. Скачай 3–5 картинок (можно с Unsplash или Pexels) и размести их:</p>
+        <ul>
+            <li>Первая — обычная с <code>alt</code>, <code>width</code>, <code>height</code>.</li>
+            <li>Вторая — адаптивная (с <code>style="max-width: 100%; height: auto;"</code>).</li>
+            <li>Третья — обёрнутая в <code>&lt;a href="..."&gt;</code>.</li>
+            <li>Четвёртая — с <code>loading="lazy"</code>.</li>
+            <li>Пятая — декоративная с <code>alt=""</code>.</li>
+        </ul>
+
+        <p><strong>Задание 2. «Alt-тексты»</strong></p>
+        <ul>
+            <li>Возьми одну картинку и напиши к ней 3 варианта <code>alt</code>: хороший, плохой, отличный.</li>
+            <li>Открой файл в браузере, сломай путь к картинке (<code>src="wrong.jpg"</code>) — увидишь, что покажет браузер вместо картинки.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Прыжки страницы»</strong></p>
+        <ul>
+            <li>Сделай страницу с 5 картинками без <code>width</code>/<code>height</code>.</li>
+            <li>Открой DevTools → Network → поставь «Slow 3G».</li>
+            <li>Обнови страницу — увидишь, как контент прыгает.</li>
+            <li>Добавь размеры, повтори — прыжков нет.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Убери <code>alt</code> — открой в браузере со сломанным путём.</li>
+            <li>Укажи только <code>width="200"</code> — посмотри, что будет с пропорциями.</li>
+            <li>Напиши <code>&lt;img&gt;&lt;/img&gt;</code> — посмотри в DevTools, что с этим делает браузер.</li>
+        </ul>
+    </div>
+
+    <h2>13. Что запомнить из урока</h2>
+
+    <ul>
+        <li><code>&lt;img&gt;</code> — <strong>одиночный</strong> тег, без закрывающей части.</li>
+        <li><strong>Обязательные атрибуты:</strong> <code>src</code> (путь) и <code>alt</code> (описание).</li>
+        <li><code>alt</code> обязателен для доступности. Для декоративных картинок — <code>alt=""</code>.</li>
+        <li><code>width</code> и <code>height</code> указывай <strong>парой</strong> — предотвращает прыжки контента.</li>
+        <li>Для адаптивности: <code>style="max-width: 100%; height: auto;"</code>.</li>
+        <li><code>loading="lazy"</code> — для картинок ниже первого экрана.</li>
+        <li>Форматы: JPEG для фото, PNG для иконок, SVG для векторных, WebP для современного веба.</li>
+        <li><code>srcset</code> и <code>sizes</code> — для адаптивных версий одной картинки.</li>
+        <li>Картинка-ссылка: оборачивай в <code>&lt;a&gt;</code>, в <code>alt</code> пиши <strong>куда ведёт</strong>.</li>
+        <li>Не используй <code>&lt;img&gt;</code> для декоративных фонов — это к CSS.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 11 · Следующий урок: <em>&lt;figure&gt; и &lt;figcaption&gt;</em>
+    </p>
+
+</body>
+</html>

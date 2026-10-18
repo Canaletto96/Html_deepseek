@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 30 по HTML: итоговый проект — страница-резюме. Собираем всё вместе: семантика, формы, медиа, SEO.">
+    <title>Урок 30. Итоговый проект — страница-резюме</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        .checklist {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px 20px;
+        }
+        .checklist ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            padding: 6px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+        .checklist li::before {
+            content: "☐ ";
+            color: #b5651d;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 30. Итоговый проект — страница-резюме</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: собрать всё, что изучили, в один проект.      -->
+    <!-- Это не «урок с теорией», а ПРАКТИКА.                       -->
+    <!-- ========================================================= -->
+
+    <h2>1. Что будем делать</h2>
+
+    <p>
+        Ты прошёл 29 уроков. Пора собрать всё вместе в <strong>один проект</strong> —
+        страницу-резюме. Это не просто упражнение: такую страницу можно
+        использовать как реальное портфолио.
+    </p>
+
+    <p>Что будет на странице:</p>
+
+    <ul>
+        <li><strong>Шапка</strong> с именем и навигацией.</li>
+        <li><strong>Блок «Обо мне»</strong> — краткое описание.</li>
+        <li><strong>Навыки</strong> — список.</li>
+        <li><strong>Опыт</strong> — статьи/проекты.</li>
+        <li><strong>Контакты</strong> — форма.</li>
+        <li><strong>Подвал</strong> — копирайт.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Не копируй готовый код.</strong> Напиши свой, используя знания
+        из уроков. Шаблон ниже — <strong>ориентир</strong>, а не «скопируй и сдай».
+        Ценность — в том, что ты <em>сам</em> соберёшь всё вместе.
+    </div>
+
+    <h2>2. Что использовать из курса</h2>
+
+    <p>Чек-лист технологий, которые нужно применить:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Урок</th>
+                <th>Что применить</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1–4</td>
+                <td>Каркас: <code>&lt;!DOCTYPE&gt;</code>, <code>&lt;html lang&gt;</code>, <code>&lt;head&gt;</code> с метатегами</td>
+            </tr>
+            <tr>
+                <td>5–9</td>
+                <td>Заголовки, параграфы, форматирование, списки</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Ссылки: навигация, якоря, <code>mailto</code></td>
+            </tr>
+            <tr>
+                <td>11–12</td>
+                <td>Изображения и <code>&lt;figure&gt;</code> с подписями</td>
+            </tr>
+            <tr>
+                <td>17–21</td>
+                <td>Форма обратной связи с валидацией</td>
+            </tr>
+            <tr>
+                <td>22–24</td>
+                <td>Семантические теги, <code>id</code>, <code>class</code></td>
+            </tr>
+            <tr>
+                <td>25</td>
+                <td>Правильные пути к файлам</td>
+            </tr>
+            <tr>
+                <td>28</td>
+                <td>Доступность: <code>alt</code>, <code>label</code>, <code>aria-label</code></td>
+            </tr>
+            <tr>
+                <td>29</td>
+                <td>SEO: <code>title</code>, <code>description</code>, Open Graph</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>3. Структура страницы</h2>
+
+    <p>Используй семантические теги:</p>
+
+    <pre><code>&lt;body&gt;
+├── &lt;header&gt;         ← шапка с именем и навигацией
+│   ├── &lt;h1&gt;        ← имя
+│   └── &lt;nav&gt;       ← навигация по разделам
+│
+├── &lt;main&gt;           ← основное содержимое
+│   ├── &lt;section&gt;    ← «Обо мне»
+│   ├── &lt;section&gt;    ← «Навыки»
+│   ├── &lt;section&gt;    ← «Опыт» (с &lt;article&gt; внутри)
+│   └── &lt;section&gt;    ← «Контакты» (форма)
+│
+└── &lt;footer&gt;         ← подвал</code></pre>
+
+    <h2>4. Мини-требования к проекту</h2>
+
+    <div class="task">
+        <h4>Обязательно</h4>
+        <ul>
+            <li>☐ <code>&lt;!DOCTYPE html&gt;</code> в первой строке.</li>
+            <li>☐ <code>&lt;html lang="ru"&gt;</code>.</li>
+            <li>☐ <code>&lt;meta charset="UTF-8"&gt;</code> и viewport.</li>
+            <li>☐ <code>&lt;title&gt;</code> — до 60 символов.</li>
+            <li>☐ <code>&lt;meta name="description"&gt;</code> — 120–160 символов.</li>
+            <li>☐ Один <code>&lt;h1&gt;</code>.</li>
+            <li>☐ Семантические теги: <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;footer&gt;</code>.</li>
+            <li>☐ Навигация через якоря (<code>#about</code>, <code>#skills</code> и т.д.).</li>
+            <li>☐ Хотя бы один список (<code>&lt;ul&gt;</code> или <code>&lt;ol&gt;</code>).</li>
+            <li>☐ Хотя бы одно изображение с <code>alt</code>.</li>
+            <li>☐ Форма обратной связи: имя, email, сообщение, кнопка.</li>
+            <li>☐ Все поля с <code>&lt;label&gt;</code>.</li>
+            <li>☐ Валидация: <code>required</code>, <code>type="email"</code>.</li>
+            <li>☐ Ссылки с осмысленным текстом.</li>
+            <li>☐ Нет ошибок в <a href="https://validator.w3.org" target="_blank">W3C Validator</a>.</li>
+        </ul>
+
+        <h4>По желанию (для продвинутых)</h4>
+        <ul>
+            <li>☐ OG-теги для соцсетей.</li>
+            <li>☐ <code>&lt;figure&gt;</code> с подписью к фото.</li>
+            <li>☐ <code>&lt;time datetime&gt;</code> для дат.</li>
+            <li>☐ <code>&lt;details&gt;</code> для FAQ.</li>
+            <li>☐ <code>&lt;link rel="canonical"&gt;</code>.</li>
+            <li>☐ <code>aria-label</code> для иконок-кнопок.</li>
+        </ul>
+    </div>
+
+    <h2>5. Шаблон-ориентир</h2>
+
+    <p>
+        Ниже — <strong>пример структуры</strong>. Не копируй, а используй как
+        ориентир. Заполни своим содержимым.
+    </p>
+
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+
+    &lt;title&gt;Иван Иванов — HTML-разработчик&lt;/title&gt;
+    &lt;meta name="description" content="Резюме Ивана Иванова: HTML-разработчик. Навыки, опыт, контакты. Открыт к предложениям."&gt;
+    &lt;meta name="author" content="Иван Иванов"&gt;
+
+    &lt;!-- Open Graph --&gt;
+    &lt;meta property="og:title" content="Иван Иванов — HTML-разработчик"&gt;
+    &lt;meta property="og:description" content="Резюме: навыки, опыт, контакты."&gt;
+    &lt;meta property="og:type" content="profile"&gt;
+
+    &lt;style&gt;
+        body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        header { border-bottom: 2px solid #333; padding-bottom: 20px; }
+        nav ul { list-style: none; padding: 0; display: flex; gap: 16px; }
+        nav a { text-decoration: none; color: #1565c0; }
+        section { margin: 40px 0; }
+        article { border-left: 3px solid #b5651d; padding-left: 16px; margin: 20px 0; }
+        form { display: grid; gap: 12px; max-width: 400px; }
+        label { font-weight: bold; }
+        input, textarea, button { padding: 8px; font-size: 14px; }
+        footer { border-top: 1px solid #ddd; padding-top: 20px; margin-top: 40px; text-align: center; color: #666; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;header&gt;
+        &lt;h1&gt;Иван Иванов&lt;/h1&gt;
+        &lt;p&gt;HTML-разработчик · Москва&lt;/p&gt;
+        &lt;nav&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href="#about"&gt;Обо мне&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#skills"&gt;Навыки&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#experience"&gt;Опыт&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#contact"&gt;Контакты&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+
+        &lt;section id="about"&gt;
+            &lt;h2&gt;Обо мне&lt;/h2&gt;
+            &lt;figure&gt;
+                &lt;img src="photo.jpg" alt="Фото Ивана Иванова" width="150"&gt;
+                &lt;figcaption&gt;Иван Иванов, 2026&lt;/figcaption&gt;
+            &lt;/figure&gt;
+            &lt;p&gt;Начинающий HTML-разработчик. Учусь создавать сайты с нуля.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section id="skills"&gt;
+            &lt;h2&gt;Навыки&lt;/h2&gt;
+            &lt;ul&gt;
+                &lt;li&gt;HTML5 — семантическая разметка&lt;/li&gt;
+                &lt;li&gt;Формы и валидация&lt;/li&gt;
+                &lt;li&gt;Доступность (a11y)&lt;/li&gt;
+                &lt;li&gt;Основы SEO&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/section&gt;
+
+        &lt;section id="experience"&gt;
+            &lt;h2&gt;Опыт&lt;/h2&gt;
+
+            &lt;article&gt;
+                &lt;h3&gt;Личный блог о кофе&lt;/h3&gt;
+                &lt;time datetime="2025-09-01"&gt;Сентябрь 2025 — настоящее время&lt;/time&gt;
+                &lt;p&gt;Создал статический сайт с рецептами. HTML, CSS, адаптивная вёрстка.&lt;/p&gt;
+            &lt;/article&gt;
+
+            &lt;article&gt;
+                &lt;h3&gt;Курс «HTML для начинающих»&lt;/h3&gt;
+                &lt;time datetime="2025-06-01"&gt;Июнь 2025&lt;/time&gt;
+                &lt;p&gt;Прошёл 30 уроков, сделал итоговый проект.&lt;/p&gt;
+            &lt;/article&gt;
+        &lt;/section&gt;
+
+        &lt;section id="contact"&gt;
+            &lt;h2&gt;Контакты&lt;/h2&gt;
+            &lt;p&gt;Email: &lt;a href="mailto:ivan@example.com"&gt;ivan@example.com&lt;/a&gt;&lt;/p&gt;
+
+            &lt;form action="https://httpbin.org/post" method="post"&gt;
+                &lt;label for="name"&gt;Ваше имя:&lt;/label&gt;
+                &lt;input type="text" id="name" name="name" required&gt;
+
+                &lt;label for="email"&gt;Email:&lt;/label&gt;
+                &lt;input type="email" id="email" name="email" required&gt;
+
+                &lt;label for="message"&gt;Сообщение:&lt;/label&gt;
+                &lt;textarea id="message" name="message" rows="4" required&gt;&lt;/textarea&gt;
+
+                &lt;button type="submit"&gt;Отправить&lt;/button&gt;
+            &lt;/form&gt;
+        &lt;/section&gt;
+
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+        &lt;p&gt;&amp;copy; 2026 Иван Иванов. Сделано на чистом HTML.&lt;/p&gt;
+    &lt;/footer&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <h2>6. Пошаговый план работы</h2>
+
+    <ol>
+        <li><strong>Начни с каркаса.</strong> Скопируй шаблон из урока 3 (DOCTYPE + head + body).</li>
+        <li><strong>Заполни <code>&lt;head&gt;</code>.</strong> Title, description, OG-теги.</li>
+        <li><strong>Сделай шапку.</strong> <code>&lt;header&gt;</code> + <code>&lt;h1&gt;</code> + <code>&lt;nav&gt;</code> с якорями.</li>
+        <li><strong>Добавь секции.</strong> <code>&lt;main&gt;</code> → 4 <code>&lt;section&gt;</code>.</li>
+        <li><strong>Наполни контентом.</strong> Обо мне, навыки, опыт, контакты.</li>
+        <li><strong>Добавь форму.</strong> С <code>&lt;label&gt;</code>, <code>required</code>, <code>type="email"</code>.</li>
+        <li><strong>Добавь подвал.</strong> <code>&lt;footer&gt;</code> с копирайтом.</li>
+        <li><strong>Проверь в браузере.</strong> Открой, полистай, покликай.</li>
+        <li><strong>Проверь валидатором.</strong> W3C → исправь ошибки.</li>
+        <li><strong>Проверь в DevTools.</strong> F12 → Elements → посмотри структуру.</li>
+        <li><strong>Проверь клавиатурой.</strong> Tab по всем ссылкам и полям.</li>
+        <li><strong>Загрузи на GitHub Pages или Netlify.</strong> Получи ссылку.</li>
+    </ol>
+
+    <h2>7. Чек-лист перед «сдачей»</h2>
+
+    <div class="checklist">
+        <ul>
+            <li>Каркас: DOCTYPE, html lang, head с charset и viewport</li>
+            <li>Title — до 60 символов, уникальный</li>
+            <li>Meta description — 120–160 символов</li>
+            <li>Один h1 на страницу</li>
+            <li>Иерархия заголовков: h1 → h2 → h3 без пропусков</li>
+            <li>Семантические теги: header, nav, main, section, article, footer</li>
+            <li>Навигация с якорями работает</li>
+            <li>Все ссылки с осмысленным текстом</li>
+            <li>Все img с alt (декоративные — с alt="")</li>
+            <li>Все поля формы с label</li>
+            <li>Валидация: required, type="email", minlength</li>
+            <li>Форма отправляется (проверь через httpbin)</li>
+            <li>Все id уникальны</li>
+            <li>Все теги закрыты</li>
+            <li>Нет ошибок в W3C Validator</li>
+            <li>DevTools → Console: нет красных ошибок</li>
+            <li>DevTools → Network: нет 404</li>
+            <li>Работает с клавиатуры (Tab, Enter)</li>
+            <li>Lighthouse Accessibility ≥ 90</li>
+            <li>Страница адаптивна (открой на телефоне)</li>
+        </ul>
+    </div>
+
+    <h2>8. Что делать после курса</h2>
+
+    <p>Ты прошёл HTML. Что дальше:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тема</th>
+                <th>Зачем</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>CSS</strong></td>
+                <td>Оформление: цвета, шрифты, сетки, анимации</td>
+            </tr>
+            <tr>
+                <td><strong>JavaScript</strong></td>
+                <td>Интерактивность: формы, кнопки, динамика</td>
+            </tr>
+            <tr>
+                <td><strong>Git и GitHub</strong></td>
+                <td>Контроль версий, публикация проектов</td>
+            </tr>
+            <tr>
+                <td><strong>Адаптивная вёрстка</strong></td>
+                <td>Media queries, flexbox, grid</td>
+            </tr>
+            <tr>
+                <td><strong>Фреймворки</strong></td>
+                <td>React, Vue, Angular — когда освоишь базу</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Совет:</strong> не пытайся выучить всё сразу. HTML — это
+        <strong>фундамент</strong>. Освой его до автоматизма, потом иди дальше.
+        Практика важнее теории: делай проекты, даже маленькие.
+    </div>
+
+    <h2>9. Идеи для дальнейших проектов</h2>
+
+    <ul>
+        <li><strong>Страница рецепта</strong> — с шагами, ингредиентами, фото.</li>
+        <li><strong>Страница товара</strong> — с ценой, описанием, характеристиками.</li>
+        <li><strong>FAQ-страница</strong> — с <code>&lt;details&gt;</code>.</li>
+        <li><strong>Портфолио</strong> — с проектами в <code>&lt;article&gt;</code>.</li>
+        <li><strong>Лендинг</strong> — с заголовком, преимуществами, CTA-кнопкой.</li>
+        <li><strong>Блог</strong> — с несколькими статьями.</li>
+        <li><strong>Страница «О компании»</strong> — с командой, историей, миссией.</li>
+    </ul>
+
+    <h2>10. Финальное задание</h2>
+
+    <div class="task">
+        <p><strong>Собери свой проект.</strong></p>
+        <ol>
+            <li>Создай файл <code>resume.html</code> в папке <code>my-portfolio/</code>.</li>
+            <li>Напиши свой код (не копируй шаблон — используй как ориентир).</li>
+            <li>Пройди чек-лист из раздела 7.</li>
+            <li>Проверь валидатором.</li>
+            <li>Загрузи на GitHub Pages или Netlify.</li>
+            <li>Получи ссылку, открой на телефоне.</li>
+            <li>Если всё работает — <strong>ты прошёл курс HTML</strong>! 🎉</li>
+        </ol>
+
+        <p><strong>Дополнительно (по желанию):</strong></p>
+        <ul>
+            <li>Добавь CSS для красивого оформления.</li>
+            <li>Сделай страницу адаптивной (media queries).</li>
+            <li>Добавь анимации (CSS).</li>
+            <li>Сделай форму с реальной отправкой (Formspree).</li>
+        </ul>
+    </div>
+
+    <h2>11. Что ты теперь умеешь</h2>
+
+    <p>После 30 уроков ты:</p>
+
+    <ul>
+        <li>✅ Понимаешь структуру HTML-документа.</li>
+        <li>✅ Знаешь все основные теги: заголовки, параграфы, списки, ссылки, медиа.</li>
+        <li>✅ Умеешь строить формы с валидацией.</li>
+        <li>✅ Используешь семантические теги.</li>
+        <li>✅ Делаешь страницы доступными (a11y).</li>
+        <li>✅ Понимаешь основы SEO.</li>
+        <li>✅ Можешь проверить код через DevTools и W3C Validator.</li>
+        <li>✅ Умеешь публиковать сайт на GitHub Pages / Netlify.</li>
+        <li>✅ Можешь создать полноценную страницу с нуля.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Поздравляю!</strong> Ты прошёл курс HTML. Это только начало пути.
+        Впереди — CSS, JavaScript, фреймворки. Но база у тебя уже есть.
+        Практикуйся каждый день, делай проекты, не бойся ошибок. Удачи! 🚀
+    </div>
+
+    <h2>12. Что запомнить из урока</h2>
+
+    <ul>
+        <li><strong>Теория без практики не работает.</strong> Сделай свой проект.</li>
+        <li><strong>Не копируй</strong> — пиши сам. Так запоминается.</li>
+        <li><strong>Проверяй</strong> всё: валидатор, DevTools, клавиатура, телефон.</li>
+        <li><strong>HTML — фундамент.</strong> Дальше — CSS и JavaScript.</li>
+        <li><strong>Практика</strong> важнее идеального знания теории.</li>
+        <li><strong>Не бойся ошибок.</strong> Все ошибаются, это часть обучения.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 30 · Конец основного курса HTML 🎉
+    </p>
+
+</body>
+</html>

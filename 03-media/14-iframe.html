@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 14 по HTML: встраивание контента — iframe, embed, object. Встраивание YouTube, карт, sandbox, безопасность.">
+    <title>Урок 14. Встраивание контента</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        iframe {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 14. Встраивание контента</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: освоить iframe (главный тег для встраивания), -->
+    <!-- узнать про embed и object, понять правила безопасности.    -->
+    <!-- ========================================================= -->
+
+    <h2>1. Что такое встраивание</h2>
+
+    <p>
+        Иногда нужно показать на странице <strong>чужой контент</strong>:
+        видео с YouTube, карту из Google Maps, пост из Telegram, оплату из Stripe.
+    </p>
+
+    <p>
+        Можно либо <em>скопировать</em> этот контент к себе (невозможно для интерактива),
+        либо <em>встроить</em> чужую страницу прямо в свою. Для второго есть три тега:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Для чего</th>
+                <th>Когда использовать</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;iframe&gt;</code></td>
+                <td>Встроить целую HTML-страницу</td>
+                <td><strong>99% случаев</strong> — YouTube, карты, виджеты</td>
+            </tr>
+            <tr>
+                <td><code>&lt;embed&gt;</code></td>
+                <td>Встроить внешний ресурс (PDF, Flash когда-то)</td>
+                <td>Редко: PDF, SVG</td>
+            </tr>
+            <tr>
+                <td><code>&lt;object&gt;</code></td>
+                <td>Универсальный контейнер</td>
+                <td>Почти устарел, для PDF иногда</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Правило:</strong> если сомневаешься — используй <code>&lt;iframe&gt;</code>.
+        Остальные два — редкость в современном вебе.
+    </div>
+
+    <h2>2. Тег &lt;iframe&gt; — окно в другую страницу</h2>
+
+    <p>
+        <code>&lt;iframe&gt;</code> (inline frame) — «рамка внутри страницы». Загружает
+        другую HTML-страницу в прямоугольную область.
+    </p>
+
+    <pre><code>&lt;iframe src="https://example.com" width="600" height="400"&gt;&lt;/iframe&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <iframe src="https://example.com" width="600" height="200" title="Пример сайта"></iframe>
+    </div>
+
+    <h3>Атрибуты &lt;iframe&gt;</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>src</code></td>
+                <td>URL</td>
+                <td>Адрес встраиваемой страницы</td>
+            </tr>
+            <tr>
+                <td><code>width</code> / <code>height</code></td>
+                <td>Число (px) или %</td>
+                <td>Размеры окна</td>
+            </tr>
+            <tr>
+                <td><code>title</code></td>
+                <td>Текст</td>
+                <td>Обязателен для доступности! Описание содержимого</td>
+            </tr>
+            <tr>
+                <td><code>loading</code></td>
+                <td><code>eager</code>, <code>lazy</code></td>
+                <td>Ленивая загрузка</td>
+            </tr>
+            <tr>
+                <td><code>allow</code></td>
+                <td>Разрешения</td>
+                <td>Что можно встроенной странице (камера, микрофон и т.д.)</td>
+            </tr>
+            <tr>
+                <td><code>allowfullscreen</code></td>
+                <td>булев</td>
+                <td>Разрешить полноэкранный режим</td>
+            </tr>
+            <tr>
+                <td><code>sandbox</code></td>
+                <td>Флаги безопасности</td>
+                <td>Ограничения для встроенного контента</td>
+            </tr>
+            <tr>
+                <td><code>referrerpolicy</code></td>
+                <td><code>no-referrer</code> и др.</td>
+                <td>Что передавать в referer</td>
+            </tr>
+            <tr>
+                <td><code>srcdoc</code></td>
+                <td>HTML-код</td>
+                <td>Вставить HTML напрямую, а не URL</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="warn">
+        <strong>Обязательно указывай <code>title</code>.</strong> Screen reader'ы читают
+        его, чтобы пользователь понял, что внутри рамки. Без title — плохо для доступности.
+    </div>
+
+    <h2>3. Встраивание YouTube</h2>
+
+    <p>
+        Самый частый случай. На любом видео YouTube есть кнопка «Поделиться» →
+        «Встроить». Ты получаешь готовый код:
+    </p>
+
+    <pre><code>&lt;iframe width="560" height="315"
+        src="https://www.youtube.com/embed/VIDEO_ID"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen&gt;
+&lt;/iframe&gt;</code></pre>
+
+    <p>Разбор:</p>
+    <ul>
+        <li><code>VIDEO_ID</code> — идентификатор видео (например, <code>dQw4w9WgXcQ</code>).</li>
+        <li><code>allowfullscreen</code> — кнопка «на весь экран».</li>
+        <li><code>allow</code> — список разрешений (autoplay, микрофон и т.д.).</li>
+    </ul>
+
+    <div class="demo">
+        <div class="demo-label">Пример (замени VIDEO_ID на своё):</div>
+        <iframe width="560" height="315"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+    </div>
+
+    <div class="note">
+        <strong>Ленивая загрузка YouTube:</strong> добавь <code>loading="lazy"</code> —
+        видео загрузится только когда пользователь до него доскроллит. Экономит трафик и ускоряет сайт.
+    </div>
+
+    <h2>4. Встраивание Google Maps</h2>
+
+    <p>
+        На Google Maps: найди место → «Поделиться» → «Встроить карту». Получишь код:
+    </p>
+
+    <pre><code>&lt;iframe src="https://www.google.com/maps/embed?pb=..."
+        width="600" height="450" style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Карта: Москва"&gt;
+&lt;/iframe&gt;</code></pre>
+
+    <div class="note">
+        <strong>Совет:</strong> для карт всегда используй <code>loading="lazy"</code> —
+        карты тяжёлые, не нужно грузить их сразу.
+    </div>
+
+    <h2>5. Встраивание других сервисов</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Сервис</th>
+                <th>Как встроить</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>YouTube</td>
+                <td>«Поделиться» → «Встроить»</td>
+            </tr>
+            <tr>
+                <td>Vimeo</td>
+                <td>То же самое</td>
+            </tr>
+            <tr>
+                <td>Google Maps</td>
+                <td>«Поделиться» → «Встроить карту»</td>
+            </tr>
+            <tr>
+                <td>Яндекс.Карты</td>
+                <td>«Поделиться» → «Встроить»</td>
+            </tr>
+            <tr>
+                <td>Telegram-пост</td>
+                <td><code>https://t.me/channel/123?embed=1</code></td>
+            </tr>
+            <tr>
+                <td>Twitter/X</td>
+                <td>Через официальный виджет-код</td>
+            </tr>
+            <tr>
+                <td>Spotify</td>
+                <td>«...» → «Share» → «Embed track»</td>
+            </tr>
+            <tr>
+                <td>CodePen</td>
+                <td>Кнопка «Embed» внизу</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>6. Атрибут sandbox — безопасность</h2>
+
+    <p>
+        <code>sandbox</code> — <strong>песочница</strong>. Ограничивает, что может делать
+        встроенная страница. По умолчанию (если указать пустой <code>sandbox=""</code>)
+        <strong>запрещено всё</strong>.
+    </p>
+
+    <p>Чтобы что-то разрешить, добавляй флаги:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Флаг</th>
+                <th>Что разрешает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>allow-scripts</code></td>
+                <td>Выполнять JavaScript</td>
+            </tr>
+            <tr>
+                <td><code>allow-forms</code></td>
+                <td>Отправлять формы</td>
+            </tr>
+            <tr>
+                <td><code>allow-same-origin</code></td>
+                <td>Считать контент «своим» доменом</td>
+            </tr>
+            <tr>
+                <td><code>allow-popups</code></td>
+                <td>Открывать новые окна</td>
+            </tr>
+            <tr>
+                <td><code>allow-modals</code></td>
+                <td>Alert, confirm, prompt</td>
+            </tr>
+            <tr>
+                <td><code>allow-top-navigation</code></td>
+                <td>Управлять URL верхнего окна</td>
+            </tr>
+            <tr>
+                <td><code>allow-downloads</code></td>
+                <td>Скачивать файлы</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;iframe src="untrusted.html"
+        sandbox="allow-scripts allow-forms"
+        title="Форма обратной связи"&gt;
+&lt;/iframe&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Осторожно:</strong> <code>allow-scripts</code> + <code>allow-same-origin</code>
+        вместе — опасная комбинация. Встроенная страница сможет делать почти всё, что хочет,
+        включая доступ к cookies твоего сайта. Не используй для недоверенного контента.
+    </div>
+
+    <h2>7. Атрибут allow — разрешения</h2>
+
+    <p>
+        <code>allow</code> управляет доступом к API браузера:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Значение</th>
+                <th>Что разрешает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>autoplay</code></td>
+                <td>Автовоспроизведение медиа</td>
+            </tr>
+            <tr>
+                <td><code>camera</code></td>
+                <td>Доступ к камере</td>
+            </tr>
+            <tr>
+                <td><code>microphone</code></td>
+                <td>Доступ к микрофону</td>
+            </tr>
+            <tr>
+                <td><code>geolocation</code></td>
+                <td>Геолокация</td>
+            </tr>
+            <tr>
+                <td><code>fullscreen</code></td>
+                <td>Полноэкранный режим</td>
+            </tr>
+            <tr>
+                <td><code>clipboard-write</code></td>
+                <td>Запись в буфер обмена</td>
+            </tr>
+            <tr>
+                <td><code>picture-in-picture</code></td>
+                <td>Картинка-в-картинке (видео)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;iframe src="video.html"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowfullscreen
+        title="Видео"&gt;
+&lt;/iframe&gt;</code></pre>
+
+    <h2>8. Ленивая загрузка iframe</h2>
+
+    <p>
+        <code>loading="lazy"</code> откладывает загрузку, пока пользователь не приблизится:
+    </p>
+
+    <pre><code>&lt;iframe src="https://www.youtube.com/embed/VIDEO_ID"
+        width="560" height="315"
+        loading="lazy"
+        title="Видео"
+        allowfullscreen&gt;
+&lt;/iframe&gt;</code></pre>
+
+    <p>
+        <strong>Обязательно</strong> для карт, видео, виджетов — они тяжёлые.
+        Для критичного контента первого экрана — оставляй <code>eager</code>.
+    </p>
+
+    <h2>9. Тег &lt;embed&gt;</h2>
+
+    <p>
+        <code>&lt;embed&gt;</code> — <strong>одиночный</strong> тег для встраивания
+        внешнего ресурса: PDF, SVG, аудио, видео.
+    </p>
+
+    <pre><code>&lt;embed src="document.pdf" type="application/pdf" width="600" height="400"&gt;</code></pre>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>src</code></td>
+                <td>URL</td>
+                <td>Адрес ресурса</td>
+            </tr>
+            <tr>
+                <td><code>type</code></td>
+                <td>MIME-тип</td>
+                <td><code>application/pdf</code>, <code>image/svg+xml</code> и др.</td>
+            </tr>
+            <tr>
+                <td><code>width</code> / <code>height</code></td>
+                <td>Число (px)</td>
+                <td>Размеры</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Когда использовать embed:</strong> почти никогда. Для PDF лучше
+        <code>&lt;iframe&gt;</code>, для SVG — <code>&lt;img&gt;</code>,
+        для видео — <code>&lt;video&gt;</code>. Embed — легаси-тег.
+    </div>
+
+    <h2>10. Тег &lt;object&gt;</h2>
+
+    <p>
+        <code>&lt;object&gt;</code> — универсальный контейнер. Парный тег, может содержать
+        fallback-контент.
+    </p>
+
+    <pre><code>&lt;object data="document.pdf" type="application/pdf" width="600" height="400"&gt;
+    &lt;p&gt;Ваш браузер не поддерживает PDF.
+       &lt;a href="document.pdf"&gt;Скачать файл&lt;/a&gt;.&lt;/p&gt;
+&lt;/object&gt;</code></pre>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>data</code></td>
+                <td>URL ресурса (аналог src)</td>
+            </tr>
+            <tr>
+                <td><code>type</code></td>
+                <td>MIME-тип</td>
+            </tr>
+            <tr>
+                <td><code>width</code> / <code>height</code></td>
+                <td>Размеры</td>
+            </tr>
+            <tr>
+                <td><code>name</code></td>
+                <td>Имя для доступа из JavaScript</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>11. Сравнение трёх тегов</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th><code>&lt;iframe&gt;</code></th>
+                <th><code>&lt;embed&gt;</code></th>
+                <th><code>&lt;object&gt;</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Для HTML-страниц</td>
+                <td>✅ Да</td>
+                <td>❌ Нет</td>
+                <td>❌ Нет</td>
+            </tr>
+            <tr>
+                <td>Fallback-контент</td>
+                <td>✅ Да (между тегами)</td>
+                <td>❌ Нет</td>
+                <td>✅ Да</td>
+            </tr>
+            <tr>
+                <td>Песочница (sandbox)</td>
+                <td>✅ Да</td>
+                <td>❌ Нет</td>
+                <td>❌ Нет</td>
+            </tr>
+            <tr>
+                <td>Актуальность</td>
+                <td>Основной</td>
+                <td>Легаси</td>
+                <td>Легаси</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>12. Проблемы и ограничения iframe</h2>
+
+    <h3>1. Некоторые сайты запрещают встраивание</h3>
+
+    <p>
+        Через заголовок <code>X-Frame-Options: DENY</code> или
+        <code>Content-Security-Policy: frame-ancestors 'none'</code> сайт может
+        запретить встраивание. Ты увидишь пустую рамку или сообщение об ошибке.
+    </p>
+
+    <h3>2. Медленная загрузка</h3>
+
+    <p>iframe грузит <em>всю</em> встроенную страницу — со всеми её ресурсами. Решение — <code>loading="lazy"</code>.</p>
+
+    <h3>3. Сложно стилизовать содержимое</h3>
+
+    <p>
+        CSS твоей страницы <strong>не работает</strong> внутри iframe — там свой документ.
+        Изменить оформление чужого сайта нельзя (это и хорошо для безопасности).
+    </p>
+
+    <h3>4. SEO</h3>
+
+    <p>Поисковики плохо индексируют контент внутри iframe. Не используй для основного содержимого.</p>
+
+    <h3>5. Уязвимости</h3>
+
+    <ul>
+        <li><strong>Clickjacking</strong> — злоумышленник накладывает невидимый iframe поверх кнопки на твоём сайте.</li>
+        <li><strong>XSS через iframe</strong> — если встроить недоверенный контент без sandbox.</li>
+        <li><strong>Утечка через <code>window.opener</code></strong> — если открыть iframe в новом окне без <code>noopener</code>.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Защита:</strong> всегда используй <code>sandbox</code> для недоверенного
+        контента, <code>referrerpolicy</code> для контроля referer, <code>allow</code>
+        для точных разрешений.
+    </div>
+
+    <h2>13. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Забыть <code>title</code></td>
+                <td>Плохо для screen reader'ов</td>
+            </tr>
+            <tr>
+                <td>Не использовать <code>loading="lazy"</code> для карт/видео</td>
+                <td>Тормозит загрузку страницы</td>
+            </tr>
+            <tr>
+                <td>Встраивать недоверенный контент без sandbox</td>
+                <td>Уязвимости XSS</td>
+            </tr>
+            <tr>
+                <td>Использовать iframe для основного контента</td>
+                <td>Плохо для SEO и доступности</td>
+            </tr>
+            <tr>
+                <td>Указывать только <code>width</code> без <code>height</code></td>
+                <td>Прыжки контента при загрузке</td>
+            </tr>
+            <tr>
+                <td>Забыть <code>allowfullscreen</code> для видео</td>
+                <td>Пользователь не сможет развернуть на весь экран</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>14. Готовые шаблоны</h2>
+
+    <h3>YouTube (ленивая загрузка)</h3>
+
+    <pre><code>&lt;iframe width="560" height="315"
+        src="https://www.youtube.com/embed/VIDEO_ID"
+        title="Описание видео"
+        loading="lazy"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen&gt;
+&lt;/iframe&gt;</code></pre>
+
+    <h3>Google Maps</h3>
+
+    <pre><code>&lt;iframe src="https://www.google.com/maps/embed?pb=..."
+        width="600" height="450"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Карта"&gt;
+&lt;/iframe&gt;</code></pre>
+
+    <h3>Адаптивный iframe (16:9)</h3>
+
+    <pre><code>&lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"&gt;
+    &lt;iframe src="https://www.youtube.com/embed/VIDEO_ID"
+            style="position: absolute; top:0; left:0; width:100%; height:100%;"
+            title="Видео"
+            frameborder="0"
+            allowfullscreen&gt;
+    &lt;/iframe&gt;
+&lt;/div&gt;</code></pre>
+
+    <p>Это классический приём для адаптивных видео — они растягиваются по ширине контейнера, сохраняя пропорции 16:9.</p>
+
+    <div class="demo">
+        <div class="demo-label">Результат (адаптивное видео 16:9):</div>
+        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                    style="position: absolute; top:0; left:0; width:100%; height:100%; border: 0;"
+                    title="Видео"
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <h2>15. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Простой iframe»</strong></p>
+        <p>Создай файл <code>14-practice.html</code>. Вставь:</p>
+        <ul>
+            <li>iframe с сайтом <code>https://example.com</code> (600×400).</li>
+            <li>Не забудь <code>title</code>.</li>
+        </ul>
+
+        <p><strong>Задание 2. «YouTube»</strong></p>
+        <ul>
+            <li>Найди на YouTube любое видео, скопируй код встраивания.</li>
+            <li>Добавь <code>loading="lazy"</code> к этому iframe.</li>
+        </ul>
+
+        <p><strong>Задание 3. «Адаптивное видео»</strong></p>
+        <ul>
+            <li>Оберни iframe в <code>&lt;div&gt;</code> с <code>padding-bottom: 56.25%</code>.</li>
+            <li>Проверь, что при сужении окна видео уменьшается, сохраняя пропорции 16:9.</li>
+        </ul>
+
+        <p><strong>Задание 4. «Карта»</strong></p>
+        <ul>
+            <li>Открой Google Maps, найди свой город.</li>
+            <li>«Поделиться» → «Встроить карту» → скопируй код.</li>
+            <li>Вставь на страницу с <code>loading="lazy"</code>.</li>
+        </ul>
+
+        <p><strong>Задание 5. «Сломай и почини»</strong></p>
+        <ul>
+            <li>Попробуй встроить <code>https://google.com</code> — увидишь отказ (заголовок <code>X-Frame-Options</code>).</li>
+            <li>Добавь <code>sandbox=""</code> (пустой) — увидишь, что внутри iframe перестало работать.</li>
+            <li>Убери <code>title</code> — проверь через валидатор, увидишь предупреждение.</li>
+        </ul>
+    </div>
+
+    <h2>16. Что запомнить из урока</h2>
+
+    <ul>
+        <li><code>&lt;iframe&gt;</code> — основной тег для встраивания. 99% случаев — он.</li>
+        <li><code>&lt;embed&gt;</code> и <code>&lt;object&gt;</code> — легаси, использовать почти не нужно.</li>
+        <li>Для YouTube, карт, виджетов — <strong>всегда</strong> <code>loading="lazy"</code>.</li>
+        <li><strong>Обязательно</strong> добавляй <code>title</code> — для screen reader'ов.</li>
+        <li><code>allowfullscreen</code> — для видео, чтобы можно было развернуть.</li>
+        <li><code>allow</code> — список разрешений (autoplay, camera, microphone и т.д.).</li>
+        <li><code>sandbox</code> — песочница для безопасности. Обязательна для недоверенного контента.</li>
+        <li>Некоторые сайты запрещают встраивание (<code>X-Frame-Options</code>).</li>
+        <li>CSS твоей страницы не работает внутри iframe.</li>
+        <li>Адаптивное видео: обёртка с <code>padding-bottom: 56.25%</code> + iframe с абсолютным позиционированием.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 14 · Следующий урок: <em>Таблицы — &lt;table&gt;, &lt;tr&gt;, &lt;td&gt;, &lt;th&gt;</em>
+    </p>
+
+</body>
+</html>

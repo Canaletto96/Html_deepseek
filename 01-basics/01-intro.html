@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 1. Что такое HTML и как работает браузер</title>
+
+    <style>
+        /* Немного стилей, чтобы урок было приятно читать.
+           CSS мы будем учить отдельно — сейчас просто не обращай внимания. */
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+
+        h1 {
+            color: #b5651d;
+            border-bottom: 3px solid #b5651d;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 40px;
+        }
+
+        h3 {
+            color: #555;
+        }
+
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Урок 1. Что такое HTML и как работает браузер</h1>
+
+    <!-- ============================================================= -->
+    <!-- ВСЁ, ЧТО НИЖЕ — ЭТО И ЕСТЬ УРОК.                              -->
+    <!-- Читай его прямо в браузере. Открывай исходник (Ctrl+U)       -->
+    <!-- и сравнивай код с тем, что видишь на странице.               -->
+    <!-- ============================================================= -->
+
+    <h2>1. Что такое HTML?</h2>
+
+    <p>
+        <strong>HTML</strong> (HyperText Markup Language — «язык гипертекстовой разметки»)
+        — это <em>не язык программирования</em>, а язык <strong>разметки</strong>.
+    </p>
+
+    <p>
+        Разница простая: языки программирования описывают <em>логику</em>
+        («если X, то сделай Y»), а HTML описывает <em>структуру</em>
+        («здесь заголовок, здесь абзац, здесь картинка»).
+    </p>
+
+    <div class="note">
+        <strong>Аналогия.</strong> Представь, что HTML — это каркас здания:
+        стены, двери, окна, этажи. А CSS — это отделка (обои, плитка),
+        JavaScript — это электрика и водопровод (всё, что «живёт»).
+        Сначала всегда строят каркас.
+    </div>
+
+    <h2>2. Как браузер превращает код в страницу</h2>
+
+    <p>Когда ты открываешь HTML-файл, происходит примерно это:</p>
+
+    <ol>
+        <li>Браузер читает файл <strong>сверху вниз</strong>.</li>
+        <li>Находит в нём <strong>теги</strong> (специальные пометки в угловых скобках <code>&lt;...&gt;</code>).</li>
+        <li>Строит из них <strong>DOM-дерево</strong> — внутреннюю модель страницы.</li>
+        <li>Рисует эту модель на экране.</li>
+    </ol>
+
+    <p>
+        DOM (Document Object Model) — это как «скелет» страницы в памяти браузера.
+        Позже мы будем с ним работать через JavaScript, а пока просто знай, что он есть.
+    </p>
+
+    <h2>3. Теги. Первое знакомство</h2>
+
+    <p>
+        <strong>Тег</strong> — это команда разметки. Он записывается в угловых скобках.
+        Большинство тегов <strong>парные</strong>: есть открывающий и закрывающий.
+    </p>
+
+    <pre><code>&lt;p&gt;Это параграф&lt;/p&gt;</code></pre>
+
+    <ul>
+        <li><code>&lt;p&gt;</code> — открывающий тег (начало элемента)</li>
+        <li><code>Это параграф</code> — содержимое</li>
+        <li><code>&lt;/p&gt;</code> — закрывающий тег (обрати внимание на слэш <code>/</code>)</li>
+    </ul>
+
+    <p>Всё вместе — это <strong>элемент</strong>.</p>
+
+    <div class="note">
+        Есть и <strong>одиночные</strong> теги — у них нет содержимого и закрывающей части.
+        Например, <code>&lt;br&gt;</code> (перенос строки) или <code>&lt;img&gt;</code> (картинка).
+        Раньше их писали как <code>&lt;br /&gt;</code>, и этот вариант до сих пор валиден.
+    </div>
+
+    <h2>4. Обязательная структура HTML-документа</h2>
+
+    <p>
+        Любая правильная HTML-страница выглядит так (это <strong>каркас</strong>,
+        который ты будешь писать в начале каждого файла):
+    </p>
+
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Заголовок вкладки&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Привет, мир!&lt;/h1&gt;
+    &lt;p&gt;Это моя первая страница.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <p>Разберём каждую строку:</p>
+
+    <h3><code>&lt;!DOCTYPE html&gt;</code></h3>
+    <p>
+        Это не тег, а <strong>инструкция браузеру</strong>: «это HTML5».
+        Пишется самой первой строкой. Без неё браузер может включить «режим совместимости»
+        со старыми сайтами, и страница будет выглядеть странно.
+    </p>
+
+    <h3><code>&lt;html lang="ru"&gt;</code></h3>
+    <p>
+        Корневой тег — в него вложено <em>всё</em> остальное.
+        Атрибут <code>lang="ru"</code> говорит, что язык страницы — русский
+        (важно для поисковиков и screen-reader'ов).
+    </p>
+
+    <h3><code>&lt;head&gt;</code></h3>
+    <p>
+        «Голова» документа. Здесь лежит <strong>служебная информация</strong>,
+        которую пользователь не видит напрямую: кодировка, заголовок вкладки,
+        подключение стилей.
+    </p>
+    <ul>
+        <li><code>&lt;meta charset="UTF-8"&gt;</code> — кодировка. Без неё русские буквы превратятся в «крякозябры».
+        </li>
+        <li><code>&lt;title&gt;</code> — текст, который виден на вкладке браузера.</li>
+    </ul>
+
+    <h3><code>&lt;body&gt;</code></h3>
+    <p>
+        «Тело» документа. Здесь лежит <strong>всё, что видно</strong> на странице:
+        текст, картинки, кнопки.
+    </p>
+
+    <div class="note">
+        <strong>Простая аналогия:</strong> <code>&lt;head&gt;</code> — это мозг (служебное),
+        <code>&lt;body&gt;</code> — это тело (видимое).
+    </div>
+
+    <h2>5. Вложенность</h2>
+
+    <p>
+        Теги вкладываются друг в друга как матрёшки. Важное правило:
+        <strong>закрывающий тег должен идти в обратном порядке</strong>.
+    </p>
+
+    <pre><code>&lt;!-- ПРАВИЛЬНО --&gt;
+&lt;p&gt;Это &lt;strong&gt;важный&lt;/strong&gt; текст&lt;/p&gt;
+
+&lt;!-- НЕПРАВИЛЬНО --&gt;
+&lt;p&gt;Это &lt;strong&gt;важный&lt;/p&gt;&lt;/strong&gt;</code></pre>
+
+    <p>
+        Представь, что открыл две коробки: большую и маленькую.
+        Закрыть их нужно тоже в обратном порядке — сначала маленькую,
+        потом большую. Не наоборот.
+    </p>
+
+    <h2>6. Отступы (важно для тебя, не для браузера)</h2>
+
+    <p>
+        Браузеру всё равно, сколько пробелов ты поставишь. Но <strong>тебе</strong> — нет.
+        Вложенные теги принято сдвигать на 2 или 4 пробела (Tab).
+    </p>
+
+    <pre><code>&lt;body&gt;
+    &lt;h1&gt;Заголовок&lt;/h1&gt;
+    &lt;p&gt;
+        Абзац с &lt;strong&gt;важным&lt;/strong&gt; словом.
+    &lt;/p&gt;
+&lt;/body&gt;</code></pre>
+
+    <p>
+        Так код читается в разы легче. В VS Code можно настроить
+        автоформатирование: <strong>Shift + Alt + F</strong>.
+    </p>
+
+    <h2>7. Комментарии</h2>
+
+    <p>
+        Комментарий — это заметка для себя или других разработчиков.
+        Браузер её полностью игнорирует.
+    </p>
+
+    <pre><code>&lt;!-- Это комментарий, его не видно на странице --&gt;</code></pre>
+
+    <p>
+        Комментарии помогают помечать блоки, временно «выключать» куски кода
+        и оставлять пояснения. Пользуйся ими — это признак хорошего тона.
+    </p>
+
+    <h2>8. Пример: смотрим на живой элемент</h2>
+
+    <p>Ниже — «живая» демонстрация. Это реальный HTML-код прямо в этом уроке.</p>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <h3>Это заголовок h3</h3>
+        <p>А это <strong>параграф</strong> с <em>курсивным</em> словом.</p>
+    </div>
+
+    <p>А вот код, который ты видишь выше:</p>
+
+    <pre><code>&lt;h3&gt;Это заголовок h3&lt;/h3&gt;
+&lt;p&gt;А это &lt;strong&gt;параграф&lt;/strong&gt; с &lt;em&gt;курсивным&lt;/em&gt; словом.&lt;/p&gt;</code></pre>
+
+    <div class="note">
+        <strong>Совет:</strong> открой этот файл в VS Code и в браузере одновременно.
+        Изменяй код → сохраняй (Ctrl+S) → обновляй браузер (F5).
+        Так ты сразу видишь, что делает каждая строка.
+    </div>
+
+    <h2>9. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1.</strong> Создай новый файл <code>01-practice.html</code> и напиши с нуля:</p>
+        <ol>
+            <li><code>&lt;!DOCTYPE html&gt;</code></li>
+            <li>Корневой <code>&lt;html&gt;</code> с <code>lang="ru"</code></li>
+            <li><code>&lt;head&gt;</code> с кодировкой <code>UTF-8</code> и заголовком «Моя первая страница»</li>
+            <li><code>&lt;body&gt;</code>, внутри которого:
+                <ul>
+                    <li>Заголовок <code>&lt;h1&gt;</code> с твоим именем</li>
+                    <li>Параграф <code>&lt;p&gt;</code> с парой предложений о себе</li>
+                    <li>Комментарий <code>&lt;!-- ... --&gt;</code> в любом месте</li>
+                </ul>
+            </li>
+        </ol>
+        <p><strong>Задание 2.</strong> Специально сломай что-нибудь:</p>
+        <ul>
+            <li>Убери <code>&lt;!DOCTYPE html&gt;</code> — что изменилось?</li>
+            <li>Убери <code>&lt;meta charset="UTF-8"&gt;</code> — появятся ли «крякозябры» в русских буквах?</li>
+            <li>Поменяй порядок тегов местами — что увидишь?</li>
+        </ul>
+        <p>Это лучший способ понять, <em>зачем</em> нужна каждая строка.</p>
+    </div>
+
+    <h2>10. Что запомнить из урока</h2>
+
+    <ul>
+        <li>HTML — язык <strong>разметки</strong>, а не программирования.</li>
+        <li>Любой документ начинается с <code>&lt;!DOCTYPE html&gt;</code>.</li>
+        <li>Всё содержимое живёт внутри <code>&lt;html&gt;</code>, которое делится на <code>&lt;head&gt;</code> и
+            <code>&lt;body&gt;</code>.</li>
+        <li>Теги бывают парными и одиночными, вкладываются как матрёшки.</li>
+        <li>Отступы — для <em>тебя</em>, а не для браузера.</li>
+        <li>Комментарии <code>&lt;!-- --&gt;</code> браузер игнорирует.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Конец урока 1 · Следующий урок: <em>Теги, атрибуты, вложенность, комментарии</em>
+    </p>
+
+</body>
+
+</html>

@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Урок 19 по HTML: label, textarea, select, option, optgroup, button, datalist — все элементы форм кроме input.">
+    <title>Урок 19. Label, textarea, select, button</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 { color: #333; margin-top: 40px; }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .task {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .demo {
+            border: 2px dashed #999;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        label {
+            display: block;
+            margin: 12px 0 4px;
+            font-weight: 500;
+        }
+        input, textarea, select, button {
+            font-family: inherit;
+            font-size: 14px;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        input, textarea, select {
+            width: 100%;
+            max-width: 400px;
+        }
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        button {
+            background: #b5651d;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            width: auto;
+            padding: 10px 20px;
+            margin: 8px 4px 0 0;
+        }
+        button:hover {
+            background: #8b4a15;
+        }
+        button.secondary {
+            background: #666;
+        }
+        button.secondary:hover {
+            background: #444;
+        }
+        .inline-label {
+            display: inline;
+            margin-right: 16px;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Урок 19. Label, textarea, select, button</h1>
+
+    <!-- ========================================================= -->
+    <!-- ЦЕЛЬ УРОКА: освоить все элементы формы, кроме input.       -->
+    <!-- ========================================================= -->
+
+    <h2>1. Обзор элементов формы</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тег</th>
+                <th>Для чего</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>&lt;label&gt;</code></td>
+                <td>Подпись к полю</td>
+            </tr>
+            <tr>
+                <td><code>&lt;textarea&gt;</code></td>
+                <td>Многострочное текстовое поле</td>
+            </tr>
+            <tr>
+                <td><code>&lt;select&gt;</code> + <code>&lt;option&gt;</code></td>
+                <td>Выпадающий список</td>
+            </tr>
+            <tr>
+                <td><code>&lt;optgroup&gt;</code></td>
+                <td>Группировка в select</td>
+            </tr>
+            <tr>
+                <td><code>&lt;button&gt;</code></td>
+                <td>Кнопка</td>
+            </tr>
+            <tr>
+                <td><code>&lt;datalist&gt;</code></td>
+                <td>Подсказки для input</td>
+            </tr>
+            <tr>
+                <td><code>&lt;output&gt;</code></td>
+                <td>Вывод результата (вычислений)</td>
+            </tr>
+            <tr>
+                <td><code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code></td>
+                <td>Группировка полей</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>2. Тег &lt;label&gt; — подпись</h2>
+
+    <p>
+        Уже знаком, но разберём подробно. <code>&lt;label&gt;</code> делает две вещи:
+    </p>
+
+    <ul>
+        <li><strong>Связывает</strong> текст с полем (клик по label фокусирует поле).</li>
+        <li><strong>Улучшает доступность</strong> — screen reader читает подпись вместе с полем.</li>
+    </ul>
+
+    <h3>Способ 1: через for + id</h3>
+
+    <pre><code>&lt;label for="username"&gt;Имя пользователя:&lt;/label&gt;
+&lt;input type="text" id="username" name="username"&gt;</code></pre>
+
+    <p>Важно: значение <code>for</code> должно совпадать с <code>id</code> поля.</p>
+
+    <h3>Способ 2: обёртка</h3>
+
+    <pre><code>&lt;label&gt;
+    Имя пользователя:
+    &lt;input type="text" name="username"&gt;
+&lt;/label&gt;</code></pre>
+
+    <p>Здесь <code>id</code> не нужен — связь создаётся автоматически.</p>
+
+    <div class="demo">
+        <div class="demo-label">Результат (клик по тексту фокусирует поле):</div>
+        <label for="demo-label-input">Имя (способ 1):</label>
+        <input type="text" id="demo-label-input" placeholder="Кликни по подписи">
+
+        <label style="margin-top: 16px;">
+            Email (способ 2):
+            <input type="email" placeholder="Кликни по подписи">
+        </label>
+    </div>
+
+    <div class="note">
+        <strong>Особенно важно для checkbox и radio:</strong> там поле само маленькое,
+        попасть по нему сложно. С label клик по тексту тоже переключает.
+    </div>
+
+    <h2>3. Тег &lt;textarea&gt; — многострочное поле</h2>
+
+    <p>
+        Для комментариев, отзывов, длинных описаний. В отличие от <code>input</code>,
+        это <strong>парный</strong> тег: текст пишется между тегами.
+    </p>
+
+    <pre><code>&lt;label for="comment"&gt;Комментарий:&lt;/label&gt;
+&lt;textarea id="comment" name="comment" rows="5" cols="40"&gt;&lt;/textarea&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <label for="demo-textarea">Комментарий:</label>
+        <textarea id="demo-textarea" name="comment" placeholder="Напиши что-нибудь..."></textarea>
+    </div>
+
+    <h3>Атрибуты &lt;textarea&gt;</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>name</code></td>
+                <td>Текст</td>
+                <td>Имя поля</td>
+            </tr>
+            <tr>
+                <td><code>rows</code></td>
+                <td>Число</td>
+                <td>Высота в строках текста</td>
+            </tr>
+            <tr>
+                <td><code>cols</code></td>
+                <td>Число</td>
+                <td>Ширина в символах</td>
+            </tr>
+            <tr>
+                <td><code>placeholder</code></td>
+                <td>Текст</td>
+                <td>Подсказка</td>
+            </tr>
+            <tr>
+                <td><code>maxlength</code></td>
+                <td>Число</td>
+                <td>Максимум символов</td>
+            </tr>
+            <tr>
+                <td><code>required</code></td>
+                <td>булев</td>
+                <td>Обязательное поле</td>
+            </tr>
+            <tr>
+                <td><code>readonly</code></td>
+                <td>булев</td>
+                <td>Только для чтения</td>
+            </tr>
+            <tr>
+                <td><code>disabled</code></td>
+                <td>булев</td>
+                <td>Отключено</td>
+            </tr>
+            <tr>
+                <td><code>wrap</code></td>
+                <td><code>soft</code>, <code>hard</code></td>
+                <td>Как переносить строки при отправке</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Особенность:</strong> <code>textarea</code> сохраняет переносы строк
+        и пробелы внутри. Но первый перенос после открывающего тега
+        <em>игнорируется</em> (как в <code>&lt;pre&gt;</code>).
+    </div>
+
+    <h3>Начальный текст</h3>
+
+    <pre><code>&lt;textarea name="comment"&gt;Здесь текст по умолчанию.&lt;/textarea&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Не используй <code>value</code> у textarea!</strong> Это атрибут
+        для <code>&lt;input&gt;</code>. У <code>&lt;textarea&gt;</code> текст пишется
+        <strong>между тегами</strong>.
+    </div>
+
+    <h2>4. Тег &lt;select&gt; — выпадающий список</h2>
+
+    <p>
+        Когда вариантов много и нужно сэкономить место. Состоит из <code>&lt;select&gt;</code>
+        (обёртка) и <code>&lt;option&gt;</code> (пункты).
+    </p>
+
+    <pre><code>&lt;label for="city"&gt;Город:&lt;/label&gt;
+&lt;select id="city" name="city"&gt;
+    &lt;option value=""&gt;-- Выберите город --&lt;/option&gt;
+    &lt;option value="msk"&gt;Москва&lt;/option&gt;
+    &lt;option value="spb"&gt;Санкт-Петербург&lt;/option&gt;
+    &lt;option value="kzn"&gt;Казань&lt;/option&gt;
+    &lt;option value="nsk"&gt;Новосибирск&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <label for="demo-city">Город:</label>
+        <select id="demo-city" name="city">
+            <option value="">-- Выберите город --</option>
+            <option value="msk">Москва</option>
+            <option value="spb">Санкт-Петербург</option>
+            <option value="kzn">Казань</option>
+            <option value="nsk">Новосибирск</option>
+        </select>
+    </div>
+
+    <h3>Атрибуты &lt;select&gt;</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>name</code></td>
+                <td>Текст</td>
+                <td>Имя поля</td>
+            </tr>
+            <tr>
+                <td><code>multiple</code></td>
+                <td>булев</td>
+                <td>Разрешить выбор нескольких вариантов</td>
+            </tr>
+            <tr>
+                <td><code>size</code></td>
+                <td>Число</td>
+                <td>Сколько вариантов показывать сразу</td>
+            </tr>
+            <tr>
+                <td><code>required</code></td>
+                <td>булев</td>
+                <td>Обязательный выбор</td>
+            </tr>
+            <tr>
+                <td><code>disabled</code></td>
+                <td>булев</td>
+                <td>Отключить</td>
+            </tr>
+            <tr>
+                <td><code>autofocus</code></td>
+                <td>булев</td>
+                <td>Автофокус</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Атрибуты &lt;option&gt;</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>value</code></td>
+                <td>Значение, которое уйдёт на сервер (если не указано — берётся текст)</td>
+            </tr>
+            <tr>
+                <td><code>selected</code></td>
+                <td>Выбран по умолчанию</td>
+            </tr>
+            <tr>
+                <td><code>disabled</code></td>
+                <td>Нельзя выбрать</td>
+            </tr>
+            <tr>
+                <td><code>label</code></td>
+                <td>Более короткий текст в выпадающем списке</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;select name="city"&gt;
+    &lt;option value=""&gt;-- Выберите --&lt;/option&gt;
+    &lt;option value="msk" selected&gt;Москва&lt;/option&gt;
+    &lt;option value="spb"&gt;Санкт-Петербург&lt;/option&gt;
+    &lt;option value="kzn" disabled&gt;Казань (недоступно)&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+
+    <h3>Множественный выбор (multiple)</h3>
+
+    <pre><code>&lt;select name="skills" multiple size="4"&gt;
+    &lt;option value="html"&gt;HTML&lt;/option&gt;
+    &lt;option value="css"&gt;CSS&lt;/option&gt;
+    &lt;option value="js"&gt;JavaScript&lt;/option&gt;
+    &lt;option value="py"&gt;Python&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (Ctrl/Cmd + клик для выбора нескольких):</div>
+        <label for="demo-multi">Навыки:</label>
+        <select id="demo-multi" name="skills" multiple size="4">
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="js">JavaScript</option>
+            <option value="py">Python</option>
+        </select>
+    </div>
+
+    <div class="note">
+        <strong>Совет:</strong> <code>multiple</code> на мобильных работает плохо.
+        Пользователю непонятно, что можно выбрать несколько. Для множественного
+        выбора чаще используют чекбоксы.
+    </div>
+
+    <h2>5. Тег &lt;optgroup&gt; — группировка</h2>
+
+    <p>Разбивает список на логические группы с заголовками.</p>
+
+    <pre><code>&lt;select name="car"&gt;
+    &lt;optgroup label="Немецкие"&gt;
+        &lt;option value="bmw"&gt;BMW&lt;/option&gt;
+        &lt;option value="audi"&gt;Audi&lt;/option&gt;
+        &lt;option value="mercedes"&gt;Mercedes&lt;/option&gt;
+    &lt;/optgroup&gt;
+    &lt;optgroup label="Японские"&gt;
+        &lt;option value="toyota"&gt;Toyota&lt;/option&gt;
+        &lt;option value="honda"&gt;Honda&lt;/option&gt;
+        &lt;option value="nissan"&gt;Nissan&lt;/option&gt;
+    &lt;/optgroup&gt;
+&lt;/select&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <label for="demo-car">Марка машины:</label>
+        <select id="demo-car" name="car">
+            <optgroup label="Немецкие">
+                <option value="bmw">BMW</option>
+                <option value="audi">Audi</option>
+                <option value="mercedes">Mercedes</option>
+            </optgroup>
+            <optgroup label="Японские">
+                <option value="toyota">Toyota</option>
+                <option value="honda">Honda</option>
+                <option value="nissan">Nissan</option>
+            </optgroup>
+        </select>
+    </div>
+
+    <h2>6. Тег &lt;button&gt; — кнопка</h2>
+
+    <p>
+        <code>&lt;button&gt;</code> — современная замена <code>&lt;input type="submit"&gt;</code>.
+        Парный, внутри можно разместить не только текст, но и HTML (иконки, картинки).
+    </p>
+
+    <pre><code>&lt;button type="submit"&gt;Отправить&lt;/button&gt;
+&lt;button type="reset"&gt;Очистить&lt;/button&gt;
+&lt;button type="button"&gt;Просто кнопка&lt;/button&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <button type="submit">Отправить</button>
+        <button type="reset" class="secondary">Очистить</button>
+        <button type="button" class="secondary">Просто кнопка</button>
+    </div>
+
+    <h3>Атрибут type у button</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Значение</th>
+                <th>Что делает</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>submit</code> (по умолчанию)</td>
+                <td>Отправляет форму</td>
+            </tr>
+            <tr>
+                <td><code>reset</code></td>
+                <td>Сбрасывает форму к начальным значениям</td>
+            </tr>
+            <tr>
+                <td><code>button</code></td>
+                <td>Ничего не делает — для JavaScript</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="warn">
+        <strong>Всегда указывай <code>type</code> явно!</strong> По умолчанию — <code>submit</code>.
+        Если добавишь кнопку «Показать пароль» без <code>type="button"</code> — форма
+        отправится при клике. Это классическая ловушка.
+    </div>
+
+    <h3>button vs input type="submit"</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th><code>&lt;button&gt;</code></th>
+                <th><code>&lt;input type="submit"&gt;</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Содержимое</td>
+                <td>Любой HTML</td>
+                <td>Только текст (в value)</td>
+            </tr>
+            <tr>
+                <td>Иконки</td>
+                <td>Да (через <code>&lt;img&gt;</code> или SVG)</td>
+                <td>Нет</td>
+            </tr>
+            <tr>
+                <td>Стилизация</td>
+                <td>Проще</td>
+                <td>Ограничена</td>
+            </tr>
+            <tr>
+                <td>Значение по умолчанию</td>
+                <td>submit</td>
+                <td>submit</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><strong>Современный подход:</strong> используй <code>&lt;button&gt;</code>.</p>
+
+    <h3>Кнопка с иконкой</h3>
+
+    <pre><code>&lt;button type="submit"&gt;
+    &lt;span aria-hidden="true"&gt;✓&lt;/span&gt;
+    Сохранить
+&lt;/button&gt;</code></pre>
+
+    <h2>7. Тег &lt;datalist&gt; — подсказки для input</h2>
+
+    <p>
+        <code>&lt;datalist&gt;</code> даёт <strong>подсказки</strong> к текстовому полю.
+        Пользователь может выбрать из списка <em>или</em> ввести своё значение.
+    </p>
+
+    <pre><code>&lt;label for="browser"&gt;Браузер:&lt;/label&gt;
+&lt;input list="browsers" id="browser" name="browser"&gt;
+&lt;datalist id="browsers"&gt;
+    &lt;option value="Chrome"&gt;
+    &lt;option value="Firefox"&gt;
+    &lt;option value="Safari"&gt;
+    &lt;option value="Edge"&gt;
+    &lt;option value="Opera"&gt;
+&lt;/datalist&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (начни вводить — появятся подсказки):</div>
+        <label for="demo-browser">Браузер:</label>
+        <input list="demo-browsers" id="demo-browser" name="browser" placeholder="Начни вводить...">
+        <datalist id="demo-browsers">
+            <option value="Chrome">
+            <option value="Firefox">
+            <option value="Safari">
+            <option value="Edge">
+            <option value="Opera">
+        </datalist>
+    </div>
+
+    <h3>datalist vs select</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th><code>&lt;datalist&gt;</code></th>
+                <th><code>&lt;select&gt;</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Можно ввести своё</td>
+                <td>Да</td>
+                <td>Нет (только из списка)</td>
+            </tr>
+            <tr>
+                <td>Вид</td>
+                <td>Обычное поле с подсказками</td>
+                <td>Выпадающий список</td>
+            </tr>
+            <tr>
+                <td>Валидация</td>
+                <td>Свободный ввод</td>
+                <td>Только из вариантов</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>8. Тег &lt;output&gt; — вывод результата</h2>
+
+    <p>
+        Показывает результат вычислений (обычно через JavaScript). Например,
+        сумма двух чисел из <code>&lt;input type="range"&gt;</code>.
+    </p>
+
+    <pre><code>&lt;form oninput="result.value = parseInt(a.value) + parseInt(b.value)"&gt;
+    &lt;input type="number" id="a" value="0"&gt; +
+    &lt;input type="number" id="b" value="0"&gt; =
+    &lt;output name="result" for="a b"&gt;0&lt;/output&gt;
+&lt;/form&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат (введи числа):</div>
+        <form oninput="result.value = parseInt(a.value || 0) + parseInt(b.value || 0)">
+            <input type="number" id="a" value="0" style="width: 80px; max-width: 80px;"> +
+            <input type="number" id="b" value="0" style="width: 80px; max-width: 80px;"> =
+            <output name="result" for="a b" style="font-weight: bold;">0</output>
+        </form>
+    </div>
+
+    <h2>9. Тег &lt;fieldset&gt; и &lt;legend&gt;</h2>
+
+    <p>
+        Группировка связанных полей с рамкой и заголовком. Особенно важно для
+        radio-групп — иначе screen reader не понимает, что это одна группа.
+    </p>
+
+    <pre><code>&lt;fieldset&gt;
+    &lt;legend&gt;Способ доставки&lt;/legend&gt;
+
+    &lt;label&gt;&lt;input type="radio" name="delivery" value="pickup" checked&gt; Самовывоз&lt;/label&gt;
+    &lt;label&gt;&lt;input type="radio" name="delivery" value="courier"&gt; Курьер&lt;/label&gt;
+    &lt;label&gt;&lt;input type="radio" name="delivery" value="post"&gt; Почта&lt;/label&gt;
+&lt;/fieldset&gt;</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">Результат:</div>
+        <fieldset style="border: 1px solid #ccc; border-radius: 6px; padding: 16px;">
+            <legend style="padding: 0 8px; font-weight: bold;">Способ доставки</legend>
+
+            <label class="inline-label"><input type="radio" name="delivery-demo" value="pickup" checked> Самовывоз</label>
+            <label class="inline-label"><input type="radio" name="delivery-demo" value="courier"> Курьер</label>
+            <label class="inline-label"><input type="radio" name="delivery-demo" value="post"> Почта</label>
+        </fieldset>
+    </div>
+
+    <h2>10. Полная форма: всё вместе</h2>
+
+    <pre><code>&lt;form action="/order" method="post"&gt;
+
+    &lt;fieldset&gt;
+        &lt;legend&gt;Контактные данные&lt;/legend&gt;
+
+        &lt;label for="name"&gt;Имя:&lt;/label&gt;
+        &lt;input type="text" id="name" name="name" required&gt;
+
+        &lt;label for="email"&gt;Email:&lt;/label&gt;
+        &lt;input type="email" id="email" name="email" required&gt;
+
+        &lt;label for="phone"&gt;Телефон:&lt;/label&gt;
+        &lt;input type="tel" id="phone" name="phone"&gt;
+    &lt;/fieldset&gt;
+
+    &lt;fieldset&gt;
+        &lt;legend&gt;Доставка&lt;/legend&gt;
+
+        &lt;label for="city"&gt;Город:&lt;/label&gt;
+        &lt;select id="city" name="city" required&gt;
+            &lt;option value=""&gt;-- Выберите --&lt;/option&gt;
+            &lt;option value="msk"&gt;Москва&lt;/option&gt;
+            &lt;option value="spb"&gt;Санкт-Петербург&lt;/option&gt;
+        &lt;/select&gt;
+
+        &lt;label for="address"&gt;Адрес:&lt;/label&gt;
+        &lt;textarea id="address" name="address" rows="3"&gt;&lt;/textarea&gt;
+    &lt;/fieldset&gt;
+
+    &lt;fieldset&gt;
+        &lt;legend&gt;Способ оплаты&lt;/legend&gt;
+
+        &lt;label&gt;&lt;input type="radio" name="payment" value="card" checked&gt; Карта&lt;/label&gt;
+        &lt;label&gt;&lt;input type="radio" name="payment" value="cash"&gt; Наличные&lt;/label&gt;
+    &lt;/fieldset&gt;
+
+    &lt;label for="comment"&gt;Комментарий к заказу:&lt;/label&gt;
+    &lt;textarea id="comment" name="comment" rows="4"&gt;&lt;/textarea&gt;
+
+    &lt;button type="submit"&gt;Оформить заказ&lt;/button&gt;
+    &lt;button type="reset"&gt;Очистить&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <h2>11. Частые ошибки</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ошибка</th>
+                <th>Почему плохо</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Забыть <code>name</code> у select / textarea</td>
+                <td>Не отправится на сервер</td>
+            </tr>
+            <tr>
+                <td>Использовать <code>value</code> у textarea</td>
+                <td>Не работает — текст пишется между тегами</td>
+            </tr>
+            <tr>
+                <td>Не указывать <code>type</code> у button</td>
+                <td>Станет submit и отправит форму</td>
+            </tr>
+            <tr>
+                <td>Опции select без <code>value</code></td>
+                <td>Уйдёт текст опции, а не код (иногда это не то)</td>
+            </tr>
+            <tr>
+                <td>Забыть placeholder-опцию в select</td>
+                <td>Первый вариант будет выбран по умолчанию</td>
+            </tr>
+            <tr>
+                <td>Использовать select для множественного выбора</td>
+                <td>Лучше checkbox-группа для UX</td>
+            </tr>
+            <tr>
+                <td>Не связывать label с полем</td>
+                <td>Плохо для a11y и кликов</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>12. Практическое задание</h2>
+
+    <div class="task">
+        <p><strong>Задание 1. «Обратная связь»</strong></p>
+        <p>Создай файл <code>19-practice.html</code>. Сделай форму:</p>
+        <ul>
+            <li>Label + input (имя)</li>
+            <li>Label + input (email)</li>
+            <li>Label + select (тема обращения: вопрос / жалоба / предложение)</li>
+            <li>Label + textarea (сообщение, 6 строк)</li>
+            <li>Кнопка submit</li>
+        </ul>
+
+        <p><strong>Задание 2. «Опросник»</strong></p>
+        <ul>
+            <li><code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code> «Как вы о нас узнали?»</li>
+            <li>Radio-варианты: Google, друзья, реклама, случайно</li>
+            <li>Второе fieldset «Ваш опыт»: select со стажем работы (меньше года, 1–3 года, 3–5 лет, больше 5 лет)</li>
+            <li>Третье fieldset «Что вам нравится»: 3–4 checkbox</li>
+        </ul>
+
+        <p><strong>Задание 3. «Выбор города»</strong></p>
+        <ul>
+            <li>Select с optgroup: «Россия» (Москва, СПб, Казань), «Зарубежье» (Берлин, Париж, Лондон).</li>
+            <li>Значения value — латиницей: <code>moscow</code>, <code>spb</code> и т.д.</li>
+        </

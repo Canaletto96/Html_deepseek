@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Справочник: Элементы внутри &lt;head&gt;</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #222;
+            background: #fafafa;
+        }
+        h1 { color: #b5651d; border-bottom: 3px solid #b5651d; padding-bottom: 8px; }
+        h2 {
+            color: #fff;
+            background: #333;
+            padding: 10px 16px;
+            border-radius: 6px;
+            margin-top: 48px;
+        }
+        h3 { color: #555; margin-top: 28px; border-left: 4px solid #b5651d; padding-left: 12px; }
+        h4 { color: #666; margin-top: 20px; }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            color: #c7254e;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        pre code { background: none; color: inherit; padding: 0; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        .warn {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f5f5f5; }
+        td code { font-size: 13px; }
+        .tag-header {
+            background: #fff3e0;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 32px;
+            border-left: 6px solid #b5651d;
+        }
+        .tag-header h2 {
+            background: none;
+            color: #b5651d;
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+        .nav {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 32px;
+        }
+        .nav ul { margin: 8px 0 0 0; padding-left: 20px; }
+        .nav li { margin: 4px 0; }
+        .required {
+            display: inline-block;
+            background: #e53935;
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .optional {
+            display: inline-block;
+            background: #43a047;
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Справочник: Элементы внутри &lt;head&gt;</h1>
+
+    <p>Полный список тегов, разрешённых в <code>&lt;head&gt;</code>, с атрибутами и значениями.</p>
+
+    <div class="nav">
+        <strong>Навигация по тегам:</strong>
+        <ul>
+            <li><a href="#title">&lt;title&gt;</a> — заголовок документа</li>
+            <li><a href="#meta">&lt;meta&gt;</a> — метаданные (charset, viewport, description и др.)</li>
+            <li><a href="#link">&lt;link&gt;</a> — подключение внешних ресурсов (CSS, favicon)</li>
+            <li><a href="#base">&lt;base&gt;</a> — базовый URL для всех ссылок</li>
+            <li><a href="#style">&lt;style&gt;</a> — встроенные CSS-стили</li>
+            <li><a href="#script">&lt;script&gt;</a> — подключение JavaScript</li>
+            <li><a href="#noscript">&lt;noscript&gt;</a> — контент при отключённом JS</li>
+            <li><a href="#template">&lt;template&gt;</a> — шаблон для клонирования</li>
+        </ul>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TITLE -->
+    <!-- ============================================================ -->
+
+    <div class="tag-header" id="title">
+        <h2>&lt;title&gt;</h2>
+    </div>
+
+    <p><strong>Назначение:</strong> Задаёт заголовок документа, который отображается на вкладке браузера, в закладках и в результатах поиска.</p>
+
+    <p><strong>Содержимое:</strong> Только текст. Нельзя вкладывать другие теги.</p>
+
+    <p><strong>Ограничение:</strong> Ровно <strong>один</strong> <code>&lt;title&gt;</code> на страницу.</p>
+
+    <h4>Атрибуты</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значение</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="3"><em>Глобальные атрибуты</em> (id, class, lang, dir, data-* и др.) — работают, но на практике почти не используются.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;title&gt;Купить кота — Магазин Мурлыка&lt;/title&gt;</code></pre>
+
+    <!-- ============================================================ -->
+    <!-- META -->
+    <!-- ============================================================ -->
+
+    <div class="tag-header" id="meta">
+        <h2>&lt;meta&gt;</h2>
+    </div>
+
+    <p><strong>Назначение:</strong> Предоставляет метаданные о документе — поисковым системам, браузерам и другим клиентам.</p>
+
+    <p><strong>Тип тега:</strong> Одиночный (не имеет закрывающего тега).</p>
+
+    <p><strong>Ограничение:</strong> В стандарте есть только определённые имена для <code>name</code> и зарегистрированные расширения. Валидаторы проверяют это.</p>
+
+    <div class="note">
+        <strong>Важно:</strong> В зависимости от того, какой атрибут используется (<code>name</code>, <code>http-equiv</code>, <code>charset</code>, <code>property</code>), значения будут разными. Ниже — все основные варианты.
+    </div>
+
+    <h3>Вариант 1: <code>name</code> + <code>content</code></h3>
+
+    <p>Пары «имя-значение» для метаданных.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>name</th>
+                <th>content (значения)</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>description</code></td>
+                <td>Строка, описывающая страницу</td>
+                <td>Краткое описание для поисковиков. Один на страницу.</td>
+            </tr>
+            <tr>
+                <td><code>author</code></td>
+                <td>Имя автора</td>
+                <td>Автор документа.</td>
+            </tr>
+            <tr>
+                <td><code>keywords</code></td>
+                <td>Слова через запятую</td>
+                <td>Ключевые слова (сейчас почти не используется).</td>
+            </tr>
+            <tr>
+                <td><code>application-name</code></td>
+                <td>Название приложения</td>
+                <td>Имя веб-приложения, которое представляет страница.</td>
+            </tr>
+            <tr>
+                <td><code>generator</code></td>
+                <td>Название ПО</td>
+                <td>Программа, создавшая документ (CMS, редактор).</td>
+            </tr>
+            <tr>
+                <td><code>viewport</code></td>
+                <td><code>width=device-width, initial-scale=1.0</code></td>
+                <td>Управление масштабированием на мобильных (зарегистрированное имя).</td>
+            </tr>
+            <tr>
+                <td><code>robots</code></td>
+                <td><code>index</code>, <code>noindex</code>, <code>follow</code>, <code>nofollow</code>, <code>nosnippet</code>, <code>noarchive</code> и др.</td>
+                <td>Инструкции для поисковых роботов.</td>
+            </tr>
+            <tr>
+                <td><code>googlebot</code></td>
+                <td>Те же значения, что и <code>robots</code></td>
+                <td>Инструкции только для Googlebot.</td>
+            </tr>
+            <tr>
+                <td><code>google-site-verification</code></td>
+                <td>Строка-токен</td>
+                <td>Подтверждение прав в Google Search Console.</td>
+            </tr>
+            <tr>
+                <td><code>theme-color</code></td>
+                <td>Цвет (HEX, RGB)</td>
+                <td>Цвет адресной строки на мобильных (зарегистрированное имя).</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;meta name="description" content="Уроки HTML для начинающих"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;meta name="robots" content="noindex, nofollow"&gt;</code></pre>
+
+    <h3>Вариант 2: <code>charset</code></h3>
+
+    <p>Указывает кодировку документа. Заменяет старый <code>http-equiv="Content-Type"</code>.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>charset</code></td>
+                <td><code>UTF-8</code> (рекомендуется), <code>windows-1251</code>, <code>ISO-8859-1</code> и др.</td>
+                <td>Кодировка символов. UTF-8 поддерживает все языки.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;meta charset="UTF-8"&gt;</code></pre>
+
+    <h3>Вариант 3: <code>http-equiv</code> + <code>content</code></h3>
+
+    <p>Эмуляция HTTP-заголовков. Используется для старых механизмов и специальных инструкций.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>http-equiv</th>
+                <th>content</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>refresh</code></td>
+                <td><code>5</code> или <code>5; url=https://example.com</code></td>
+                <td>Автоматическое обновление / редирект через N секунд.</td>
+            </tr>
+            <tr>
+                <td><code>Content-Type</code></td>
+                <td><code>text/html; charset=UTF-8</code></td>
+                <td>Устаревший способ указать тип и кодировку.</td>
+            </tr>
+            <tr>
+                <td><code>X-UA-Compatible</code></td>
+                <td><code>IE=edge</code></td>
+                <td>Для старых версий Internet Explorer (устарело).</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;meta http-equiv="refresh" content="30"&gt;
+&lt;!-- страница обновится через 30 секунд --&gt;</code></pre>
+
+    <h3>Вариант 4: <code>property</code> + <code>content</code> (Open Graph)</h3>
+
+    <p>Не входит в стандарт HTML, но широко используется для соцсетей (Facebook, Twitter, Telegram).</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>property</th>
+                <th>content</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>og:title</code></td>
+                <td>Заголовок</td>
+                <td>Заголовок при шаринге в соцсетях.</td>
+            </tr>
+            <tr>
+                <td><code>og:description</code></td>
+                <td>Описание</td>
+                <td>Описание при шаринге.</td>
+            </tr>
+            <tr>
+                <td><code>og:image</code></td>
+                <td>URL картинки</td>
+                <td>Превью при шаринге.</td>
+            </tr>
+            <tr>
+                <td><code>og:url</code></td>
+                <td>URL страницы</td>
+                <td>Канонический URL.</td>
+            </tr>
+            <tr>
+                <td><code>og:type</code></td>
+                <td><code>website</code>, <code>article</code>, <code>video.movie</code> и др.</td>
+                <td>Тип контента.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;meta property="og:title" content="Уроки HTML"&gt;
+&lt;meta property="og:image" content="https://example.com/preview.jpg"&gt;</code></pre>
+
+    <!-- ============================================================ -->
+    <!-- LINK -->
+    <!-- ============================================================ -->
+
+    <div class="tag-header" id="link">
+        <h2>&lt;link&gt;</h2>
+    </div>
+
+    <p><strong>Назначение:</strong> Подключает внешние ресурсы (CSS, favicon, шрифты) и задаёт связи между документами.</p>
+
+    <p><strong>Тип тега:</strong> Одиночный.</p>
+
+    <h3>Атрибуты</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Обязательный?</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>rel</code></td>
+                <td><span class="required">Да</span></td>
+                <td><code>stylesheet</code>, <code>icon</code>, <code>canonical</code>, <code>alternate</code>, <code>preload</code>, <code>author</code>, <code>license</code> и др.</td>
+                <td>Тип связи с ресурсом.</td>
+            </tr>
+            <tr>
+                <td><code>href</code></td>
+                <td>Зависит от <code>rel</code></td>
+                <td>URL</td>
+                <td>Адрес ресурса.</td>
+            </tr>
+            <tr>
+                <td><code>type</code></td>
+                <td>Нет</td>
+                <td>MIME-тип: <code>text/css</code>, <code>image/png</code>, <code>font/woff2</code></td>
+                <td>Подсказка браузеру о типе ресурса.</td>
+            </tr>
+            <tr>
+                <td><code>media</code></td>
+                <td>Нет</td>
+                <td>Медиа-запросы: <code>all</code>, <code>screen</code>, <code>print</code>, <code>(max-width: 600px)</code></td>
+                <td>Для каких устройств/условий применять ресурс. По умолчанию <code>all</code>.</td>
+            </tr>
+            <tr>
+                <td><code>hreflang</code></td>
+                <td>Нет</td>
+                <td>Код языка: <code>ru</code>, <code>en</code>, <code>de</code></td>
+                <td>Язык ресурса (для <code>alternate</code>).</td>
+            </tr>
+            <tr>
+                <td><code>sizes</code></td>
+                <td>Нет</td>
+                <td><code>16x16</code>, <code>32x32</code>, <code>any</code></td>
+                <td>Размеры иконки (только для <code>rel="icon"</code>).</td>
+            </tr>
+            <tr>
+                <td><code>title</code></td>
+                <td>Нет</td>
+                <td>Текст</td>
+                <td>Для альтернативных стилей — имя набора.</td>
+            </tr>
+            <tr>
+                <td><code>as</code></td>
+                <td>Нет</td>
+                <td><code>style</code>, <code>script</code>, <code>font</code>, <code>image</code></td>
+                <td>Тип ресурса для <code>preload</code>.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;!-- Подключение CSS --&gt;
+&lt;link rel="stylesheet" href="style.css"&gt;
+
+&lt;!-- Favicon --&gt;
+&lt;link rel="icon" href="favicon.ico" sizes="32x32"&gt;
+
+&lt;!-- Канонический URL --&gt;
+&lt;link rel="canonical" href="https://example.com/page"&gt;
+
+&lt;!-- Предзагрузка шрифта --&gt;
+&lt;link rel="preload" href="font.woff2" as="font" type="font/woff2" crossorigin&gt;</code></pre>
+
+    <!-- ============================================================ -->
+    <!-- BASE -->
+    <!-- ============================================================ -->
+
+    <div class="tag-header" id="base">
+        <h2>&lt;base&gt;</h2>
+    </div>
+
+    <p><strong>Назначение:</strong> Задаёт базовый URL и/или цель по умолчанию для всех относительных ссылок в документе.</p>
+
+    <p><strong>Тип тега:</strong> Одиночный.</p>
+
+    <p><strong>Ограничение:</strong> Ровно <strong>один</strong> на документ. Должен идти <strong>до</strong> любых элементов с URL-атрибутами.</p>
+
+    <h3>Атрибуты</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Обязательный?</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>href</code></td>
+                <td>Хотя бы один из двух</td>
+                <td>URL</td>
+                <td>Базовый URL для всех относительных ссылок.</td>
+            </tr>
+            <tr>
+                <td><code>target</code></td>
+                <td>Хотя бы один из двух</td>
+                <td><code>_blank</code>, <code>_self</code>, <code>_parent</code>, <code>_top</code>, имя фрейма</td>
+                <td>Куда открывать ссылки по умолчанию.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;base href="https://example.com/news/" target="_blank"&gt;</code></pre>
+
+    <div class="warn">
+        <strong>Осторожно:</strong> Если указать <code>href</code>, все относительные ссылки и якоря (<code>#id</code>) будут разрешаться относительно базового URL. Это может сломать навигацию, если не учесть.
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- STYLE -->
+    <!-- ============================================================ -->
+
+    <div class="tag-header" id="style">
+        <h2>&lt;style&gt;</h2>
+    </div>
+
+    <p><strong>Назначение:</strong> Встраивает CSS-стили прямо в HTML-документ.</p>
+
+    <p><strong>Тип тега:</strong> Парный. Содержимое — CSS-код (текст).</p>
+
+    <h3>Атрибуты</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>media</code></td>
+                <td><code>all</code>, <code>screen</code>, <code>print</code>, медиа-запросы</td>
+                <td>К каким медиа применять стили. По умолчанию <code>all</code>.</td>
+            </tr>
+            <tr>
+                <td><code>type</code></td>
+                <td><code>text/css</code> (по умолчанию)</td>
+                <td>MIME-тип языка стилей.</td>
+            </tr>
+            <tr>
+                <td><code>title</code></td>
+                <td>Текст</td>
+                <td>Определяет альтернативный набор стилей.</td>
+            </tr>
+            <tr>
+                <td><code>scoped</code> (устарел)</td>
+                <td>булев</td>
+                <td>Ограничивал стили родительским элементом. Удалён из стандарта.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;style&gt;
+    body { font-family: sans-serif; }
+    h1 { color: #333; }
+&lt;/style&gt;
+
+&lt;style media="print"&gt;
+    /* стили только для печати */
+&lt;/style&gt;</code></pre>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPT -->
+    <!-- ============================================================ -->
+
+    <div class="tag-header" id="script">
+        <h2>&lt;script&gt;</h2>
+    </div>
+
+    <p><strong>Назначение:</strong> Подключает JavaScript или другие скрипты к документу.</p>
+
+    <p><strong>Тип тега:</strong> Парный (если код внутри) или с <code>src</code> (тогда можно закрыть сразу).</p>
+
+    <h3>Атрибуты</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Атрибут</th>
+                <th>Значения</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>src</code></td>
+                <td>URL</td>
+                <td>Адрес внешнего файла со скриптом.</td>
+            </tr>
+            <tr>
+                <td><code>type</code></td>
+                <td><code>text/javascript</code>, <code>module</code>, MIME-тип</td>
+                <td>Язык скрипта. По умолчанию JavaScript.</td>
+            </tr>
+            <tr>
+                <td><code>async</code></td>
+                <td>булев</td>
+                <td>Загружать и выполнять асинхронно (как только загрузится).</td>
+            </tr>
+            <tr>
+                <td><code>defer</code></td>
+                <td>булев</td>
+                <td>Выполнить после парсинга HTML.</td>
+            </tr>
+            <tr>
+                <td><code>charset</code></td>
+                <td>UTF-8 и др.</td>
+                <td>Кодировка внешнего файла (только с <code>src</code>).</td>
+            </tr>
+            <tr>
+                <td><code>crossorigin</code></td>
+                <td><code>anonymous</code>, <code>use-credentials</code></td>
+                <td>Настройки CORS для внешних скриптов.</td>
+            </tr>
+            <tr>
+                <td><code>integrity</code></td>
+                <td>Хеш (например, <code>sha384-...</code>)</td>
+                <td>Проверка целостности внешнего файла (SRI).</td>
+            </tr>
+            <tr>
+                <td><code>nomodule</code></td>
+                <td>булев</td>
+                <td>Не выполнять в браузерах с поддержкой ES-модулей.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code>&lt;!-- Внешний скрипт --&gt;
+&lt;script src="app.js" defer&gt;&lt;/script&gt;
+
+&lt;!-- Встроенный код --&gt;
+&lt;script&gt;
+    console.log("Привет!");
+&lt;/script&gt;
+
+&lt;!-- ES-модуль --&gt;
+&lt;script type="module" src="main.js"&gt;&lt;/script&gt;</code></pre>
+
+    <!-- ============================================================ -->
+    <!-- NOSCRIPT -->
+    <!-- ============================================================ -->
+
+    <div class="tag-header" id="noscript">
+        <h2>&lt;noscript&gt;</h2>
+    </div>
+
+    <p><strong>Назначение:</strong> Показывает содержимое, если JavaScript отключён в браузере.</p>
+
+    <p><strong>Тип тега:</strong> Парный.</p>
+
+    <h3>Атрибуты</h3>
+    <p><em>Только глобальные атрибуты.</em></p>
+
+    <pre><code>&lt;noscript&gt;
+    &lt;p&gt;Для работы сайта включите JavaScript.&lt;/p&gt;
+&lt;/noscript&gt;</code></pre>
+
+    <!-- ============================================================ -->
+    <!-- TEMPLATE -->
+    <!-- ============================================================ -->
+
+    <div class="tag-header" id="template">
+        <h2>&lt;template&gt;</h2>
+    </div>
+
+    <p><strong>Назначение:</strong> Хранит фрагмент HTML, который не отображается, но может быть клонирован через JavaScript.</p>
+
+    <p><strong>Тип тега:</strong> Парный.</p>
+
+    <h3>Атрибуты</h3>
+    <p><em>Только глобальные атрибуты.</em></p>
+
+    <pre><code>&lt;template id="card-template"&gt;
+    &lt;div class="card"&gt;
+        &lt;h3&gt;&lt;/h3&gt;
+        &lt;p&gt;&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/template&gt;</code></pre>
+
+    <!-- ============================================================ -->
+    <!-- ИТОГОВАЯ ТАБЛИЦА -->
+    <!-- ============================================================ -->
+
+    <h2>Итоговая таблица: что где использовать</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Задача</th>
+                <th>Тег</th>
+                <th>Пример</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Заголовок вкладки</td>
+                <td><code>&lt;title&gt;</code></td>
+                <td><code>&lt;title&gt;Мой сайт&lt;/title&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Кодировка</td>
+                <td><code>&lt;meta charset&gt;</code></td>
+                <td><code>&lt;meta charset="UTF-8"&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Мобильная адаптация</td>
+                <td><code>&lt;meta name="viewport"&gt;</code></td>
+                <td><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Описание для поиска</td>
+                <td><code>&lt;meta name="description"&gt;</code></td>
+                <td><code>&lt;meta name="description" content="..."&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Индексация</td>
+                <td><code>&lt;meta name="robots"&gt;</code></td>
+                <td><code>&lt;meta name="robots" content="noindex"&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Подключить CSS</td>
+                <td><code>&lt;link rel="stylesheet"&gt;</code></td>
+                <td><code>&lt;link rel="stylesheet" href="style.css"&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Favicon</td>
+                <td><code>&lt;link rel="icon"&gt;</code></td>
+                <td><code>&lt;link rel="icon" href="favicon.ico"&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Базовый URL</td>
+                <td><code>&lt;base&gt;</code></td>
+                <td><code>&lt;base href="https://example.com/"&gt;</code></td>
+            </tr>
+            <tr>
+                <td>CSS в HTML</td>
+                <td><code>&lt;style&gt;</code></td>
+                <td><code>&lt;style&gt;body { color: red; }&lt;/style&gt;</code></td>
+            </tr>
+            <tr>
+                <td>JavaScript</td>
+                <td><code>&lt;script&gt;</code></td>
+                <td><code>&lt;script src="app.js" defer&gt;&lt;/script&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Для отключённого JS</td>
+                <td><code>&lt;noscript&gt;</code></td>
+                <td><code>&lt;noscript&gt;Включите JS&lt;/noscript&gt;</code></td>
+            </tr>
+            <tr>
+                <td>Шаблон для клонирования</td>
+                <td><code>&lt;template&gt;</code></td>
+                <td><code>&lt;template&gt;...&lt;/template&gt;</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Что НЕЛЬЗЯ класть в &lt;head&gt;</h2>
+
+    <div class="warn">
+        <p><strong>Запрещённые теги:</strong> <code>&lt;img&gt;</code>, <code>&lt;iframe&gt;</code>, <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;h1&gt;</code>, <code>&lt;a&gt;</code> и любой другой контентный тег.</p>
+        <p>Поисковые роботы (включая Google) <strong>прекращают чтение &lt;head&gt;</strong>, как только встречают запрещённый элемент. Всё, что идёт после него, будет проигнорировано.</p>
+    </div>
+
+    <pre><code>&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Правильно&lt;/title&gt;
+    &lt;img src="logo.png"&gt;
+    &lt;!-- Всё, что идёт после &lt;img&gt;, Google может проигнорировать --&gt;
+&lt;/head&gt;</code></pre>
+
+    <hr>
+    <p style="text-align:center; color:#888; font-size:14px;">
+        Справочник по &lt;head&gt; · Открой в браузере и используй как шпаргалку
+    </p>
+
+</body>
+</html>
